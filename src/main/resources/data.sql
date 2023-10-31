@@ -1,0 +1,10 @@
+INSERT INTO users (name) VALUES ('いがき');
+INSERT INTO users (name) VALUES ('ほんだ');
+INSERT INTO users (name) VALUES ('ふくやす');
+INSERT INTO words (name) VALUES ('fish');
+INSERT INTO words (name) VALUES ('tree');
+INSERT INTO words (name) VALUES ('jump');
+INSERT INTO words (name) VALUES ('book');
+INSERT INTO words (name) VALUES ('love');
+INSERT INTO words (name) VALUES ('bird');
+INSERT INTO words (name) VALUES ('test');
