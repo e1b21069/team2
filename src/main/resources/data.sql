@@ -1,10 +1,10 @@
 INSERT INTO users (userName) VALUES ('いがき');
 INSERT INTO users (userName) VALUES ('ほんだ');
 INSERT INTO users (userName) VALUES ('ふくやす');
-INSERT INTO dictionary (word) VALUES ('fish');
-INSERT INTO dictionary (word) VALUES ('tree');
-INSERT INTO dictionary (word) VALUES ('jump');
-INSERT INTO dictionary (word) VALUES ('book');
-INSERT INTO dictionary (word) VALUES ('love');
-INSERT INTO dictionary (word) VALUES ('bird');
-INSERT INTO dictionary (word) VALUES ('test');
+INSERT INTO dictionary (word) VALUES ('春');
+INSERT INTO dictionary (word) VALUES ('夏');
+INSERT INTO dictionary (word) VALUES ('秋');
+INSERT INTO dictionary (word) VALUES ('冬');
+INSERT INTO dictionary (word) VALUES ('食べ物');
+INSERT INTO dictionary (word) VALUES ('果物');
+INSERT INTO dictionary (word) VALUES ('野菜');
