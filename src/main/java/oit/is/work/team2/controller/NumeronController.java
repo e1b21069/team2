@@ -18,32 +18,26 @@ public class NumeronController {
     @Autowired
     private DictionaryMapper dictionaryMapper;
 
+    String randomWord = "";
+
     @GetMapping("/numeron")
     public String theme(ModelMap model) {
-        ArrayList<Dictionary> dictionary = dictionaryMapper.selectAllDictionary();
-        model.addAttribute("dictionary", dictionary);
-        // DBからランダムな単語を取得するメソッドを呼び出す
-        String randomWord = getRandomWord();
+        ArrayList<Dictionary> allWords = dictionaryMapper.selectAllDictionary();
+        if (allWords.isEmpty())
+            return "No words found in the database";
+        // ランダムなインデックスを生成
+        int randomIndex = (int) (Math.random() * allWords.size());
+        // ランダムに選択した単語を代入
+        this.randomWord = allWords.get(randomIndex).getWord();
         model.addAttribute("randomWord", randomWord);
         return "numeron.html";
     }
 
     @PostMapping("/numeron/step1")
     public String numeron(@RequestParam String ans, ModelMap model) {
-        String randomWord = getRandomWord();
-        model.addAttribute("randomWord", randomWord);
+        model.addAttribute("randomWord", this.randomWord);
         model.addAttribute("ans", ans);
         return "numeron.html";
-    }
-
-    private String getRandomWord() {
-        ArrayList<Dictionary> allWords = dictionaryMapper.selectAllDictionary();
-        if (allWords.isEmpty())
-            return "No words found in the database";
-        // ランダムなインデックスを生成
-        int randomIndex = (int) (Math.random() * allWords.size());
-        // ランダムに選択した単語を返す
-        return allWords.get(randomIndex).getWord();
     }
 
 }
