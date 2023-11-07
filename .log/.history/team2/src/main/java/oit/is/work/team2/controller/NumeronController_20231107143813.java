@@ -36,12 +36,11 @@ public class NumeronController {
 
     @PostMapping("/numeron/step1")
     public String numeron(@RequestParam String ans, ModelMap model) {
-        boolean atari = false;
+        boolean atari;
         Numeron numeron = new Numeron();
         model.addAttribute("randomWord", this.randomWord);
         model.addAttribute("ans", ans);
         atari = numeron.Atari(this.randomWord, ans);
-        model.addAttribute("atari", atari);
         return "numeron.html";
     }
 
