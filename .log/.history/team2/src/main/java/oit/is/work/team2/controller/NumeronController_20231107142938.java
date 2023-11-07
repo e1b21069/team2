@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
-import oit.is.work.team2.model.Numeron;
 
 @Controller
 public class NumeronController {
@@ -36,12 +35,8 @@ public class NumeronController {
 
     @PostMapping("/numeron/step1")
     public String numeron(@RequestParam String ans, ModelMap model) {
-        boolean atari = false;
-        Numeron numeron = new Numeron();
         model.addAttribute("randomWord", this.randomWord);
         model.addAttribute("ans", ans);
-        atari = numeron.Atari(this.randomWord, ans);
-        model.addAttribute("atari", atari);
         return "numeron.html";
     }
 
