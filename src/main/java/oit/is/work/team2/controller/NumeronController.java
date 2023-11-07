@@ -16,33 +16,36 @@ import oit.is.work.team2.model.Numeron;
 @Controller
 public class NumeronController {
 
-    @Autowired
-    private DictionaryMapper dictionaryMapper;
+  @Autowired
+  private DictionaryMapper dictionaryMapper;
 
-    String randomWord = "";
+  String randomWord = "";
 
-    @GetMapping("/numeron")
-    public String theme(ModelMap model) {
-        ArrayList<Dictionary> allWords = dictionaryMapper.selectAllDictionary();
-        if (allWords.isEmpty())
-            return "No words found in the database";
-        // ランダムなインデックスを生成
-        int randomIndex = (int) (Math.random() * allWords.size());
-        // ランダムに選択した単語を代入
-        this.randomWord = allWords.get(randomIndex).getWord();
-        model.addAttribute("randomWord", randomWord);
-        return "numeron.html";
-    }
+  @GetMapping("/numeron")
+  public String theme(ModelMap model) {
+    ArrayList<Dictionary> allWords = dictionaryMapper.selectAllDictionary();
+    if (allWords.isEmpty())
+      return "No words found in the database";
+    // ランダムなインデックスを生成
+    int randomIndex = (int) (Math.random() * allWords.size());
+    // ランダムに選択した単語を代入
+    this.randomWord = allWords.get(randomIndex).getWord();
+    model.addAttribute("randomWord", randomWord);
+    return "numeron.html";
+  }
 
-    @PostMapping("/numeron/step1")
-    public String numeron(@RequestParam String ans, ModelMap model) {
-        boolean atari = false;
-        Numeron numeron = new Numeron();
-        model.addAttribute("randomWord", this.randomWord);
-        model.addAttribute("ans", ans);
-        atari = numeron.Atari(this.randomWord, ans);
-        model.addAttribute("atari", atari);
-        return "numeron.html";
-    }
+  @PostMapping("/numeron/step1")
+  public String numeron(@RequestParam String ans, ModelMap model) {
+    boolean atari = false;
+    int eatcnt = 0;
+    Numeron numeron = new Numeron();
+    model.addAttribute("randomWord", this.randomWord);
+    model.addAttribute("ans", ans);
+    atari = numeron.Atari(this.randomWord, ans);
+    model.addAttribute("atari", atari);
+    eatcnt = numeron.eatjudge(this.randomWord, ans);
+    model.addAttribute("eatcnt", eatcnt);
+    return "numeron.html";
+  }
 
 }
