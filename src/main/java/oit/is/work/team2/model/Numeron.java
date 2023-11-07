@@ -9,34 +9,28 @@ public class Numeron {
     return false;
   }
 
+  // wordとansの文字が位置も含めて一致している個数を返す
   public int eatjudge(String word, String ans) {
-    int hitcnt = 0;
+    int eatcnt = 0;
     for (int i = 0; i < word.length(); i++) {
-      char b = word.charAt(i);
-      char c = ans.charAt(i);
-      if (b == c) {
-        hitcnt++;
+      if (word.charAt(i) == ans.charAt(i)) {
+        eatcnt++;
       }
     }
-    return hitcnt;
+    return eatcnt;
   }
 
+  // wordの文字列の中にansの文字列が何個含まれているかどうか
   public int bitejudge(String word, String ans) {
-
+    int bitecnt = 0;
     for (int i = 0; i < word.length(); i++) {
-      char b = word.charAt(i);
       for (int j = 0; j < ans.length(); j++) {
-        char c = ans.charAt(j);
-
-        if (b == c) {
-
-        } else {
-
+        if (word.charAt(i) == ans.charAt(j) && i != j) {
+          bitecnt++;
         }
       }
     }
-
-    return 1;
+    return bitecnt;
   }
 
 }

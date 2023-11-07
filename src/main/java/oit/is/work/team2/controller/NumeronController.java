@@ -37,7 +37,7 @@ public class NumeronController {
   @PostMapping("/numeron/step1")
   public String numeron(@RequestParam String ans, ModelMap model) {
     boolean atari = false;
-    int eatcnt = 0;
+    int eatcnt = 0, bitecnt = 0;
     Numeron numeron = new Numeron();
     model.addAttribute("randomWord", this.randomWord);
     model.addAttribute("ans", ans);
@@ -45,6 +45,8 @@ public class NumeronController {
     model.addAttribute("atari", atari);
     eatcnt = numeron.eatjudge(this.randomWord, ans);
     model.addAttribute("eatcnt", eatcnt);
+    bitecnt = numeron.bitejudge(this.randomWord, ans);
+    model.addAttribute("bitecnt", bitecnt);
     return "numeron.html";
   }
 
