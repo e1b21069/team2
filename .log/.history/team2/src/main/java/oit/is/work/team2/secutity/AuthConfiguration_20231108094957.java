@@ -28,7 +28,7 @@ public class AuthConfiguration {
             .logoutUrl("/logout")
             .logoutSuccessUrl("/")) // ログアウト後に / にリダイレクト
         .authorizeHttpRequests(authz -> authz
-            .requestMatchers(AntPathRequestMatcher.antMatcher("/numeron/admin/**"))
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/numeron/admin/"))
             .authenticated() // /numeron/admin以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
             .permitAll())// 上記以外は全員アクセス可能
@@ -58,11 +58,11 @@ public class AuthConfiguration {
         .password("{bcrypt}$2y$10$Lyb/0zT1M92eHFcbTAD.KeBqWVdAeYufPucWg1I/j58C339A220py").roles("USER").build();
     UserDetails user2 = User.withUsername("user2")
         .password("{bcrypt}$2y$10$Lyb/0zT1M92eHFcbTAD.KeBqWVdAeYufPucWg1I/j58C339A220py").roles("USER").build();
-    UserDetails admin = User.withUsername("admin")
-        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("ADMIN").build();
+    UserDetails user3 = User.withUsername("admin")
+        .password("{bcrypt}$2y$10$Lyb/0zT1M92eHFcbTAD.KeBqWVdAeYufPucWg1I/j58C339A220py").roles("ADMIN").build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, admin);
+    return new InMemoryUserDetailsManager(user1, user2, user3);
   }
 
 }
