@@ -23,7 +23,7 @@ public class NumeronController {
 
   @GetMapping("/numeron")
   public String theme(ModelMap model) {
-    ArrayList<Dictionary> allWords = dictionaryMapper.selectAllDictionary();
+    ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
     if (allWords.isEmpty())
       return "No words found in the database";
     // ランダムなインデックスを生成
@@ -34,18 +34,18 @@ public class NumeronController {
     return "numeron.html";
   }
 
-  @GetMapping("/numeron/admin")
-  public String themeAD(ModelMap model) {
-    ArrayList<Dictionary> allWords = dictionaryMapper.selectAllDictionary();
-    if (allWords.isEmpty())
-      return "No words found in the database";
-    // ランダムなインデックスを生成
-    int randomIndex = (int) (Math.random() * allWords.size());
-    // ランダムに選択した単語を代入
-    this.randomWord = allWords.get(randomIndex).getWord();
-    model.addAttribute("randomWord", randomWord);
-    return "numeron.html";
-  }
+  // @GetMapping("/numeron/admin")
+  // public String themeAD(ModelMap model) {
+  //   ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
+  //   if (allWords.isEmpty())
+  //     return "No words found in the database";
+  //   // ランダムなインデックスを生成
+  //   int randomIndex = (int) (Math.random() * allWords.size());
+  //   // ランダムに選択した単語を代入
+  //   this.randomWord = allWords.get(randomIndex).getWord();
+  //   model.addAttribute("randomWord", randomWord);
+  //   return "numeron.html";
+  // }
 
   @PostMapping("/numeron/step1")
   public String numeron(@RequestParam String ans, ModelMap model) {
