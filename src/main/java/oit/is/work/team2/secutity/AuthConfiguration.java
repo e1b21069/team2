@@ -28,8 +28,8 @@ public class AuthConfiguration {
             .logoutUrl("/logout")
             .logoutSuccessUrl("/")) // ログアウト後に / にリダイレクト
         .authorizeHttpRequests(authz -> authz
-            .requestMatchers(AntPathRequestMatcher.antMatcher("/numeron/admin/**"))
-            .authenticated() // /numeron/admin以下は認証済みであること
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/admin/**"))
+            .authenticated() // /admin以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
             .permitAll())// 上記以外は全員アクセス可能
         .csrf(csrf -> csrf

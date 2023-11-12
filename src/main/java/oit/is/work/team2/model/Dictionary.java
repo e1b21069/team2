@@ -4,7 +4,14 @@ public class Dictionary {
   int id;
   String word;
 
-  // Thymeleafでフィールドを扱うためにはgetter/setterが必ず必要
+  public Dictionary() {
+  }
+
+  public Dictionary(int id2, String word2) {
+    this.id = id2;
+    this.word = word2;
+  }
+
   public void setWord(String word) {
     this.word = word;
   }

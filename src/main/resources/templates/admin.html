@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+    <meta charset="utf-8">
+    <title>ADMIN</title>
+</head>
+
+<body>
+    <a href="/logout">ログアウト</a>
+
+    <h1>ADMIN</h1>
+    <h2>DB編集</h2>
+
+    単語を追加します
+    <form th:action="@{/admin/addWord}" method="post">
+        <input type="text" name="word" /><br>
+        <input type="submit" value="追加"><input type="reset" value="リセット">
+    </form>
+    <div th:if="${addWord}">
+        [[${addWord}]]を追加しました
+    </div>
+
+    <a href="/admin/getList">一覧</a>
+    <div th:if="${dictionaries}">
+        <table border="1">
+            <thead>
+                <th>Index</th>
+                <th>単語</th>
+                <th>処理1</th>
+                <th>処理2</th>
+            </thead>
+            <!--クエリパラメータでIDを渡して削除処理を実行する．@{}はthymeleafのLink式というLinkを生成する際の書き方-->
+            <tr th:each="dictionary,stat:${dictionaries}">
+                <td>[[${stat.index}]]</td>
+                <td>[[${dictionary.word}]]</td>
+                <td><a th:href="@{/admin/deleteWord(id=${dictionary.id})}">削除</a></td>
+                <td><a th:href="@{/admin/editWord(id=${dictionary.id})}">編集</a></td>
+
+            </tr>
+        </table>
+    </div>
+    <div th:if="${dictionary1}">
+        [[${dictionary1.word}]]を削除しました
+    </div>
+
+    <div th:if="${dictionary2}">
+        単語を編集します
+        <form th:action="@{/admin/updateWord(id=${dictionary2.id})}" method="post">
+            <!--DBで取得した値をテキストフィールドに入れたい場合は th:valueを利用する-->
+            <input type="text" name="word" th:value="${dictionary2.word}" /><br>
+            <input type="submit" value="編集"><input type="reset" value="リセット">
+        </form>
+    </div>
+</body>
+
+</html>
