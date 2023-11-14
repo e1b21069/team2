@@ -48,4 +48,3 @@ INSERT INTO dictionary (word) VALUES ('corn');
 INSERT INTO dictionary (word) VALUES ('hill');
 INSERT INTO dictionary (word) VALUES ('leaf');
 INSERT INTO dictionary (word) VALUES ('page');
-INSERT INTO wordLog (ans,eatcnt,bitecnt) VALUES ('aaaa',0,0);
