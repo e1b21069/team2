@@ -58,8 +58,8 @@ public class NumeronController {
     // 単語を追加
     wordLogMapper.insert(ans, eatcnt, bitecnt);
     // 単語リストを取得
-    // ArrayList<WordLog> Logwords = wordLogMapper.selectAll();
-    // model.addAttribute("logwords", Logwords);
+    ArrayList<WordLog> logwords = wordLogMapper.selectAll();
+    model.addAttribute("logwords", logwords);
 
     return "numeron.html";
   }

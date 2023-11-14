@@ -22,13 +22,26 @@
   <input type="submit" value="決定"><input type="reset" value="取消">
 </form>
 
-
 [[${ans}]]
-
 [[${atari}]]
-
 [[${eatcnt}]]
-
 [[${bitecnt}]]
+
+<div th:if="${logwords}">
+  <table border="1">
+      <thead>
+          <th>Index</th>
+          <th>ans</th>
+          <th>eat</th>
+          <th>bite</th>
+      </thead>
+      <tr th:each="logword,stat:${logwords}">
+          <td>[[${stat.index}]]</td>
+          <td>[[${logword.ans}]]</td>
+          <td>[[${logword.eatcnt}]]</td>
+          <td>[[${logword.bitecnt}]]</td>
+      </tr>
+  </table>
+</div>
 
 </html>
