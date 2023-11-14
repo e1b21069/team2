@@ -1,4 +1,3 @@
-/*
 package oit.is.work.team2.model;
 
 public class WordLog {
@@ -7,30 +6,36 @@ public class WordLog {
   int eatcnt;
   int bitecnt;
 
-public int getId() {
+  public int getId() {
     return id;
-}
-public void setId(int id) {
+  }
+
+  public void setId(int id) {
     this.id = id;
-}
-public String getAns() {
+  }
+
+  public String getAns() {
     return ans;
-}
-public void setAns(String ans) {
+  }
+
+  public void setAns(String ans) {
     this.ans = ans;
-}
-public int getEatcnt() {
+  }
+
+  public int getEatcnt() {
     return eatcnt;
-}
-public void setEatcnt(int eatcnt) {
+  }
+
+  public void setEatcnt(int eatcnt) {
     this.eatcnt = eatcnt;
-}
-public int getBitecnt() {
+  }
+
+  public int getBitecnt() {
     return bitecnt;
-}
-public void setBitecnt(int bitecnt) {
+  }
+
+  public void setBitecnt(int bitecnt) {
     this.bitecnt = bitecnt;
-}
+  }
 
 }
-*/

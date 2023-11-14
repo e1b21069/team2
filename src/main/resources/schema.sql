@@ -8,7 +8,7 @@ CREATE TABLE dictionary (
 );
 CREATE TABLE wordLog (
     id IDENTITY PRIMARY KEY,
-    ans VARCHAR NOT NULL,
+    ans VARCHAR,
     eatcnt INT,
     bitecnt INT
 );
