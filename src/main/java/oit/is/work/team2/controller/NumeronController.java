@@ -61,6 +61,10 @@ public class NumeronController {
     ArrayList<WordLog> logwords = wordLogMapper.selectAll();
     model.addAttribute("logwords", logwords);
 
+    if (eatcnt == 4) {
+      return "result.html";
+    }
+
     return "numeron.html";
   }
 
