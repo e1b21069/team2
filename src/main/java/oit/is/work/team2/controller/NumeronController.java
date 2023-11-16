@@ -62,6 +62,8 @@ public class NumeronController {
     model.addAttribute("logwords", logwords);
 
     if (eatcnt == 4) {
+      int gamecnt = wordLogMapper.dataCount();
+      model.addAttribute("gamecnt", gamecnt);
       return "result.html";
     }
 
