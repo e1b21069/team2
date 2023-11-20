@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.work.team2.model.DictionaryMapper;
+import oit.is.work.team2.service.AsyncAdminService;
 import oit.is.work.team2.model.Dictionary;
 
 @Controller
@@ -21,29 +23,40 @@ public class AdminController {
     @Autowired
     DictionaryMapper dictionaryMapper;
 
+    @Autowired
+    AsyncAdminService adminService;
+
     @GetMapping("")
-    public String admin() {
+    public String admin(ModelMap model) {
+        // 単語リストを取得
+        final ArrayList<Dictionary> dictionaries = adminService.syncShowDictionariesList();
+        model.addAttribute("dictionaries", dictionaries);
         return "admin.html";
     }
 
     @GetMapping("getList")
     public String getDictionaries(ModelMap model) {
         // 単語リストを取得
-        ArrayList<Dictionary> dictionaries = dictionaryMapper.selectAll();
+        final ArrayList<Dictionary> dictionaries = adminService.syncShowDictionariesList();
         model.addAttribute("dictionaries", dictionaries);
         return "admin.html";
+    }
+
+    @GetMapping("sse")
+    public SseEmitter sse() {
+        final SseEmitter sseEmitter = new SseEmitter();
+        this.adminService.asyncShowDictionariesList(sseEmitter);
+        return sseEmitter;
     }
 
     @GetMapping("deleteWord")
     @Transactional
     public String deleteWord(@RequestParam Integer id, ModelMap model) {
-        // 削除対象の単語を取得
-        Dictionary dictionary1 = dictionaryMapper.selectById(id);
+        // 選択した単語を削除し，削除対象の単語をmodelに登録
+        final Dictionary dictionary1 = this.adminService.syncDeleteDictionaries(id);
         model.addAttribute("dictionary1", dictionary1);
-        // 削除
-        dictionaryMapper.deleteById(id);
-        // 削除後の単語リストを取得
-        ArrayList<Dictionary> dictionaries = dictionaryMapper.selectAll();
+        // 残りの単語リストを取得してmodelに登録
+        final ArrayList<Dictionary> dictionaries = adminService.syncShowDictionariesList();
         model.addAttribute("dictionaries", dictionaries);
         return "admin.html";
     }
@@ -52,25 +65,26 @@ public class AdminController {
     @Transactional
     public String editWord(@RequestParam Integer id, ModelMap model) {
         // 編集対象の単語を取得
-        Dictionary dictionary2 = dictionaryMapper.selectById(id);
+        final Dictionary dictionary2 = this.adminService.syncEditDictionaries(id);
         model.addAttribute("dictionary2", dictionary2);
         // 単語リストを取得
-        ArrayList<Dictionary> dictionaries = dictionaryMapper.selectAll();
+        final ArrayList<Dictionary> dictionaries = adminService.syncShowDictionariesList();
         model.addAttribute("dictionaries", dictionaries);
         return "admin.html";
     }
 
     @PostMapping("updateWord")
     public String updateWord(@RequestParam Integer id, @RequestParam String word, ModelMap model) {
-        System.out.println("step4");
+        System.out.println("updateWord");
         System.out.println(id);
         System.out.println(word);
         Dictionary dictionary = new Dictionary(id, word);
         // 編集
-        dictionaryMapper.updateById(dictionary);
+        this.adminService.syncUpdateDictionaries(dictionary);
         // 単語リストを取得
-        ArrayList<Dictionary> dictionaries = dictionaryMapper.selectAll();
+        final ArrayList<Dictionary> dictionaries = adminService.syncShowDictionariesList();
         model.addAttribute("dictionaries", dictionaries);
+        model.addAttribute("beforeWord", word);
         return "admin.html";
     }
 
@@ -79,9 +93,9 @@ public class AdminController {
     public String addWord(ModelMap model, @RequestParam String word) {
         model.addAttribute("addWord", word);
         // 単語を追加
-        dictionaryMapper.insert(word);
+        this.adminService.syncAddDictionaries(word);
         // 単語リストを取得
-        ArrayList<Dictionary> dictionaries = dictionaryMapper.selectAll();
+        final ArrayList<Dictionary> dictionaries = adminService.syncShowDictionariesList();
         model.addAttribute("dictionaries", dictionaries);
         return "admin.html";
     }
