@@ -25,7 +25,7 @@ public class NumeronController {
   @Autowired
   private WordLogMapper wordLogMapper;
 
-  String randomWord = "";
+  private String randomWord = "";
 
   @GetMapping("/numeron")
   public String theme(ModelMap model) {
