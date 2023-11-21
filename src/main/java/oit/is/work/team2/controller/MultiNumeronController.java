@@ -94,8 +94,14 @@ public class MultiNumeronController {
       return "result.html";
     }
 
-    return "numeron.html";
+    return "multiWait.html";
   }
+
+  // @PostMapping("step2")
+  // @Transactional
+  // public String waitNumeron() {
+  //   return "multiNumeron.html";
+  // }
 
   // @GetMapping("step1")
   // public SseEmitter pushCount() {
