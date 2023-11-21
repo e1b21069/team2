@@ -36,21 +36,6 @@ public class AsyncPlayMatch {
     this.dbUpdated = true;
   }
 
-  @PostMapping("addWordLog")
-  @Transactional
-  public String addWordLog(ModelMap model, @RequestParam String ans, @RequestParam int eatcnt,
-      @RequestParam int bitecnt) {
-    model.addAttribute("addAns", ans);
-    model.addAttribute("addEatcnt", eatcnt);
-    model.addAttribute("addBitecnt", bitecnt);
-    // 単語を追加
-    this.ap1.syncAddWordLogs(ans, eatcnt, bitecnt);
-    // 単語リストを取得
-    final ArrayList<WordLog> wordLogs = ap1.syncShowWordLogList();
-    model.addAttribute("wordLogs", wordLogs);
-    return "multiNumeron.html";
-  }
-
   public ArrayList<WordLog> syncShowWordLogList() {
     return wordLogMapper.selectAll();
   }

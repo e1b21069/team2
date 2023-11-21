@@ -7,12 +7,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.WordLog;
+import oit.is.work.team2.model.WordLogMapper;
+import oit.is.work.team2.model.Dictionary;
+import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.service.AsyncPlayMatch;
 
 @Controller
@@ -24,11 +31,16 @@ public class MultiNumeronController {
   @Autowired
   private AsyncPlayMatch ap1;
 
+  @Autowired
+  private WordLogMapper wordLogMapper;
+
+  private String randomWord = "";
+
   @GetMapping("sse")
   public SseEmitter sse() {
-      final SseEmitter sseEmitter = new SseEmitter();
-      this.ap1.asyncShowWordLogsList(sseEmitter);
-      return sseEmitter;
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.ap1.asyncShowWordLogsList(sseEmitter);
+    return sseEmitter;
   }
 
   @GetMapping("getLog")
@@ -39,23 +51,69 @@ public class MultiNumeronController {
     return "multiNumeron.html";
   }
 
+  // @PostMapping("addWordLog")
+  // @Transactional
+  // public String addWordLog(ModelMap model, @RequestParam String ans,
+  // @RequestParam int eatcnt,
+  // @RequestParam int bitecnt) {
+  // model.addAttribute("addAns", ans);
+  // model.addAttribute("addEatcnt", eatcnt);
+  // model.addAttribute("addBitecnt", bitecnt);
+  // // 単語を追加
+  // this.ap1.syncAddWordLogs(ans, eatcnt, bitecnt);
+  // // 単語リストを取得
+  // final ArrayList<WordLog> wordLogs = ap1.syncShowWordLogList();
+  // model.addAttribute("wordLogs", wordLogs);
+  // return "multiNumeron.html";
+  // }
+
+  @PostMapping("step1")
+  @Transactional
+  public String numeron(@RequestParam String ans, ModelMap model) {
+    boolean atari = false;
+    int eatcnt = 0, bitecnt = 0;
+    Numeron numeron = new Numeron();
+    model.addAttribute("randomWord", this.randomWord);
+    model.addAttribute("ans", ans);
+    atari = numeron.Atari(this.randomWord, ans);
+    model.addAttribute("atari", atari);
+    eatcnt = numeron.eatjudge(this.randomWord, ans);
+    model.addAttribute("eatcnt", eatcnt);
+    bitecnt = numeron.bitejudge(this.randomWord, ans);
+    model.addAttribute("bitecnt", bitecnt);
+
+    // 単語を追加
+    this.ap1.syncAddWordLogs(ans, eatcnt, bitecnt);
+    // 単語リストを取得
+    final ArrayList<WordLog> wordLogs = ap1.syncShowWordLogList();
+    model.addAttribute("wordLogs", wordLogs);
+
+    if (eatcnt == 4) {
+      int gamecnt = wordLogMapper.dataCount();
+      model.addAttribute("gamecnt", gamecnt);
+      return "result.html";
+    }
+
+    return "numeron.html";
+  }
+
   // @GetMapping("step1")
   // public SseEmitter pushCount() {
-  //   // infoレベルでログを出力する
-  //   logger.info("playturn");
+  // // infoレベルでログを出力する
+  // logger.info("playturn");
 
-  //   // finalは初期化したあとに再代入が行われない変数につける（意図しない再代入を防ぐ）
-  //   final SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);//
-  //   // 引数にLongの最大値をTimeoutとして指定する
+  // // finalは初期化したあとに再代入が行われない変数につける（意図しない再代入を防ぐ）
+  // final SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);//
+  // // 引数にLongの最大値をTimeoutとして指定する
 
-  //   try {
-  //     this.ap1.asyncShowWordLogsList(emitter);
-  //   } catch (IOException e) {
-  //     // 例外の名前とメッセージだけ表示する
-  //     logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
-  //     emitter.complete();
-  //   }
-  //   return emitter;
+  // try {
+  // this.ap1.asyncShowWordLogsList(emitter);
+  // } catch (IOException e) {
+  // // 例外の名前とメッセージだけ表示する
+  // logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+  // emitter.complete();
+  // }
+  // return emitter;
   // }
   /*
    * @Autowired
