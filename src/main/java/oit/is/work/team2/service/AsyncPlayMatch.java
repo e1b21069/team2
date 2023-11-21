@@ -20,6 +20,7 @@ import oit.is.work.team2.model.WordLogMapper;
 @Service
 public class AsyncPlayMatch {
   private volatile boolean dbUpdated = false;
+  private volatile boolean WLdbUpdated = false;
   private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
   @Autowired
