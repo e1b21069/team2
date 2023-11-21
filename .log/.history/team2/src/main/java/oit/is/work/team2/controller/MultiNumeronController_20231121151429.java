@@ -24,13 +24,6 @@ public class MultiNumeronController {
   @Autowired
   private AsyncPlayMatch ap1;
 
-  @GetMapping("sse")
-  public SseEmitter sse() {
-      final SseEmitter sseEmitter = new SseEmitter();
-      this.ap1.asyncShowWordLogsList(sseEmitter);
-      return sseEmitter;
-  }
-
   @GetMapping("getLog")
   public String getWordLog(ModelMap model) {
     // ワードログを取得
@@ -39,24 +32,24 @@ public class MultiNumeronController {
     return "multiNumeron.html";
   }
 
-  // @GetMapping("step1")
-  // public SseEmitter pushCount() {
-  //   // infoレベルでログを出力する
-  //   logger.info("playturn");
+  @GetMapping("step1")
+  public SseEmitter pushCount() {
+    // infoレベルでログを出力する
+    logger.info("playturn");
 
-  //   // finalは初期化したあとに再代入が行われない変数につける（意図しない再代入を防ぐ）
-  //   final SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);//
-  //   // 引数にLongの最大値をTimeoutとして指定する
+    // finalは初期化したあとに再代入が行われない変数につける（意図しない再代入を防ぐ）
+    final SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);//
+    // 引数にLongの最大値をTimeoutとして指定する
 
-  //   try {
-  //     this.ap1.asyncShowWordLogsList(emitter);
-  //   } catch (IOException e) {
-  //     // 例外の名前とメッセージだけ表示する
-  //     logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
-  //     emitter.complete();
-  //   }
-  //   return emitter;
-  // }
+    try {
+      this.ap1.playturn(emitter);
+    } catch (IOException e) {
+      // 例外の名前とメッセージだけ表示する
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+      emitter.complete();
+    }
+    return emitter;
+  }
   /*
    * @Autowired
    * private DictionaryMapper dictionaryMapper;

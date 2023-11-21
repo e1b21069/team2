@@ -1,6 +1,5 @@
 package oit.is.work.team2.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -9,39 +8,75 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
 
 @Service
 public class AsyncPlayMatch {
-    int count = 1;
-    private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
+  private volatile boolean dbUpdated = false;
+  private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
+  @Autowired
+  WordLogMapper wordLogMapper;
 
-    @Autowired
-    WordLogMapper wordLogMapper;
-    public ArrayList<WordLog> syncShowWordLogList() {
-      return wordLogMapper.selectAll();
-    }
+  @Autowired
+  AsyncPlayMatch ap1;
 
-    @Async
-    public void playturn(SseEmitter emitter) throws IOException {
-      logger.info("count start");
-      try {
-        while (true) {// 無限ループ
-          logger.info("send:" + count);
-          // sendによってcountがブラウザにpushされる
-          emitter.send(count);
-          count++;
-          // 1秒STOP
-          TimeUnit.SECONDS.sleep(1);
+  @Transactional
+  public void syncAddWordLogs(String ans, int eatcnt, int bitecnt) {
+    // 追加
+    wordLogMapper.insert(ans, eatcnt, bitecnt);
+    // 非同期でDB更新したことを共有する際に利用する
+    this.dbUpdated = true;
+  }
+
+  @PostMapping("addWordLog")
+  @Transactional
+  public String addWordLog(ModelMap model, @RequestParam String ans, @RequestParam int eatcnt,
+      @RequestParam int bitecnt) {
+    model.addAttribute("addAns", ans);
+    model.addAttribute("addEatcnt", eatcnt);
+    model.addAttribute("addBitecnt", bitecnt);
+    // 単語を追加
+    this.ap1.syncAddWordLogs(ans, eatcnt, bitecnt);
+    // 単語リストを取得
+    final ArrayList<WordLog> wordLogs = ap1.syncShowWordLogList();
+    model.addAttribute("wordLogs", wordLogs);
+    return "multiNumeron.html";
+  }
+
+  public ArrayList<WordLog> syncShowWordLogList() {
+    return wordLogMapper.selectAll();
+  }
+
+  @Async
+  public void asyncShowWordLogsList(SseEmitter emitter) {
+    dbUpdated = true;
+    try {
+      while (true) {// 無限ループ
+        // DBが更新されていなければ0.5s休み
+        if (false == dbUpdated) {
+          TimeUnit.MILLISECONDS.sleep(500);
+          continue;
         }
-      } catch (InterruptedException e) {
-        // 例外の名前とメッセージだけ表示する
-        logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+        // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
+        ArrayList<WordLog> wordLogs = this.syncShowWordLogList();
+        emitter.send(wordLogs);
+        TimeUnit.MILLISECONDS.sleep(1000);
+        dbUpdated = false;
       }
+    } catch (Exception e) {
+      // 例外の名前とメッセージだけ表示する
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+    } finally {
+      emitter.complete();
     }
+    System.out.println("asyncShowDictionariesList complete");
+  }
 }
