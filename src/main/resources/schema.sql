@@ -23,7 +23,7 @@ CREATE TABLE wordLog (
 
 CREATE TABLE matchinfo (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user1 INT,
-    user2 INT,
+    roomName VARCHAR(255) NOT NULL,
+    pplNum INT NOT NULL,
     isActive BOOLEAN NOT NULL
 );

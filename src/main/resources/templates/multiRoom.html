@@ -9,7 +9,7 @@
 <body>
   <a th:href="@{/numeron/back}">もどる</a>
   <h1>ルーム選択</h1>
-  ようこそ、[[${name}]] さん<br>
+  <b>ようこそ、[[${name}]] さん</b><br>
 
   <h2>部屋一覧</h2>
   <div th:each="room:${rooms}">
@@ -19,12 +19,11 @@
   </div>
 
   <h2>入室状況</h2>
+  <b>空いている部屋に入室してください</b><br>
   <table th:each="active:${activematches}">
     <tr>
-      <td>id:[[${active.id}]]</td>
-      <td>user1:[[${active.user1}]]</td>
-      <td>user2:[[${active.user2}]]</td>
-      <td>isActive:[[${active.isActive}]]</td>
+      <td>ルーム名:[[${active.roomName}]]</td>
+      <td>( [[${active.pplNum}]] / 2 )</td>
     </tr>
   </table>
 </body>

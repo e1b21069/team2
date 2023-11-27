@@ -2,9 +2,9 @@ INSERT INTO rooms (name) VALUES ('room1');
 INSERT INTO rooms (name) VALUES ('room2');
 INSERT INTO rooms (name) VALUES ('room3');
 
-INSERT INTO matchinfo (user1, user2, isActive) VALUES (1, 2, 'FALSE');
-INSERT INTO matchinfo (user1, user2, isActive) VALUES (2, 3, 'FALSE');
-INSERT INTO matchinfo (user1, user2, isActive) VALUES (3, 1, 'FALSE');
+INSERT INTO matchinfo (id, roomName, pplNum, isActive) VALUES (1, 'room1', 0, 'FALSE');
+INSERT INTO matchinfo (id, roomName, pplNum, isActive) VALUES (2, 'room2', 0, 'FALSE');
+INSERT INTO matchinfo (id, roomName, pplNum, isActive) VALUES (3, 'room3', 0, 'FALSE');
 
 INSERT INTO dictionary (word) VALUES ('fish');
 INSERT INTO dictionary (word) VALUES ('tree');

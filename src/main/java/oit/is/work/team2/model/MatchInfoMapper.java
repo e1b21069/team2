@@ -6,16 +6,35 @@ import java.util.ArrayList;
 
 @Mapper
 public interface MatchInfoMapper {
-    @Insert("INSERT INTO MATCHINFO (USER1, USER2, ISACTIVE)  VALUES (#{user1}, #{user2}, #{isActive})")
-    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
-    boolean insertMatchInfo(MatchInfo matchInfo);
-
     @Select("SELECT * FROM MATCHINFO WHERE ISACTIVE = TRUE")
     ArrayList<MatchInfo> selectActiveMatches();
 
-    @Select("SELECT * FROM MATCHINFO WHERE (USER1 = #{user} or USER2=#{user}) and ISACTIVE = TRUE")
-    MatchInfo selectActiveMatchInfoByUser(int user);
+    @Select("SELECT * FROM MATCHINFO WHERE ID = #{id}")
+    MatchInfo selectMatchInfoById(int id);
+
+    @Select("SELECT * FROM MATCHINFO WHERE ROOMNAME = #{roomName}")
+    MatchInfo selectMatchInfoByRoomName(String roomName);
+
+    @Select("SELECT * FROM MATCHINFO WHERE PPLNUM = #{pplNum}")
+    MatchInfo selectMatchInfoByPplNum(int pplNum);
+
+    @Select("SELECT * FROM MATCHINFO WHERE ISACTIVE = #{isActive}")
+    MatchInfo selectMatchInfoByIsActive(boolean isActive);
+
+    @Select("SELECT * FROM MATCHINFO")
+    ArrayList<MatchInfo> selectAll();
+
+    @Update("UPDATE MATCHINFO SET ROOMNAME = #{roomName} WHERE ID = #{id}")
+    boolean updateMatchInfoRoomName(MatchInfo matchinfo);
+
+    @Update("UPDATE MATCHINFO SET PPLNUM = #{pplNum} WHERE ID = #{id}")
+    boolean updateMatchInfoPplNum(MatchInfo matchinfo);
 
     @Update("UPDATE MATCHINFO SET ISACTIVE = #{isActive} WHERE ID = #{id}")
-    boolean updateMatchInfo(MatchInfo matchinfo);
+    boolean updateMatchInfoIsActive(MatchInfo matchinfo);
+
+    @Insert("INSERT INTO MATCHINFO (ROOMNAME, PPLNUM, ISACTIVE) VALUES (#{roomName}, #{pplNum}, #{isActive})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    boolean insertMatchInfo(MatchInfo matchinfo);
+
 }

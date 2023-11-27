@@ -110,6 +110,16 @@ public class MultiNumeronController {
     usermapper.insert(Integer.parseInt(roomId), this.name); // ユーザーをDBに追加
     Room room = roommapper.selectById(Integer.parseInt(roomId));
     model.addAttribute("room", room);
+
+    // roomIdのmatchinfoをtureにする
+    MatchInfo matchinfo = matchinfomapper.selectMatchInfoById(Integer.parseInt(roomId));
+    matchinfo.setIsActive(true);
+    matchinfomapper.updateMatchInfoIsActive(matchinfo);
+    // roomIdのuserの数を取得
+    int pplNum = usermapper.selectCountByRoomId(Integer.parseInt(roomId));
+    matchinfo.setPplNum(pplNum);
+    matchinfomapper.updateMatchInfoPplNum(matchinfo);
+
     return "match.html";
   }
 

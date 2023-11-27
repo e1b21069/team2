@@ -2,39 +2,46 @@ package oit.is.work.team2.model;
 
 public class MatchInfo {
     private int id;
-    private int user1;
-    private int user2;
+    private String roomName;
+    private int pplNum;
     private boolean isActive;
 
     public int getId() {
-        return id;
+        return this.id;
+    }
+
+    public String getRoomName() {
+        return this.roomName;
+    }
+
+    public int getPplNum() {
+        return this.pplNum;
+    }
+
+    public boolean getIsActive() {
+        return this.isActive;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getUser1() {
-        return user1;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
-    public void setUser1(int user1) {
-        this.user1 = user1;
+    public void setPplNum(int pplNum) {
+        this.pplNum = pplNum;
     }
 
-    public int getUser2() {
-        return user2;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
-    public void setUser2(int user2) {
-        this.user2 = user2;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
+    public MatchInfo(int id, String roomName, int pplNum, boolean isActive) {
+        this.id = id;
+        this.roomName = roomName;
+        this.pplNum = pplNum;
+        this.isActive = isActive;
     }
 }

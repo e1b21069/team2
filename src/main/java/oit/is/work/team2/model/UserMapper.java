@@ -17,6 +17,10 @@ public interface UserMapper {
     @Select("SELECT id, name from users where roomId = #{roomId}")
     User selectByRoomId(int roomId);
 
+    // roomIdのuserの数を取得
+    @Select("SELECT COUNT(*) FROM users WHERE roomId = #{roomId}")
+    int selectCountByRoomId(int roomId);
+
     @Insert("INSERT INTO users (roomId, name) VALUES (#{roomId}, #{name})")
     void insert(int roomId, String name);
 
