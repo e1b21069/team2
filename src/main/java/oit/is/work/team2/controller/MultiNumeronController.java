@@ -46,6 +46,8 @@ public class MultiNumeronController {
 
   String randomWord = "";
 
+  String name = "";
+
   @GetMapping("")
   public String theme(ModelMap model) {
     ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
@@ -94,7 +96,7 @@ public class MultiNumeronController {
 
   @PostMapping("multiRoom")
   public String multiRoom(ModelMap model, @RequestParam String name) {
-    usermapper.insert(name); // ユーザーをDBに追加
+    this.name = name;
     model.addAttribute("name", name);
     ArrayList<Room> rooms = roommapper.selectAll();
     model.addAttribute("rooms", rooms);
@@ -104,8 +106,9 @@ public class MultiNumeronController {
   }
 
   @GetMapping("match")
-  public String match(@RequestParam String id, ModelMap model) {
-    Room room = roommapper.selectById(Integer.parseInt(id));
+  public String match(@RequestParam String roomId, ModelMap model) {
+    usermapper.insert(Integer.parseInt(roomId), this.name); // ユーザーをDBに追加
+    Room room = roommapper.selectById(Integer.parseInt(roomId));
     model.addAttribute("room", room);
     return "match.html";
   }

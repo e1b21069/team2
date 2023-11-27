@@ -5,7 +5,8 @@ CREATE TABLE rooms (
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    roomId INT
 );
 
 CREATE TABLE dictionary (

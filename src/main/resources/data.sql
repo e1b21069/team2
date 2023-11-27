@@ -2,10 +2,6 @@ INSERT INTO rooms (name) VALUES ('room1');
 INSERT INTO rooms (name) VALUES ('room2');
 INSERT INTO rooms (name) VALUES ('room3');
 
-INSERT INTO users (name) VALUES ('いがき');
-INSERT INTO users (name) VALUES ('ほんだ');
-INSERT INTO users (name) VALUES ('ふくやす');
-
 INSERT INTO matchinfo (user1, user2, isActive) VALUES (1, 2, 'FALSE');
 INSERT INTO matchinfo (user1, user2, isActive) VALUES (2, 3, 'FALSE');
 INSERT INTO matchinfo (user1, user2, isActive) VALUES (3, 1, 'FALSE');
