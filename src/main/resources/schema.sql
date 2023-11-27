@@ -1,3 +1,9 @@
+CREATE TABLE rooms (
+    id IDENTITY PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    user1 INT,
+    user2 INT
+)
 CREATE TABLE users (
     id IDENTITY PRIMARY KEY,
     name VARCHAR NOT NULL

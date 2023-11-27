@@ -92,7 +92,7 @@ public class MultiNumeronController {
 
   @PostMapping("multiRoom")
   public String multiRoom(ModelMap model, @RequestParam String name) {
-    this.name = name;
+    usermapper.insert(name);
     model.addAttribute("name", name);
     ArrayList<User> users = usermapper.selectAll();
     ArrayList<MatchInfo> activeMatches = matchinfomapper.selectActiveMatches();
