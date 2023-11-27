@@ -3,16 +3,27 @@
 
 <head>
   <meta charset="utf-8">
-  <title>numeron</title>
+  <title>ROOM</title>
 </head>
 
 <h1>ぬめろん</h1>
+<p th:text="${name}"></p>
 
-<p>相手が想像するお題の沿った４文字の単語を先に当てるゲーム</p>
+<h2>エントリー</h2>
+<div th:each="user:${users}">
+  <ul>
+    <li><a th:href="@{/multiNumeron/match(id=${user.id})}"> [[${user.name}]]</a></li>
+  </ul>
+</div>
 
-<h2>先行か後攻を選んでください</h2>
-<a href="/multiNumeron/step1">先行</a>
-<a href="/multiNumeron/step2">後攻</a>
-
+<h2>アクティブな試合</h2>
+<table th:each="active:${activematches}">
+  <tr>
+    <td>id:[[${active.id}]]</td>
+    <td>user1:[[${active.user1}]]</td>
+    <td>user2:[[${active.user2}]]</td>
+    <td>isActive:[[${active.isActive}]]</td>
+  </tr>
+</table>
 
 </html>

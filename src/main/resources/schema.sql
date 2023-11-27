@@ -1,6 +1,6 @@
 CREATE TABLE users (
     id IDENTITY PRIMARY KEY,
-    userName VARCHAR NOT NULL
+    name VARCHAR NOT NULL
 );
 CREATE TABLE dictionary (
     id IDENTITY PRIMARY KEY,
@@ -12,3 +12,10 @@ CREATE TABLE wordLog (
     eatcnt INT,
     bitecnt INT
 );
+CREATE TABLE matchinfo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user1 INT,
+    user2 INT,
+    isActive BOOLEAN NOT NULL
+);
+

@@ -87,6 +87,7 @@ public class MultiNumeronController {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
     return "multiWait.html";
   }
 

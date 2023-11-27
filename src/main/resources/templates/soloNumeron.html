@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>numeron</title>
+</head>
+
+<a th:href="@{/soloNumeron/back}">もどる</a>
+
+<h1>ぬめろん</h1>
+<p>４文字の英単語を当てるゲーム</p>
+<h2>お題</h2>
+<p th:if="${dictionary}">
+<div>
+  <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
+</div>
+</p>
+
+<form th:action="@{/soloNumeron/step1}" method="post">
+  <input type="text" name="ans" />
+  <input type="submit" value="決定"><input type="reset" value="取消">
+</form>
+
+[[${ans}]]
+[[${atari}]]
+[[${eatcnt}]]
+[[${bitecnt}]]
+
+<div th:if="${logwords}">
+  <table boarder="1">
+      <thead>
+          <th>Index</th>
+          <th>ans</th>
+          <th>eat</th>
+          <th>bite</th>
+      </thead>
+      <tr th:each="logword,stat:${logwords}">
+          <td>[[${stat.index}]]</td>
+          <td>[[${logword.ans}]]</td>
+          <td>[[${logword.eatcnt}]]</td>
+          <td>[[${logword.bitecnt}]]</td>
+      </tr>
+  </table>
+</div>
+
+</html>

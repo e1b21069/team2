@@ -1,47 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-  <meta charset="utf-8">
-  <title>numeron</title>
+    <meta charset="UTF-8" />
+    <title>NUMERON</title>
 </head>
 
-<h1>ぬめろん</h1>
+<body>
+    <a href="../index.html">もどる</a><br>
+    <h1>セレクト画面</h1>
+    <h2>ぼっちぬめろん</h2>
+    <a href="/soloNumeron">START</a>
 
-<p>相手が想像するお題の沿った４文字の単語を先に当てるゲーム</p>
+    <h2>ぬめろん対戦</h2>
+    <b>名前を入力</b>
+    <form th:action="@{multiNumeron/multiRoom}" method="post">
+        <input type="text" name="name" />
+        <input type="submit" value="決定"><input type="reset" value="取消">
+    </form>
 
-<h2>お題</h2>
-<p th:if="${dictionary}">
-<div>
-  <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
-</div>
-</p>
-
-<form th:action="@{/numeron/step1}" method="post">
-  <input type="text" name="ans" />
-  <input type="submit" value="決定"><input type="reset" value="取消">
-</form>
-
-[[${ans}]]
-[[${atari}]]
-[[${eatcnt}]]
-[[${bitecnt}]]
-
-<div th:if="${logwords}">
-  <table border="1">
-      <thead>
-          <th>Index</th>
-          <th>ans</th>
-          <th>eat</th>
-          <th>bite</th>
-      </thead>
-      <tr th:each="logword,stat:${logwords}">
-          <td>[[${stat.index}]]</td>
-          <td>[[${logword.ans}]]</td>
-          <td>[[${logword.eatcnt}]]</td>
-          <td>[[${logword.bitecnt}]]</td>
-      </tr>
-  </table>
-</div>
+</body>
 
 </html>

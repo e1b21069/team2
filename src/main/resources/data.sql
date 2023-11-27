@@ -1,6 +1,11 @@
-INSERT INTO users (userName) VALUES ('いがき');
-INSERT INTO users (userName) VALUES ('ほんだ');
-INSERT INTO users (userName) VALUES ('ふくやす');
+INSERT INTO users (name) VALUES ('いがき');
+INSERT INTO users (name) VALUES ('ほんだ');
+INSERT INTO users (name) VALUES ('ふくやす');
+
+INSERT INTO matchinfo (user1, user2, isActive) VALUES (1, 2, 'FALSE');
+INSERT INTO matchinfo (user1, user2, isActive) VALUES (2, 3, 'FALSE');
+INSERT INTO matchinfo (user1, user2, isActive) VALUES (3, 1, 'FALSE');
+
 INSERT INTO dictionary (word) VALUES ('fish');
 INSERT INTO dictionary (word) VALUES ('tree');
 INSERT INTO dictionary (word) VALUES ('jump');

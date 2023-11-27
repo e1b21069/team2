@@ -1,3 +1,5 @@
+//AsyncPlayMatch.java
+
 package oit.is.work.team2.service;
 
 import java.util.ArrayList;
@@ -9,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.work.team2.model.WordLog;
@@ -20,14 +19,10 @@ import oit.is.work.team2.model.WordLogMapper;
 @Service
 public class AsyncPlayMatch {
   private volatile boolean dbUpdated = false;
-  private volatile boolean WLdbUpdated = false;
   private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
   @Autowired
   WordLogMapper wordLogMapper;
-
-  @Autowired
-  AsyncPlayMatch ap1;
 
   @Transactional
   public void syncAddWordLogs(String ans, int eatcnt, int bitecnt) {

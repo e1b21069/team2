@@ -44,52 +44,6 @@ public class MultiNumeronController {
 
   String name;
 
-  @GetMapping("")
-  public String theme(ModelMap model) {
-    ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
-    if (allWords.isEmpty())
-      return "No words found in the database";
-    // ランダムなインデックスを生成
-    int randomIndex = (int) (Math.random() * allWords.size());
-    // ランダムに選択した単語を代入
-    this.randomWord = allWords.get(randomIndex).getWord();
-    model.addAttribute("randomWord", randomWord);
-    return "multiNumeron.html";
-  }
-
-  @PostMapping("step1")
-  @Transactional
-  public String numeron(@RequestParam String ans, ModelMap model) {
-    boolean atari = false;
-    int eatcnt = 0, bitecnt = 0;
-    Numeron numeron = new Numeron();
-    model.addAttribute("randomWord", this.randomWord);
-    model.addAttribute("ans", ans);
-    atari = numeron.Atari(this.randomWord, ans);
-    model.addAttribute("atari", atari);
-    eatcnt = numeron.eatjudge(this.randomWord, ans);
-    model.addAttribute("eatcnt", eatcnt);
-    bitecnt = numeron.bitejudge(this.randomWord, ans);
-    model.addAttribute("bitecnt", bitecnt);
-
-    // 単語を追加
-    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
-    // 単語リストを取得
-    ArrayList<WordLog> logwords = playMatch.syncShowWordLogList();
-    model.addAttribute("logwords", logwords);
-
-    if (eatcnt == 4) {
-      return "result.html";
-    }
-    // 3秒待つ
-    try {
-      Thread.sleep(3000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    return "multiWait.html";
-  }
-
   @PostMapping("multiRoom")
   public String multiRoom(ModelMap model, @RequestParam String name) {
     this.name = name;
@@ -137,6 +91,53 @@ public class MultiNumeronController {
     final ArrayList<WordLog> wordLogs = playMatch.syncShowWordLogList();
     model.addAttribute("wordLogs", wordLogs);
     return "multiNumeron.html";
+  }
+
+  @GetMapping("")
+  public String theme(ModelMap model) {
+    ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
+    if (allWords.isEmpty())
+      return "No words found in the database";
+    // ランダムなインデックスを生成
+    int randomIndex = (int) (Math.random() * allWords.size());
+    // ランダムに選択した単語を代入
+    this.randomWord = allWords.get(randomIndex).getWord();
+    model.addAttribute("randomWord", randomWord);
+    return "multiNumeron.html";
+  }
+
+  @PostMapping("step1")
+  @Transactional
+  public String numeron(@RequestParam String ans, ModelMap model) {
+    boolean atari = false;
+    int eatcnt = 0, bitecnt = 0;
+    Numeron numeron = new Numeron();
+    model.addAttribute("randomWord", this.randomWord);
+    model.addAttribute("ans", ans);
+    atari = numeron.Atari(this.randomWord, ans);
+    model.addAttribute("atari", atari);
+    eatcnt = numeron.eatjudge(this.randomWord, ans);
+    model.addAttribute("eatcnt", eatcnt);
+    bitecnt = numeron.bitejudge(this.randomWord, ans);
+    model.addAttribute("bitecnt", bitecnt);
+
+    // 単語を追加
+    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+    // 単語リストを取得
+    ArrayList<WordLog> logwords = playMatch.syncShowWordLogList();
+    model.addAttribute("logwords", logwords);
+
+    if (eatcnt == 4) {
+      return "result.html";
+    }
+    // 3秒待つ
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    return "multiWait.html";
   }
 
 }
