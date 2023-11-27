@@ -1,3 +1,7 @@
+INSERT INTO rooms (name) VALUES ('room1');
+INSERT INTO rooms (name) VALUES ('room2');
+INSERT INTO rooms (name) VALUES ('room3');
+
 INSERT INTO users (name) VALUES ('いがき');
 INSERT INTO users (name) VALUES ('ほんだ');
 INSERT INTO users (name) VALUES ('ふくやす');

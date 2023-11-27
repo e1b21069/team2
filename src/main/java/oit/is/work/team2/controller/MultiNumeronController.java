@@ -20,7 +20,8 @@ import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.MatchInfo;
 import oit.is.work.team2.model.MatchInfoMapper;
 import oit.is.work.team2.model.Numeron;
-import oit.is.work.team2.model.User;
+import oit.is.work.team2.model.Room;
+import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
 import oit.is.work.team2.service.AsyncPlayMatch;
 
@@ -40,9 +41,10 @@ public class MultiNumeronController {
   @Autowired
   private MatchInfoMapper matchinfomapper;
 
-  String randomWord = "";
+  @Autowired
+  private RoomMapper roommapper;
 
-  String name;
+  String randomWord = "";
 
   @GetMapping("")
   public String theme(ModelMap model) {
@@ -92,20 +94,19 @@ public class MultiNumeronController {
 
   @PostMapping("multiRoom")
   public String multiRoom(ModelMap model, @RequestParam String name) {
-    usermapper.insert(name);
+    usermapper.insert(name); // ユーザーをDBに追加
     model.addAttribute("name", name);
-    ArrayList<User> users = usermapper.selectAll();
+    ArrayList<Room> rooms = roommapper.selectAll();
+    model.addAttribute("rooms", rooms);
     ArrayList<MatchInfo> activeMatches = matchinfomapper.selectActiveMatches();
-    model.addAttribute("users", users);
     model.addAttribute("activematches", activeMatches);
     return "multiRoom.html";
   }
 
   @GetMapping("match")
   public String match(@RequestParam String id, ModelMap model) {
-    model.addAttribute("name", this.name);
-    User opp = usermapper.selectById(id);
-    model.addAttribute("opponent", opp);
+    Room room = roommapper.selectById(Integer.parseInt(id));
+    model.addAttribute("room", room);
     return "match.html";
   }
 

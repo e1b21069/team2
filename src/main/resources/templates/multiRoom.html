@@ -6,24 +6,27 @@
   <title>ROOM</title>
 </head>
 
-<h1>ぬめろん</h1>
-<p th:text="${name}"></p>
+<body>
+  <a th:href="@{/numeron/back}">もどる</a>
+  <h1>ルーム選択</h1>
+  <p th:text="${name}"></p>
 
-<h2>エントリー</h2>
-<div th:each="user:${users}">
-  <ul>
-    <li><a th:href="@{/multiNumeron/match(id=${user.id})}"> [[${user.name}]]</a></li>
-  </ul>
-</div>
+  <h2>部屋一覧</h2>
+  <div th:each="room:${rooms}">
+    <ul>
+      <li><a th:href="@{/multiNumeron/match(id=${room.id})}"> [[${room.name}]]</a></li>
+    </ul>
+  </div>
 
-<h2>アクティブな試合</h2>
-<table th:each="active:${activematches}">
-  <tr>
-    <td>id:[[${active.id}]]</td>
-    <td>user1:[[${active.user1}]]</td>
-    <td>user2:[[${active.user2}]]</td>
-    <td>isActive:[[${active.isActive}]]</td>
-  </tr>
-</table>
+  <h2>入室状況</h2>
+  <table th:each="active:${activematches}">
+    <tr>
+      <td>id:[[${active.id}]]</td>
+      <td>user1:[[${active.user1}]]</td>
+      <td>user2:[[${active.user2}]]</td>
+      <td>isActive:[[${active.isActive}]]</td>
+    </tr>
+  </table>
+</body>
 
 </html>

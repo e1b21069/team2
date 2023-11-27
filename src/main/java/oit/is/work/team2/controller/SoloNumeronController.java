@@ -71,10 +71,4 @@ public class SoloNumeronController {
 
     return "soloNumeron.html";
   }
-
-  // numeron.htmlに戻る
-  @GetMapping("back")
-  public String back() {
-    return "redirect:/numeron"; // "/numeron"へのリダイレクトを指定
-  }
 }

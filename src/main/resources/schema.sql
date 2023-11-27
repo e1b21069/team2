@@ -1,27 +1,28 @@
 CREATE TABLE rooms (
-    id IDENTITY PRIMARY KEY,
-    name VARCHAR NOT NULL,
-    user1 INT,
-    user2 INT
-)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE users (
-    id IDENTITY PRIMARY KEY,
-    name VARCHAR NOT NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
+
 CREATE TABLE dictionary (
-    id IDENTITY PRIMARY KEY,
-    word VARCHAR NOT NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    word VARCHAR(255) NOT NULL
 );
+
 CREATE TABLE wordLog (
-    id IDENTITY PRIMARY KEY,
-    ans VARCHAR,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ans VARCHAR(255) NOT NULL,
     eatcnt INT,
     bitecnt INT
 );
+
 CREATE TABLE matchinfo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user1 INT,
     user2 INT,
     isActive BOOLEAN NOT NULL
 );
-
