@@ -4,44 +4,69 @@
 <head>
   <meta charset="utf-8">
   <title>numeron</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    table {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 {
+      color: #00ccff;
+    }
+
+    p {
+      font-size: 36px;
+      color: #333;
+    }
+  </style>
 </head>
 
-<a th:href="@{/numeron/back}">もどる</a>
+<body>
 
-<h1>ぬめろん</h1>
-<p>４文字の英単語を当てるゲーム</p>
-<h2>お題</h2>
-<p th:if="${dictionary}">
-<div>
-  <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
-</div>
-</p>
+  <a th:href="@{/numeron/back}">もどる</a>
 
-<form th:action="@{/soloNumeron/step1}" method="post">
-  <input type="text" name="ans" />
-  <input type="submit" value="決定"><input type="reset" value="取消">
-</form>
+  <h1>ぬめろん</h1>
+  <p>４文字の英単語を当てるゲーム</p>
+  <h2>お題</h2>
+  <p th:if="${dictionary}">
+  <div>
+    <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
+  </div>
+  </p>
 
-[[${ans}]]
-[[${atari}]]
-[[${eatcnt}]]
-[[${bitecnt}]]
+  <form th:action="@{/soloNumeron/step1}" method="post">
+    <input type="text" name="ans" />
+    <input type="submit" value="決定"><input type="reset" value="取消">
+  </form>
 
-<div th:if="${logwords}">
-  <table boarder="1">
+  [[${ans}]]
+  [[${atari}]]
+  [[${eatcnt}]]
+  [[${bitecnt}]]
+
+  <div th:if="${logwords}">
+    <table boarder="1">
       <thead>
-          <th>Index</th>
-          <th>ans</th>
-          <th>eat</th>
-          <th>bite</th>
+        <th>Index</th>
+        <th>ans</th>
+        <th>eat</th>
+        <th>bite</th>
       </thead>
       <tr th:each="logword,stat:${logwords}">
-          <td>[[${stat.index}]]</td>
-          <td>[[${logword.ans}]]</td>
-          <td>[[${logword.eatcnt}]]</td>
-          <td>[[${logword.bitecnt}]]</td>
+        <td>[[${stat.index}]]</td>
+        <td>[[${logword.ans}]]</td>
+        <td>[[${logword.eatcnt}]]</td>
+        <td>[[${logword.bitecnt}]]</td>
       </tr>
-  </table>
-</div>
+    </table>
+  </div>
+
+</body>
 
 </html>
