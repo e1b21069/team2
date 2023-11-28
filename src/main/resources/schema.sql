@@ -20,7 +20,6 @@ CREATE TABLE wordLog (
     eatcnt INT,
     bitecnt INT
 );
-
 CREATE TABLE matchinfo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     roomName VARCHAR(255) NOT NULL,

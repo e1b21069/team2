@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.Room;
 import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
+
 import oit.is.work.team2.service.AsyncPlayMatch;
 
 import java.util.concurrent.TimeUnit;
@@ -85,6 +87,17 @@ public class MultiNumeronController {
     return "multiWait.html";
   }
 
+  @GetMapping("/{param}")
+  @Transactional
+  public String numeronSet(@PathVariable String param, ModelMap model) {
+    if(Integer.parseInt(param) == 1) {
+      randomWord = ap1.setupMatch();
+      model.addAttribute("randomWord", randomWord);
+      return "multiNumeron.html";
+    }
+    return "multiWait.html";
+  }
+
   @PostMapping("step1")
   @Transactional
   public String numeron(@RequestParam String ans, ModelMap model) {
@@ -102,6 +115,7 @@ public class MultiNumeronController {
 
     // 単語を追加
     playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+    
     // 単語リストを取得
     ArrayList<WordLog> logwords = playMatch.syncShowWordLogList();
     model.addAttribute("logwords", logwords);

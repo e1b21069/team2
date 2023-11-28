@@ -24,5 +24,4 @@ public interface MatchMapper {
 
     @Insert("insert into match (word, player1, player2) values (#{word}, #{player1}, #{player2})")
     boolean insert(String word, Integer player1, Integer player2);
-
 }
