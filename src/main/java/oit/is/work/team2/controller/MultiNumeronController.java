@@ -31,7 +31,6 @@ import oit.is.work.team2.model.UserMapper;
 import oit.is.work.team2.service.AsyncPlayMatch;
 
 import java.util.concurrent.TimeUnit;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import oit.is.work.team2.model.MatchMapper;
 
