@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
-
 <head>
   <meta charset="utf-8">
   <title>NUMERON</title>
@@ -29,27 +28,21 @@
       }
   </script>
 </head>
-
 <body>
   <h1>ぬめろん</h1>
-
-  <p>相手が想像するお題の沿った４文字の単語を先に当てるゲーム</p>
-
-  <h2>お題</h2>
+  <p>４文字の英単語を先に当てるゲーム</p>
   <p th:if="${dictionary}">
   <div>
     <p>相手の手を待っています</p>
     <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
   </div>
   </p>
-
   [[${ans}]]
   [[${atari}]]
   [[${eatcnt}]]
   [[${bitecnt}]]
-
   <div th:if="${wordLogs}">
-    <table border="1">
+    <table boarder="1">
       <thead>
         <th>Index</th>
         <th>ans</th>
@@ -65,5 +58,4 @@
     </table>
   </div>
 </body>
-
 </html>

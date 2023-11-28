@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>NUMERON</title>
+</head>
+
+<body>
+    <h1>ぬめろん対戦</h1>
+    <h2>[[${room.name}]]</h2>
+    <!--/*<h2>[[${name}]] v.s [[${name}]]</h2>*/-->
+
+    <h2>先攻か後攻を選んでください</h2>
+    <a href="/multiNumeron/1">先攻</a>
+    <a href="/multiNumeron/2">後攻</a>
+
+    <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
+</body>
+
+</html>

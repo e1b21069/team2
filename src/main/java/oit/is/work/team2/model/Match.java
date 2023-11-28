@@ -23,5 +23,4 @@ public class Match {
     public void setSecondWin(int secondWin) {
         this.secondWin = secondWin;
     }
-    
 }

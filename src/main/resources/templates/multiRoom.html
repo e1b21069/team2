@@ -3,19 +3,30 @@
 
 <head>
   <meta charset="utf-8">
-  <title>numeron</title>
+  <title>ROOM</title>
 </head>
 
 <body>
-<h1>ぬめろん</h1>
 
-<p>相手が想像するお題の沿った４文字の単語を先に当てるゲーム</p>
+  <a th:href="@{/numeron/back}">もどる</a>
+  <h1>ルーム選択</h1>
+  <b>ようこそ、[[${name}]] さん</b><br>
 
-<h2>先攻か後攻を選んでください</h2>
-<a href="/multiNumeron/1">先攻</a>
-<a href="/multiNumeron/2">後攻</a>
+  <h2>部屋一覧</h2>
+  <div th:each="room:${rooms}">
+    <ul>
+      <li><a th:href="@{/multiNumeron/match(roomId=${room.id})}"> [[${room.name}]]</a></li>
+    </ul>
+  </div>
 
-<p>ランダムな単語: <span th:text="${randomWord}"></span></p>
+  <h2>入室状況</h2>
+  <b>空いている部屋に入室してください</b><br>
+  <table th:each="active:${activematches}">
+    <tr>
+      <td>ルーム名:[[${active.roomName}]]</td>
+      <td>( [[${active.pplNum}]] / 2 )</td>
+    </tr>
+  </table>
 </body>
 
 </html>

@@ -1,3 +1,5 @@
+//AsyncPlayMatch.java
+
 package oit.is.work.team2.service;
 
 import java.util.ArrayList;
@@ -11,13 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import jakarta.servlet.http.HttpSession;
+import oit.is.work.team2.model.Dictionary;
+import oit.is.work.team2.model.DictionaryMapper;
+import oit.is.work.team2.model.MatchMapper;
+
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.Match;
 import oit.is.work.team2.model.MatchMapper;
+
 
 @Service
 public class AsyncPlayMatch {
@@ -29,6 +35,7 @@ public class AsyncPlayMatch {
   WordLogMapper wordLogMapper;
   @Autowired
   private DictionaryMapper dictionaryMapper;
+
   @Autowired
   MatchMapper matchMapper;
 
@@ -70,10 +77,10 @@ public class AsyncPlayMatch {
     System.out.println("asyncShowDictionariesList complete");
   }
 
-public String setupMatch() {
+  public String setupMatch() {
     ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
     if (allWords.isEmpty())
-        return "No words found in the database";
+      return "No words found in the database";
 
     int randomIndex = (int) (Math.random() * allWords.size());
     String randomWord = allWords.get(randomIndex).getWord();
@@ -81,16 +88,16 @@ public String setupMatch() {
     matchMapper.insert(randomWord, 1, 2);
 
     return randomWord;
-}
+  }
 
-public void updateMatch(){
-}
+  public void updateMatch() {
+  }
 
-public boolean selectUpdate(){
-  return this.wdbUpdated;
-}
-public void switchUpdate(){
-  this.wdbUpdated = false;
-}
+  public boolean selectUpdate() {
+    return this.wdbUpdated;
+  }
 
+  public void switchUpdate() {
+    this.wdbUpdated = false;
+  }
 }
