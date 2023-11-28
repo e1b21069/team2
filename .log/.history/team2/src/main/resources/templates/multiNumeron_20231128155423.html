@@ -61,14 +61,12 @@
         <th>eat</th>
         <th>bite</th>
       </thead>
-      <tbody id = "wordLogs_list">
-        <tr th:each="wordLog,stat:${wordLogs}">
-          <td>[[${stat.index}]]</td>
-          <td>[[${wordLog.ans}]]</td>
-          <td>[[${wordLog.eatcnt}]]</td>
-          <td>[[${wordLog.bitecnt}]]</td>
-        </tr>
-      </tbody>
+      <tr th:each="wordLog,stat:${wordLogs}">
+        <td>[[${stat.index}]]</td>
+        <td>[[${wordLog.ans}]]</td>
+        <td>[[${wordLog.eatcnt}]]</td>
+        <td>[[${wordLog.bitecnt}]]</td>
+      </tr>
     </table>
   </div>
 </body>

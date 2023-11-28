@@ -1,8 +1,5 @@
-<!--/*multiNumeron.html*/-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
-
 <head>
   <meta charset="utf-8">
   <title>NUMERON</title>
@@ -31,28 +28,19 @@
       }
   </script>
 </head>
-
 <body>
-  <h1>ぬめろん対戦中</h1>
-  <h2>あなたのターン</h2>
-
-  <h2>お題</h2>
+  <h1>ぬめろん</h1>
+  <p>４文字の英単語を先に当てるゲーム</p>
   <p th:if="${dictionary}">
   <div>
+    <p>相手の手を待っています</p>
     <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
   </div>
   </p>
-
-  <form th:action="@{/multiNumeron/step1}" method="post">
-    <input type="text" name="ans" />
-    <input type="submit" value="決定"><input type="reset" value="取消">
-  </form>
-
   [[${ans}]]
   [[${atari}]]
   [[${eatcnt}]]
   [[${bitecnt}]]
-
   <div th:if="${wordLogs}">
     <table boarder="1">
       <thead>
@@ -61,16 +49,13 @@
         <th>eat</th>
         <th>bite</th>
       </thead>
-      <tbody id = "wordLogs_list">
-        <tr th:each="wordLog,stat:${wordLogs}">
-          <td>[[${stat.index}]]</td>
-          <td>[[${wordLog.ans}]]</td>
-          <td>[[${wordLog.eatcnt}]]</td>
-          <td>[[${wordLog.bitecnt}]]</td>
-        </tr>
-      </tbody>
+      <tr th:each="wordLog,stat:${wordLogs}">
+        <td>[[${stat.index}]]</td>
+        <td>[[${wordLog.ans}]]</td>
+        <td>[[${wordLog.eatcnt}]]</td>
+        <td>[[${wordLog.bitecnt}]]</td>
+      </tr>
     </table>
   </div>
 </body>
-
 </html>

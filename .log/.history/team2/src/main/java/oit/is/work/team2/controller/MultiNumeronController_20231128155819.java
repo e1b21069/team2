@@ -121,13 +121,13 @@ public class MultiNumeronController {
     boolean dbUpdated = true;
     try {
       while (true) {// 無限ループ
-        dbUpdated = playMatch.selectUpdate();
+        dbUpdated = this.playMatch.selectUpdate();
         // logが更新されていなければ0.5s休み
         if (false == dbUpdated) {
           TimeUnit.MILLISECONDS.sleep(500);
           continue;
         }
-        playMatch.switchUpdate();
+        this.playMatch.switchUpdate();
         return "multiNumeron.html";
       }
     } catch (Exception e) {
