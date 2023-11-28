@@ -12,3 +12,11 @@ CREATE TABLE wordLog (
     eatcnt INT,
     bitecnt INT
 );
+CREATE TABLE match (
+    id IDENTITY PRIMARY KEY,
+    word VARCHAR,
+    player1 INT,
+    firstWin INT,
+    player2 INT,
+    secondWin INT
+);

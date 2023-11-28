@@ -1,6 +1,7 @@
 package oit.is.work.team2.controller;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -10,16 +11,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import jakarta.servlet.http.HttpSession;
+import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
-import oit.is.work.team2.model.Dictionary;
-import oit.is.work.team2.model.DictionaryMapper;
+import oit.is.work.team2.model.Match;
+import oit.is.work.team2.model.MatchMapper;
 import oit.is.work.team2.service.AsyncPlayMatch;
 
 @Controller
@@ -33,8 +37,15 @@ public class MultiNumeronController {
 
   @Autowired
   private WordLogMapper wordLogMapper;
+  @Autowired
+  private MatchMapper matchMapper;
 
   private String randomWord = "";
+
+  @GetMapping("room")
+  public String enterRoom(ModelMap model) {
+    return "multiRoom.html";
+  }
 
   @GetMapping("sse")
   public SseEmitter sse() {
@@ -67,23 +78,35 @@ public class MultiNumeronController {
   // return "multiNumeron.html";
   // }
 
+  @GetMapping("/{param}")
+  @Transactional
+  public String numeronSet(@PathVariable String param, ModelMap model) {
+    if(Integer.parseInt(param) == 1) {
+      randomWord = ap1.setupMatch();
+      model.addAttribute("randomWord", randomWord);
+      return "multiNumeron.html";
+    }
+    return "multiWait.html";
+  }
+
   @PostMapping("step1")
   @Transactional
   public String numeron(@RequestParam String ans, ModelMap model) {
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
+    String randomWord = matchMapper.selectWord(1);
     Numeron numeron = new Numeron();
-    model.addAttribute("randomWord", this.randomWord);
     model.addAttribute("ans", ans);
-    atari = numeron.Atari(this.randomWord, ans);
+    atari = numeron.Atari(randomWord, ans);
     model.addAttribute("atari", atari);
-    eatcnt = numeron.eatjudge(this.randomWord, ans);
+    eatcnt = numeron.eatjudge(randomWord, ans);
     model.addAttribute("eatcnt", eatcnt);
-    bitecnt = numeron.bitejudge(this.randomWord, ans);
+    bitecnt = numeron.bitejudge(randomWord, ans);
     model.addAttribute("bitecnt", bitecnt);
 
     // 単語を追加
     this.ap1.syncAddWordLogs(ans, eatcnt, bitecnt);
+
     // 単語リストを取得
     final ArrayList<WordLog> wordLogs = ap1.syncShowWordLogList();
     model.addAttribute("wordLogs", wordLogs);
@@ -97,11 +120,28 @@ public class MultiNumeronController {
     return "multiWait.html";
   }
 
-  // @PostMapping("step2")
-  // @Transactional
-  // public String waitNumeron() {
-  //   return "multiNumeron.html";
-  // }
+
+
+  @PostMapping("step2")
+  @Transactional
+  public String waitNumeron() {
+    boolean dbUpdated = true;
+    try {
+      while (true) {// 無限ループ
+      dbUpdated = this.ap1.selectUpdate();
+      // logが更新されていなければ0.5s休み
+      if (false == dbUpdated) {
+          TimeUnit.MILLISECONDS.sleep(500);
+          continue;
+      }
+      this.ap1.switchUpdate();
+      return "multiNumeron.html";
+      }
+    } catch (Exception e) {
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+    }
+    return "index.html";
+  }
 
   // @GetMapping("step1")
   // public SseEmitter pushCount() {
