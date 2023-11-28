@@ -4,79 +4,17 @@
 <head>
     <meta charset="utf-8">
     <title>ADMIN</title>
-    <script>
-        window.onload = function () {
-            var sse = new EventSource('/admin/sse');
-            sse.onmessage = function (event) {
-                console.log("sse.onmessage")
-                console.log(event.data);
-                var dictionaries_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
-                var dictionaries_table = "";
-                // DBに残っている単語のリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
-                for (var i = 0; i < dictionaries_list.length; i++) {
-                    var bgn_tr = "<tr>";
-                    var end_tr = "</tr>";
-                    var idx = "<td>" + i + "</td>";
-                    var d_word = "<td>" + dictionaries_list[i].word + "</td>";
-                    var d_proc1 = "<td>" + "<a href='/admin/deleteWord?id=" + dictionaries_list[i].id + "'>削除</a>" + "</td>"
-                    var d_proc2 = "<td>" + "<a href='/admin/editWord?id=" + dictionaries_list[i].id + "'>編集</a>" + "</td>"
-                    dictionaries_table = dictionaries_table + bgn_tr + idx + d_word + d_proc1 + d_proc2 + end_tr;
-                }
-                console.log(dictionaries_table);
-                var tbody = document.getElementById("dictionaries_list");
-                tbody.innerHTML = dictionaries_table;//idがdictionaries_listのtbodyのHTMLを差し替える
-            }
-        }
-    </script>
 </head>
 
 <body>
     <a href="/logout">ログアウト</a>
-
-    <h1>ADMIN</h1>
-    <h2>DB編集</h2>
-
-    add word
-    <form th:action="@{/admin/addWord}" method="post">
-        <input type="text" name="word" />
-        <input type="submit" value="追加"><input type="reset" value="リセット">
-    </form>
-    <div th:if="${addWord}">
-        add:[[${addWord}]]
-    </div>
-
-    <div th:if="${dictionary1}">
-        delete:[[${dictionary1.word}]]
-    </div>
-
-    <div th:if="${dictionary2}">
-        edit word
-        <form th:action="@{/admin/updateWord(id=${dictionary2.id})}" method="post">
-            <!--DBで取得した値をテキストフィールドに入れたい場合は th:valueを利用する-->
-            <input type="text" name="word" th:value="${dictionary2.word}" /><br>
-            <input type="submit" value="編集"><input type="reset" value="リセット">
-        </form>
-    </div>
-
-    <table boarder="1">
-        <thead>
-            <th>Index</th>
-            <th>単語</th>
-            <th>処理1</th>
-            <th>処理2</th>
-        </thead>
-        <tbody id="dictionaries_list">
-            <span th:if="${dictionaries}">
-                <tr th:each="dictionary,stat:${dictionaries}">
-                    <td>[[${stat.index}]]</td>
-                    <td>[[${dictionary.word}]]</td>
-                    <td><a th:href="@{/admin/deleteWord(id=${dictionary.id})}">削除</a></td>
-                    <td><a th:href="@{/admin/editWord(id=${dictionary.id})}">編集</a></td>
-                </tr>
-            </span>
-        </tbody>
-    </table>
-    </div>
+    
+    <h1>管理者ページ</h1>
+    <h2>データベースの操作</h2>
+    <!--/*adminDictionary.htmlへ*/-->
+    <a href="/admin/dictionary">単語の管理</a><br>
+    <!--/*adminRooms.htmlへ*/-->
+    <a href="/admin/rooms">部屋の管理</a><br>
 </body>
 
 </html>

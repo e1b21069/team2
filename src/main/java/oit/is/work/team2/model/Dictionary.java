@@ -7,9 +7,9 @@ public class Dictionary {
   public Dictionary() {
   }
 
-  public Dictionary(int id2, String word2) {
-    this.id = id2;
-    this.word = word2;
+  public Dictionary(int id, String word) {
+    this.id = id;
+    this.word = word;
   }
 
   public void setWord(String word) {
