@@ -79,19 +79,8 @@ public class MultiNumeronController {
   @GetMapping("/{param}")
   @Transactional
   public String numeronSet(@PathVariable String param, ModelMap model) {
-    if(Integer.parseInt(param) == 1) {
+    if (Integer.parseInt(param) == 1) {
       randomWord = playMatch.setupMatch();
-      model.addAttribute("randomWord", randomWord);
-      return "multiNumeron.html";
-    }
-    return "multiWait.html";
-  }
-
-  @GetMapping("/{param}")
-  @Transactional
-  public String numeronSet(@PathVariable String param, ModelMap model) {
-    if(Integer.parseInt(param) == 1) {
-      randomWord = ap1.setupMatch();
       model.addAttribute("randomWord", randomWord);
       return "multiNumeron.html";
     }
@@ -115,7 +104,7 @@ public class MultiNumeronController {
 
     // 単語を追加
     playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
-    
+
     // 単語リストを取得
     ArrayList<WordLog> logwords = playMatch.syncShowWordLogList();
     model.addAttribute("logwords", logwords);
@@ -138,14 +127,14 @@ public class MultiNumeronController {
     boolean dbUpdated = true;
     try {
       while (true) {// 無限ループ
-      dbUpdated = this.playMatch.selectUpdate();
-      // logが更新されていなければ0.5s休み
-      if (false == dbUpdated) {
+        dbUpdated = this.playMatch.selectUpdate();
+        // logが更新されていなければ0.5s休み
+        if (false == dbUpdated) {
           TimeUnit.MILLISECONDS.sleep(500);
           continue;
-      }
-      this.playMatch.switchUpdate();
-      return "multiNumeron.html";
+        }
+        this.playMatch.switchUpdate();
+        return "multiNumeron.html";
       }
     } catch (Exception e) {
       logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());

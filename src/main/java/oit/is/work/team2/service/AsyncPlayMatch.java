@@ -24,7 +24,6 @@ import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.Match;
 import oit.is.work.team2.model.MatchMapper;
 
-
 @Service
 public class AsyncPlayMatch {
   private volatile boolean dbUpdated = false;
@@ -94,10 +93,10 @@ public class AsyncPlayMatch {
   }
 
   public boolean selectUpdate() {
-    return this.wdbUpdated;
+    return wdbUpdated;
   }
 
   public void switchUpdate() {
-    this.wdbUpdated = false;
+    wdbUpdated = false;
   }
 }
