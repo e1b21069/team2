@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.work.team2.model.DictionaryMapper;
-import oit.is.work.team2.service.AsyncAdminService;
+import oit.is.work.team2.service.AsyncAdminDictionaryService;
 import oit.is.work.team2.model.Dictionary;
 
 @Controller
@@ -24,7 +24,7 @@ public class AdminDictionaryController {
     DictionaryMapper dictionaryMapper;
 
     @Autowired
-    AsyncAdminService adminService;
+    AsyncAdminDictionaryService adminService;
 
     @GetMapping("")
     public String dictionary(ModelMap model) {
