@@ -9,25 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import jakarta.servlet.http.HttpSession;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
+import oit.is.work.team2.model.Dictionary;
+import oit.is.work.team2.model.DictionaryMapper;
+import oit.is.work.team2.model.Match;
+import oit.is.work.team2.model.MatchMapper;
 
 @Service
 public class AsyncPlayMatch {
   private volatile boolean dbUpdated = false;
-  private volatile boolean WLdbUpdated = false;
+  private volatile boolean wdbUpdated = false;
   private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
   @Autowired
   WordLogMapper wordLogMapper;
-
   @Autowired
-  AsyncPlayMatch ap1;
+  private DictionaryMapper dictionaryMapper;
+  @Autowired
+  MatchMapper matchMapper;
 
   @Transactional
   public void syncAddWordLogs(String ans, int eatcnt, int bitecnt) {
@@ -56,6 +59,7 @@ public class AsyncPlayMatch {
         emitter.send(wordLogs);
         TimeUnit.MILLISECONDS.sleep(1000);
         dbUpdated = false;
+        wdbUpdated = true;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -65,4 +69,28 @@ public class AsyncPlayMatch {
     }
     System.out.println("asyncShowDictionariesList complete");
   }
+
+public String setupMatch() {
+    ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
+    if (allWords.isEmpty())
+        return "No words found in the database";
+
+    int randomIndex = (int) (Math.random() * allWords.size());
+    String randomWord = allWords.get(randomIndex).getWord();
+
+    matchMapper.insert(randomWord, 1, 2);
+
+    return randomWord;
+}
+
+public void updateMatch(){
+}
+
+public boolean selectUpdate(){
+  return this.wdbUpdated;
+}
+public void switchUpdate(){
+  this.wdbUpdated = false;
+}
+
 }
