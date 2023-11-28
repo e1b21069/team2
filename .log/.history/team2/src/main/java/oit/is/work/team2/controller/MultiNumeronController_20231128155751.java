@@ -112,6 +112,12 @@ public class MultiNumeronController {
     if (eatcnt == 4) {
       return "result.html";
     }
+    // 3秒待つ
+    try {
+      Thread.sleep(3000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     return "multiWait.html";
   }
 
@@ -121,13 +127,13 @@ public class MultiNumeronController {
     boolean dbUpdated = true;
     try {
       while (true) {// 無限ループ
-        dbUpdated = playMatch.selectUpdate();
+        dbUpdated = this.playMatch.selectUpdate();
         // logが更新されていなければ0.5s休み
         if (false == dbUpdated) {
           TimeUnit.MILLISECONDS.sleep(500);
           continue;
         }
-        playMatch.switchUpdate();
+        this.playMatch.switchUpdate();
         return "multiNumeron.html";
       }
     } catch (Exception e) {
