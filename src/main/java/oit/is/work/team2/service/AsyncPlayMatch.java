@@ -13,8 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import oit.is.work.team2.model.Dictionary;
+import oit.is.work.team2.model.DictionaryMapper;
+import oit.is.work.team2.model.MatchMapper;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
+
 
 @Service
 public class AsyncPlayMatch {
@@ -23,6 +27,14 @@ public class AsyncPlayMatch {
 
   @Autowired
   WordLogMapper wordLogMapper;
+
+  @Autowired
+  private DictionaryMapper dictionaryMapper;
+
+  @Autowired
+  MatchMapper matchMapper;
+
+  private volatile boolean wdbUpdated = false;
 
   @Transactional
   public void syncAddWordLogs(String ans, int eatcnt, int bitecnt) {
@@ -51,6 +63,7 @@ public class AsyncPlayMatch {
         emitter.send(wordLogs);
         TimeUnit.MILLISECONDS.sleep(1000);
         dbUpdated = false;
+        wdbUpdated = true;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -59,5 +72,29 @@ public class AsyncPlayMatch {
       emitter.complete();
     }
     System.out.println("asyncShowDictionariesList complete");
+  }
+
+  public String setupMatch() {
+    ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
+    if (allWords.isEmpty())
+      return "No words found in the database";
+
+    int randomIndex = (int) (Math.random() * allWords.size());
+    String randomWord = allWords.get(randomIndex).getWord();
+
+    matchMapper.insert(randomWord, 1, 2);
+
+    return randomWord;
+  }
+
+  public void updateMatch() {
+  }
+
+  public boolean selectUpdate() {
+    return this.wdbUpdated;
+  }
+
+  public void switchUpdate() {
+    this.wdbUpdated = false;
   }
 }

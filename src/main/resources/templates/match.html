@@ -11,10 +11,11 @@
     <h2>[[${room.name}]]</h2>
     <!--/*<h2>[[${name}]] v.s [[${name}]]</h2>*/-->
 
-    <!--/*一旦、ソロプレイのリンクにしておく*/-->
-    <h2>先行か後攻を選んでください</h2>
-    <a href="/soloNumeron">先行</a><br>
-    <a href="/soloNumeron">後攻</a><br>
+    <h2>先攻か後攻を選んでください</h2>
+    <a href="/multiNumeron/1">先攻</a>
+    <a href="/multiNumeron/2">後攻</a>
+
+    <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
 </body>
 
 </html>

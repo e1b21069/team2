@@ -27,3 +27,11 @@ CREATE TABLE matchinfo (
     pplNum INT NOT NULL,
     isActive BOOLEAN NOT NULL
 );
+CREATE TABLE match (
+    id IDENTITY PRIMARY KEY,
+    word VARCHAR,
+    player1 INT,
+    firstWin INT,
+    player2 INT,
+    secondWin INT
+);
