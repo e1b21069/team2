@@ -13,8 +13,46 @@
             color: #333;
         }
 
-        a {
+        /* Common Styles for Stylish Links */
+        a.stylish-link,
+        a.delete-link,
+        a.edit-link {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
             text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Stylish Link Hover Effect */
+        a.stylish-link:hover,
+        a.delete-link:hover,
+        a.edit-link:hover {
+            filter: brightness(90%);
+        }
+
+        /* Stylish Delete Link */
+        a.delete-link {
+            background-color: #d9534f; /* Bootstrap's danger color */
+            color: #fff;
+        }
+
+        /* Stylish Edit Link */
+        a.edit-link {
+            background-color: #5bc0de; /* Bootstrap's info color */
+            color: #fff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
             color: #333;
         }
 
@@ -22,15 +60,33 @@
             background-color: #333;
             color: #fff;
             text-align: center;
-            padding: 10px;
+            padding: 20px;
+            font-size: 24px;
         }
 
         h1, h2 {
             color: #333;
         }
 
+        section {
+            padding: 20px;
+        }
+
         form {
             margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 12px;
+            margin: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         table {
@@ -41,45 +97,12 @@
 
         th, td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 15px;
             text-align: left;
         }
 
-        th {
-            background-color: #f2f2f2;
-        }
-
         tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        a.delete-link,
-        a.edit-link {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        a.delete-link {
-            background-color: #d9534f; /* Bootstrap's danger color */
-            color: #fff;
-        }
-
-        a.edit-link {
-            background-color: #5bc0de; /* Bootstrap's info color */
-            color: #fff;
-        }
-
-        a.delete-link:hover,
-        a.edit-link:hover {
-            filter: brightness(90%);
+            background-color: #f2f2f2;
         }
 
         .message-container {
@@ -91,13 +114,13 @@
         }
 
         .success-message {
-            color: #3c763d; /* Bootstrap's success color */
-            background-color: #dff0d8; /* Bootstrap's success background color */
+            color: #3c763d;
+            background-color: #dff0d8;
         }
 
         .error-message {
-            color: #a94442; /* Bootstrap's danger color */
-            background-color: #f2dede; /* Bootstrap's danger background color */
+            color: #a94442;
+            background-color: #f2dede;
         }
     </style>
 
@@ -127,18 +150,19 @@
 </head>
 
 <body>
-    <a href="/admin">管理者ページへ</a><br>
+    <a class="stylish-link" href="/admin">管理者ページへ</a><br>
 
     <header>
         <h1>単語管理ページ</h1>
     </header>
 
     <section>
-        <h2>単語DB編集</h2>
+        <h2 class="section-title">単語DB編集</h2>
 
         <form th:action="@{/dictionary/addWord}" method="post">
-            <input type="text" name="word" />
-            <input type="submit" value="追加"><input type="reset" value="取消">
+            <input type="text" name="word" placeholder="単語を入力してください" />
+            <input type="submit" value="追加">
+            <input type="reset" value="取消">
         </form>
 
         <div th:if="${addWord}" class="message-container success-message">
@@ -176,5 +200,3 @@
         </table>
     </section>
 </body>
-
-</html>
