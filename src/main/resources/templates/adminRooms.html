@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+    <meta charset="utf-8">
+    <title>ADMIN-Dictionary</title>
+    <script>
+        window.onload = function () {
+            var sse = new EventSource('/room/sse');
+            sse.onmessage = function (event) {
+                console.log("sse.onmessage")
+                console.log(event.data);
+                var rooms_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+                var rooms_table = "";
+                // DBに残っている単語のリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
+                for (var i = 0; i < rooms_list.length; i++) {
+                    var bgn_tr = "<tr>";
+                    var end_tr = "</tr>";
+                    var idx = "<td>" + i + "</td>";
+                    var d_word = "<td>" + rooms_list[i].name + "</td>";
+                    var d_proc1 = "<td>" + "<a href='/room/deleteRoom?id=" + rooms_list[i].id + "'>削除</a>" + "</td>"
+                    var d_proc2 = "<td>" + "<a href='/room/editRoom?id=" + rooms_list[i].id + "'>編集</a>" + "</td>"
+                    rooms_table = rooms_table + bgn_tr + idx + d_word + d_proc1 + d_proc2 + end_tr;
+                }
+                console.log(rooms_table);
+                var tbody = document.getElementById("rooms_list");
+                tbody.innerHTML = rooms_table;//idがrooms_listのtbodyのHTMLを差し替える
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <!--/*admin.htmlへもどる*/-->
+    <a href="/admin">管理者ページへ</a><br>
+
+    <h1>部屋管理ページ</h1>
+    <h2>部屋DB編集</h2>
+
+    <form th:action="@{/room/addRoom}" method="post">
+        <input type="text" name="word" />
+        <input type="submit" value="追加"><input type="reset" value="取消">
+    </form>
+    <div th:if="${addRoom}">
+        add:[[${addRoom}]]
+    </div>
+
+    <div th:if="${room1}">
+        delete:[[${room1.name}]]
+    </div>
+
+    <div th:if="${room2}">
+        <form th:action="@{/room/updateRoom(id=${room2.id})}" method="post">
+            <!--DBで取得した値をテキストフィールドに入れたい場合は th:valueを利用する-->
+            <input type="text" name="word" th:value="${room2.name}" />
+            <input type="submit" value="編集"><input type="reset" value="取消">
+        </form>
+    </div>
+
+    <table boarder="1">
+        <thead>
+            <th>Index</th>
+            <th>単語</th>
+            <th>処理1</th>
+            <th>処理2</th>
+        </thead>
+        <tbody id="rooms_list">
+            <span th:if="${rooms}">
+                <tr th:each="room,stat:${rooms}">
+                    <td>[[${stat.index}]]</td>
+                    <td>[[${room.name}]]</td>
+                    <td><a th:href="@{/room/deleteRoom(id=${room.id})}">削除</a></td>
+                    <td><a th:href="@{/room/editRoom(id=${room.id})}">編集</a></td>
+                </tr>
+            </span>
+        </tbody>
+    </table>
+    </div>
+</body>
+
+</html>
