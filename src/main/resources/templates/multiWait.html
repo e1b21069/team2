@@ -24,6 +24,8 @@
               console.log(wordLogs_table);
               var tbody = document.getElementById("wordLogs_list");
               tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
+              var div=document.getElementById("test");
+              div.innerHTML = wordLogs_table;
           }
       }
   </script>
@@ -36,6 +38,7 @@
     <p>相手の手を待っています</p>
     <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
   </div>
+  <div id="test"></div>
   </p>
   [[${ans}]]
   [[${atari}]]
