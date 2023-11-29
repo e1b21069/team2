@@ -4,78 +4,177 @@
 <head>
     <meta charset="utf-8">
     <title>ADMIN-Dictionary</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        a.delete-link,
+        a.edit-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a.delete-link {
+            background-color: #d9534f; /* Bootstrap's danger color */
+            color: #fff;
+        }
+
+        a.edit-link {
+            background-color: #5bc0de; /* Bootstrap's info color */
+            color: #fff;
+        }
+
+        a.delete-link:hover,
+        a.edit-link:hover {
+            filter: brightness(90%);
+        }
+
+        .message-container {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .success-message {
+            color: #3c763d; /* Bootstrap's success color */
+            background-color: #dff0d8; /* Bootstrap's success background color */
+        }
+
+        .error-message {
+            color: #a94442; /* Bootstrap's danger color */
+            background-color: #f2dede; /* Bootstrap's danger background color */
+        }
+    </style>
+
     <script>
         window.onload = function () {
             var sse = new EventSource('/dictionary/sse');
             sse.onmessage = function (event) {
-                console.log("sse.onmessage")
+                console.log("sse.onmessage");
                 console.log(event.data);
-                var dictionaries_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+                var dictionaries_list = JSON.parse(event.data);
                 var dictionaries_table = "";
-                // DBに残っている単語のリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
                 for (var i = 0; i < dictionaries_list.length; i++) {
                     var bgn_tr = "<tr>";
                     var end_tr = "</tr>";
                     var idx = "<td>" + i + "</td>";
                     var d_word = "<td>" + dictionaries_list[i].word + "</td>";
-                    var d_proc1 = "<td>" + "<a href='/dictionary/deleteWord?id=" + dictionaries_list[i].id + "'>削除</a>" + "</td>"
-                    var d_proc2 = "<td>" + "<a href='/dictionary/editWord?id=" + dictionaries_list[i].id + "'>編集</a>" + "</td>"
+                    var d_proc1 = "<td>" + "<a class='delete-link' href='/dictionary/deleteWord?id=" + dictionaries_list[i].id + "'>削除</a>" + "</td>";
+                    var d_proc2 = "<td>" + "<a class='edit-link' href='/dictionary/editWord?id=" + dictionaries_list[i].id + "'>編集</a>" + "</td>";
                     dictionaries_table = dictionaries_table + bgn_tr + idx + d_word + d_proc1 + d_proc2 + end_tr;
                 }
                 console.log(dictionaries_table);
                 var tbody = document.getElementById("dictionaries_list");
-                tbody.innerHTML = dictionaries_table;//idがdictionaries_listのtbodyのHTMLを差し替える
+                tbody.innerHTML = dictionaries_table;
             }
         }
     </script>
 </head>
 
 <body>
-    <!--/*admin.htmlへもどる*/-->
     <a href="/admin">管理者ページへ</a><br>
 
-    <h1>単語管理ページ</h1>
-    <h2>単語DB編集</h2>
+    <header>
+        <h1>単語管理ページ</h1>
+    </header>
 
-    <form th:action="@{/dictionary/addWord}" method="post">
-        <input type="text" name="word" />
-        <input type="submit" value="追加"><input type="reset" value="取消">
-    </form>
-    <div th:if="${addWord}">
-        add:[[${addWord}]]
-    </div>
+    <section>
+        <h2>単語DB編集</h2>
 
-    <div th:if="${dictionary1}">
-        delete:[[${dictionary1.word}]]
-    </div>
-
-    <div th:if="${dictionary2}">
-        <form th:action="@{/dictionary/updateWord(id=${dictionary2.id})}" method="post">
-            <!--DBで取得した値をテキストフィールドに入れたい場合は th:valueを利用する-->
-            <input type="text" name="word" th:value="${dictionary2.word}" />
-            <input type="submit" value="編集"><input type="reset" value="取消">
+        <form th:action="@{/dictionary/addWord}" method="post">
+            <input type="text" name="word" />
+            <input type="submit" value="追加"><input type="reset" value="取消">
         </form>
-    </div>
 
-    <table boarder="1">
-        <thead>
-            <th>Index</th>
-            <th>単語</th>
-            <th>処理1</th>
-            <th>処理2</th>
-        </thead>
-        <tbody id="dictionaries_list">
-            <span th:if="${dictionaries}">
-                <tr th:each="dictionary,stat:${dictionaries}">
-                    <td>[[${stat.index}]]</td>
-                    <td>[[${dictionary.word}]]</td>
-                    <td><a th:href="@{/dictionary/deleteWord(id=${dictionary.id})}">削除</a></td>
-                    <td><a th:href="@{/dictionary/editWord(id=${dictionary.id})}">編集</a></td>
-                </tr>
-            </span>
-        </tbody>
-    </table>
-    </div>
+        <div th:if="${addWord}" class="message-container success-message">
+            Add: [[${addWord}]]
+        </div>
+
+        <div th:if="${dictionary1}" class="message-container error-message">
+            Delete: [[${dictionary1.word}]]
+        </div>
+
+        <div th:if="${dictionary2}">
+            <form th:action="@{/dictionary/updateWord(id=${dictionary2.id})}" method="post">
+                <input type="text" name="word" th:value="${dictionary2.word}" />
+                <input type="submit" value="編集"><input type="reset" value="取消">
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <th>Index</th>
+                <th>単語</th>
+                <th>処理1</th>
+                <th>処理2</th>
+            </thead>
+            <tbody id="dictionaries_list">
+                <span th:if="${dictionaries}">
+                    <tr th:each="dictionary,stat:${dictionaries}">
+                        <td>[[${stat.index}]]</td>
+                        <td>[[${dictionary.word}]]</td>
+                        <td><a class="delete-link" th:href="@{/dictionary/deleteWord(id=${dictionary.id})}">削除</a></td>
+                        <td><a class="edit-link" th:href="@{/dictionary/editWord(id=${dictionary.id})}">編集</a></td>
+                    </tr>
+                </span>
+            </tbody>
+        </table>
+    </section>
 </body>
 
 </html>
