@@ -19,4 +19,9 @@ public class Room {
     public String getName() {
         return name;
     }
+
+    public Room(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

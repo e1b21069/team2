@@ -54,15 +54,11 @@ public class AuthConfiguration {
     // ハッシュ化されたパスワードを得るには，この授業のbashターミナルで下記のように末尾にユーザ名とパスワードを指定すると良い(要VPN)
     // $ sshrun htpasswd -nbBC 10 user1 isdev
 
-    UserDetails user1 = User.withUsername("user1")
-        .password("{bcrypt}$2y$10$Lyb/0zT1M92eHFcbTAD.KeBqWVdAeYufPucWg1I/j58C339A220py").roles("USER").build();
-    UserDetails user2 = User.withUsername("user2")
-        .password("{bcrypt}$2y$10$Lyb/0zT1M92eHFcbTAD.KeBqWVdAeYufPucWg1I/j58C339A220py").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
         .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("ADMIN").build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, admin);
+    return new InMemoryUserDetailsManager(admin);
   }
 
 }

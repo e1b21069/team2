@@ -15,10 +15,10 @@ import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.Dictionary;
 
 @Service
-public class AsyncAdminService {
+public class AsyncAdminDictionaryService {
     private volatile boolean dbUpdated = false;
 
-    private final Logger logger = LoggerFactory.getLogger(AsyncAdminService.class);
+    private final Logger logger = LoggerFactory.getLogger(AsyncAdminDictionaryService.class);
 
     @Autowired
     DictionaryMapper dictionaryMapper;
