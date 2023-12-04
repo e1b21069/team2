@@ -29,6 +29,23 @@
             text-align: center;
             padding: 1em;
     }
+
+    a.stylish-link {
+        display: inline-block;
+        padding: 15px 30px;
+        margin: 10px;
+        border: 2px solid #3498db;
+        border-radius: 5px;
+        font-size: 18px;
+        text-decoration: none;
+        color: #3498db;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    a.stylish-link:hover {
+        background-color: #333333;
+        color: #00ccff;
+    }
     <!--/*
     input.square-input {
             font-size: 24px;
@@ -43,65 +60,25 @@
     }
    */-->
 
-   /* ヘルプマーク */
-   /* 画面全体を覆う半透明の背景 */
-   .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
-   }
    .popup {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 10px;
+            padding: 20px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            max-height: 500px; /* ポップアップの最大の高さを指定 */
-            overflow-y: auto; /* 縦方向にスクロール可能にする */
     }
-    .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
-    }
-    /* 線引き */
-    .section {
-            border-bottom: 1px solid #ccc; /* 下部に1ピクセルの罫線を引く */
-            padding: 10px; /* 適切な余白を追加 */
-            margin-bottom: 20px; /* セクションごとに適切なマージンを追加 */
-    }
-    .boxed-text {
-        border: 2px solid #000;
-        padding: 10px;
-        display: inline-block; /* インライン要素をブロック要素として扱う */
-    }
-    .large-text {
-        font-size: 24px;
-    }
-    .small-text {
-        font-size: 15px;
+    .break-lines {
+        white-space: pre-line;
     }
     h1, h2 {
         color: #000000;
     }
     h3 {
       text-align: right;
-    }
-    h4 {
-      text-align: center;
-    }
-    h5 {
-      text-align: left;
     }
   </style>
 
@@ -131,19 +108,9 @@
   </script>
   <script>
     function togglePopup() {
-        var overlay = document.getElementById("overlay");  
         var popup = document.getElementById("popup");
         // ポップアップの表示・非表示を切り替える
-        overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
         popup.style.display = (popup.style.display === "none") ? "block" : "none";
-    }
-    function closePopup() {
-            var overlay = document.getElementById("overlay");
-            var popup = document.getElementById("popup");
-
-            // 画面全体を覆う半透明の背景とポップアップを非表示にする
-            overlay.style.display = "none";
-            popup.style.display = "none";
     }
   </script>
 </head>
@@ -154,36 +121,14 @@
   </header>
   <h3>
     <button onclick="togglePopup()">？</button>
-    <!-- 画面全体を覆う半透明の背景 -->
-    <div id="overlay" class="overlay" onclick="closePopup()"></div>
-    <!-- ポップアップ全体 -->
+    <!-- ポップアップのコンテンツ -->
     <div id="popup" class="popup">
-      <div class="section">
-        <h4>
-          <p class="large-text">How To Play</p>
-        </h4>
+      <div class="break-lines">
+        アルファベットの位置が１つ一致していれば「1EAT」と表示。
+        アルファベットが位置が一致せずに、単語内に１つ入っていたら「1BITE」と表示。
+        ex) お題が「bird」、答えが「bari」であれば 2EAT、1BITE
       </div>
-      <div class="section">
-        <h4>
-          <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
-            相手より先に正解を目指しましょう。
-         </p>
-        </h4>
-      </div>
-      <div class="section">
-        <h5>
-          <div class="small-text">
-            ex) お題：bird<br><br>
-            <p class="boxed-text">  baaa</p>  １EAT ０BITE<br>
-            <p>  「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
-            <p class="boxed-text">  daaa</p>  ０EAT １BITE<br>
-            <p>  「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
-            <p class="boxed-text">  bird</p>  ４EAT ０BITE<br>
-            <p>  お題の英単語を見事的中することができれば、正解です。</p><br>
-          </div> 
-        </h5>
-      </div> 
-      <button onclick="togglePopup()">閉じる</button>
+        <button onclick="togglePopup()">閉じる</button>
     </div>
   </h3>
   <h2>あなたのターン</h2>
