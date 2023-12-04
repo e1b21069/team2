@@ -1,15 +1,108 @@
 <!DOCTYPE html>
 <html>
 
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-  <meta charset="utf-8">
-  <title>welcome numeron</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>welcime NUMERON</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #495057;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+    }
+
+    h1 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+      /* 太字 */
+    }
+
+    h2 {
+      color: #007bff;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      color: #495057;
+      text-align: right;
+      margin-bottom: 10px;
+      font-size: small;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      text-align: center;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+      padding: 8px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+      background-color: #0056b3;
+    }
+
+    .description {
+      margin-top: 50px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>ようこそ ぬめろんへ</h1>
+  <h1>ようこそ ぬめろんへ！</h1>
   <h2><a href="/numeron">ぬめろん</a><br></h2>
-  <a href="/admin">adminでログイン</a><br>
+  <h3 style="font-size: small; text-align: right;">
+    ヌメロンを遊ぶにはぬめろんのリンクをクリックしてください
+  </h3>
+
+  <h2><a href="/admin">adminでログイン</a><br></h2>
+  <h3 style="font-size: small; text-align: right;">
+    ヌメロンのワードを編集するにはアドミンへログインしてください(管理者限定)
+  </h3>
 
 </body>
 
