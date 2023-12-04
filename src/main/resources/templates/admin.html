@@ -4,17 +4,47 @@
 <head>
     <meta charset="utf-8">
     <title>ADMIN</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2C3E50;
+            color: #ecf0f1;
+            text-align: center;
+        }
+
+        a.stylish-link {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #3498db;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a.stylish-link:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        h1, h2 {
+            color: #ecf0f1;
+        }
+    </style>
 </head>
 
 <body>
-    <a href="/logout">ログアウト</a>
-    
+    <a href="/logout" class="stylish-link">ログアウト</a>
+
     <h1>管理者ページ</h1>
     <h2>データベースの操作</h2>
-    <!--/*adminDictionary.htmlへ*/-->
-    <a href="/admin/dictionary">単語の管理</a><br>
-    <!--/*adminRooms.htmlへ*/-->
-    <a href="/admin/rooms">部屋の管理</a><br>
+    
+    <a href="/admin/dictionary" class="stylish-link">単語の管理</a><br>
+    <a href="/admin/rooms" class="stylish-link">部屋の管理</a><br>
 </body>
 
 </html>

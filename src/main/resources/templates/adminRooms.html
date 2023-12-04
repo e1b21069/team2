@@ -3,79 +3,198 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ADMIN-Dictionary</title>
+    <title>ADMIN-Rooms</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        a.stylish-link,
+        a.delete-link,
+        a.edit-link {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a.stylish-link:hover,
+        a.delete-link:hover,
+        a.edit-link:hover {
+            filter: brightness(90%);
+        }
+
+        a.delete-link {
+            background-color: #d9534f;
+            color: #fff;
+        }
+
+        a.edit-link {
+            background-color: #5bc0de;
+            color: #fff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 12px;
+            margin: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .message-container {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .success-message {
+            color: #3c763d;
+            background-color: #dff0d8;
+        }
+
+        .error-message {
+            color: #a94442;
+            background-color: #f2dede;
+        }
+    </style>
+
     <script>
         window.onload = function () {
             var sse = new EventSource('/room/sse');
             sse.onmessage = function (event) {
                 console.log("sse.onmessage")
                 console.log(event.data);
-                var rooms_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+                var rooms_list = JSON.parse(event.data);
                 var rooms_table = "";
-                // DBに残っている単語のリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
                 for (var i = 0; i < rooms_list.length; i++) {
                     var bgn_tr = "<tr>";
                     var end_tr = "</tr>";
                     var idx = "<td>" + i + "</td>";
                     var d_word = "<td>" + rooms_list[i].name + "</td>";
-                    var d_proc1 = "<td>" + "<a href='/room/deleteRoom?id=" + rooms_list[i].id + "'>削除</a>" + "</td>"
-                    var d_proc2 = "<td>" + "<a href='/room/editRoom?id=" + rooms_list[i].id + "'>編集</a>" + "</td>"
+                    var d_proc1 = "<td>" + "<a href='/room/deleteRoom?id=" + rooms_list[i].id + "' class='delete-link'>削除</a>" + "</td>"
+                    var d_proc2 = "<td>" + "<a href='/room/editRoom?id=" + rooms_list[i].id + "' class='edit-link'>編集</a>" + "</td>"
                     rooms_table = rooms_table + bgn_tr + idx + d_word + d_proc1 + d_proc2 + end_tr;
                 }
                 console.log(rooms_table);
                 var tbody = document.getElementById("rooms_list");
-                tbody.innerHTML = rooms_table;//idがrooms_listのtbodyのHTMLを差し替える
+                tbody.innerHTML = rooms_table;
             }
         }
     </script>
 </head>
 
 <body>
-    <!--/*admin.htmlへもどる*/-->
-    <a href="/admin">管理者ページへ</a><br>
+    <a href="/admin" class="stylish-link">管理者ページへ</a><br>
 
-    <h1>部屋管理ページ</h1>
-    <h2>部屋DB編集</h2>
+    <header>
+        <h1>部屋管理ページ</h1>
+    </header>
 
-    <form th:action="@{/room/addRoom}" method="post">
-        <input type="text" name="word" />
-        <input type="submit" value="追加"><input type="reset" value="取消">
-    </form>
-    <div th:if="${addRoom}">
-        add:[[${addRoom}]]
-    </div>
+    <section>
+        <h2 class="section-title">部屋DB編集</h2>
 
-    <div th:if="${room1}">
-        delete:[[${room1.name}]]
-    </div>
-
-    <div th:if="${room2}">
-        <form th:action="@{/room/updateRoom(id=${room2.id})}" method="post">
-            <!--DBで取得した値をテキストフィールドに入れたい場合は th:valueを利用する-->
-            <input type="text" name="word" th:value="${room2.name}" />
-            <input type="submit" value="編集"><input type="reset" value="取消">
+        <form th:action="@{/room/addRoom}" method="post">
+            <input type="text" name="word" placeholder="部屋名を入力してください" />
+            <input type="submit" value="追加">
+            <input type="reset" value="取消">
         </form>
-    </div>
 
-    <table boarder="1">
-        <thead>
-            <th>Index</th>
-            <th>単語</th>
-            <th>処理1</th>
-            <th>処理2</th>
-        </thead>
-        <tbody id="rooms_list">
-            <span th:if="${rooms}">
-                <tr th:each="room,stat:${rooms}">
-                    <td>[[${stat.index}]]</td>
-                    <td>[[${room.name}]]</td>
-                    <td><a th:href="@{/room/deleteRoom(id=${room.id})}">削除</a></td>
-                    <td><a th:href="@{/room/editRoom(id=${room.id})}">編集</a></td>
-                </tr>
-            </span>
-        </tbody>
-    </table>
-    </div>
+        <div th:if="${addRoom}" class="message-container success-message">
+            Add: [[${addRoom}]]
+        </div>
+
+        <div th:if="${room1}" class="message-container error-message">
+            Delete: [[${room1.name}]]
+        </div>
+
+        <div th:if="${room2}">
+            <form th:action="@{/room/updateRoom(id=${room2.id})}" method="post">
+                <input type="text" name="word" th:value="${room2.name}" />
+                <input type="submit" value="編集"><input type="reset" value="取消">
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <th>Index</th>
+                <th>部屋名</th>
+                <th>処理1</th>
+                <th>処理2</th>
+            </thead>
+            <tbody id="rooms_list">
+                <span th:if="${rooms}">
+                    <tr th:each="room,stat:${rooms}">
+                        <td>[[${stat.index}]]</td>
+                        <td>[[${room.name}]]</td>
+                        <td><a th:href="@{/room/deleteRoom(id=${room.id})}" class="delete-link">削除</a></td>
+                        <td><a th:href="@{/room/editRoom(id=${room.id})}" class="edit-link">編集</a></td>
+                    </tr>
+                </span>
+            </tbody>
+        </table>
+    </section>
 </body>
 
 </html>
