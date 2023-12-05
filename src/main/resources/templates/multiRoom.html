@@ -4,18 +4,82 @@
 <head>
   <meta charset="utf-8">
   <title>ROOM</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    #screen1 {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    li {
+      text-decoration: none;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      font-size: 36px;
+      color: #333;
+    }
+
+    #back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #333;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+
+    #room-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #333;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <a th:href="@{/numeron/back}">もどる</a>
-  <h1>ルーム選択</h1>
-  <b>ようこそ、[[${name}]] さん</b><br>
+  <a id="back-button" th:href="@{/numeron/back}">🔙もどる</a>
+  <div id="screen1">
+    <h1>ルーム選択</h1>
+    <b>ようこそ、[[${name}]] さん</b><br>
+  </div>
 
   <h2>部屋一覧</h2>
   <div th:each="room:${rooms}">
     <ul>
-      <li><a th:href="@{/multiNumeron/match(roomId=${room.id})}"> [[${room.name}]]</a></li>
+      <li id="room-button"><a th:href="@{/multiNumeron/match(roomId=${room.id})}"> [[${room.name}]]</a></li>
     </ul>
   </div>
 
