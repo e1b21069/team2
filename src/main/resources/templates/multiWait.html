@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
 <head>
   <meta charset="utf-8">
   <title>NUMERON</title>
@@ -104,30 +105,30 @@
   </style>
 
   <script>
-      window.onload = function () {
-          var sse = new EventSource('/multiNumeron/sse');
-          sse.onmessage = function (event) {
-              console.log("sse.onmessage")
-              console.log(event.data);
-              var wordLogs_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
-              var wordLogs_table = "";
-              // DBに残っている単語のリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
-              for (var i = 0; i < wordLogs_list.length; i++) {
-                  var bgn_tr = "<tr>";
-                  var end_tr = "</tr>";
-                  var idx = "<td>" + i + "</td>";
-                  var w_ans = "<td>" + wordLogs_list[i].word + "</td>";
-                  var w_eatcount = "<td>" + wordLogs_list[i].eatcount + "</td>";
-                  var w_bitecount = "<td>" + wordLogs_list[i].bitecount + "</td>";
-                  wordLogs_table = wordLogs_table + bgn_tr + idx + w_ans + w_eatcount + w_bitecount + end_tr;
-              }
-              console.log(wordLogs_table);
-              var tbody = document.getElementById("wordLogs_list");
-              tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
-              var div=document.getElementById("test");
-              div.innerHTML = wordLogs_table;
-          }
+    window.onload = function () {
+      var sse = new EventSource('/multiNumeron/sse');
+      sse.onmessage = function (event) {
+        console.log("sse.onmessage")
+        console.log(event.data);
+        var wordLogs_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+        var wordLogs_table = "";
+        // DBに残っている単語のリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
+        for (var i = 0; i < wordLogs_list.length; i++) {
+          var bgn_tr = "<tr>";
+          var end_tr = "</tr>";
+          var idx = "<td>" + i + "</td>";
+          var w_ans = "<td>" + wordLogs_list[i].word + "</td>";
+          var w_eatcount = "<td>" + wordLogs_list[i].eatcount + "</td>";
+          var w_bitecount = "<td>" + wordLogs_list[i].bitecount + "</td>";
+          wordLogs_table = wordLogs_table + bgn_tr + idx + w_ans + w_eatcount + w_bitecount + end_tr;
+        }
+        console.log(wordLogs_table);
+        var tbody = document.getElementById("wordLogs_list");
+        tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
+        var div = document.getElementById("test");
+        div.innerHTML = wordLogs_table;
       }
+    }
   </script>
   <script>
     function togglePopup() {
@@ -147,6 +148,7 @@
     }
   </script>
 </head>
+
 <body>
   <header>
     <h1>ぬめろん対戦中</h1>
@@ -205,7 +207,7 @@
         <th>eat</th>
         <th>bite</th>
       </thead>
-      <tbody id = "wordLogs_list">
+      <tbody id="wordLogs_list">
         <tr th:each="wordLog,stat:${wordLogs}">
           <td>[[${stat.index}]]</td>
           <td>[[${wordLog.ans}]]</td>
@@ -216,4 +218,5 @@
     </table>
   </div>
 </body>
+
 </html>

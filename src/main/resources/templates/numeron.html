@@ -2,23 +2,107 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>NUMERON</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>NUMERON</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #495057;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1,
+    h2 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      text-align: center;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+      padding: 8px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+      background-color: #0056b3;
+    }
+
+    .description {
+      margin-top: 50px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <a href="../index.html">もどる</a><br>
-    <h1>セレクト画面</h1>
-    <h2>ぼっちぬめろん</h2>
-    <a href="/soloNumeron">START</a>
+  <h1>セレクト画面</h1>
+  <h2>ぼっちぬめろん</h2>
+  <a href="/soloNumeron" class="btn btn-primary">START</a>
+  <h2></h2>
 
-    <h2>ぬめろん対戦</h2>
-    <b>名前を入力</b>
-    <form th:action="@{multiNumeron/multiRoom}" method="post">
-        <input type="text" name="name" />
-        <input type="submit" value="決定"><input type="reset" value="取消">
-    </form>
+  <h2>みんなでぬめろん</h2>
+  <b>名前を入力</b>
+  <form th:action="@{multiNumeron/multiRoom}" method="post">
+    <input type="text" name="name" class="form-control" />
+    <div class="button-container">
+      <input type="submit" value="決定" class="btn btn-primary">
+      <input type="reset" value="取消" class="btn btn-secondary">
+    </div>
+  </form>
 
+  <div class="description">
+    <p>ぬめろんは４文字の英単語を推測して当てるゲーム！</p>
+    <p>どこかに文字が一致していればbite</p>
+    <p>文字の場所も一致していればeat</p>
+    <p>より少ない手番で単語を当てよう！</p>
+  </div>
+  <a href="../index.html">もどる</a><br>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
