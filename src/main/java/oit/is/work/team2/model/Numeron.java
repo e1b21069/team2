@@ -1,6 +1,7 @@
 package oit.is.work.team2.model;
 
 public class Numeron {
+  int eatcnt = 0;
 
   public boolean Atari(String word, String ans) {
     if (word.equals(ans) == true) {
@@ -17,6 +18,7 @@ public class Numeron {
         eatcnt++;
       }
     }
+    this.eatcnt = eatcnt;
     return eatcnt;
   }
 
@@ -29,6 +31,11 @@ public class Numeron {
           bitecnt++;
         }
       }
+    }
+    // お題「rose」答え「rooo」=> 2eat 4bite -> 2eat 0bite表示
+    bitecnt = bitecnt - eatcnt;
+    if (bitecnt < 0) {
+      bitecnt = 0;
     }
     return bitecnt;
   }
