@@ -2,20 +2,82 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>NUMERON</title>
+  <meta charset="UTF-8" />
+  <title>NUMERON</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    #screen1 {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 {
+      color: #00ccff;
+    }
+
+    p {
+      font-size: 36px;
+      color: #333;
+    }
+
+    #senkou-button {
+      -webkit-text-stroke: 2px #fff;
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #333;
+      background-color: #333;
+      border-radius: 5px;
+    }
+
+    #koukou-button {
+      -webkit-text-stroke: 2px #333;
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #fff;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 
 <body>
+  <div id="screen1">
     <h1>ぬめろん対戦</h1>
     <h2>[[${room.name}]]</h2>
     <!--/*<h2>[[${name}]] v.s [[${name}]]</h2>*/-->
+  </div>
 
-    <h2>先攻か後攻を選んでください</h2>
-    <a href="/multiNumeron/1">先攻</a>
-    <a href="/multiNumeron/2">後攻</a>
+  <h2>先攻か後攻を選んでください</h2>
+  <a href="/multiNumeron/1" id="senkou-button">先攻</a>
+  <a href="/multiNumeron/2" id="koukou-button">後攻</a>
 
-    <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
+  <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
 </body>
 
 </html>
