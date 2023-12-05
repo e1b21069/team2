@@ -59,7 +59,6 @@ public class AsyncPlayMatch {
         // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
         ArrayList<WordLog> wordLogs = this.syncShowWordLogList();
         emitter.send(wordLogs);
-        TimeUnit.MILLISECONDS.sleep(1000);
         dbUpdated = false;
         wdbUpdated = true;
       }
