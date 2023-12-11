@@ -2,9 +2,11 @@
 
 package oit.is.work.team2.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import org.slf4j.Logger;
@@ -27,17 +30,21 @@ import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.Room;
 import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
+import oit.is.work.team2.model.WordLog;
+import oit.is.work.team2.model.WordLogMapper;
 
 import oit.is.work.team2.service.AsyncPlayMatch;
 
 import java.util.concurrent.TimeUnit;
 
+import oit.is.work.team2.model.Match;
 import oit.is.work.team2.model.MatchMapper;
 
 @Controller
 @RequestMapping("/multiNumeron")
 public class MultiNumeronController {
 
+  private int screenNumber = 0;
   private final Logger logger = LoggerFactory.getLogger(MultiNumeronController.class);
 
   @Autowired
@@ -57,6 +64,9 @@ public class MultiNumeronController {
 
   @Autowired
   private MatchMapper matchMapper;
+
+  @Autowired
+  private WordLogMapper wordLogMapper;
 
   String randomWord = "";
 
@@ -80,9 +90,14 @@ public class MultiNumeronController {
   public String numeronSet(@PathVariable String param, ModelMap model) {
     if (Integer.parseInt(param) == 1) {
       randomWord = playMatch.setupMatch();
-      model.addAttribute("randomWord", randomWord);
+      String word = matchMapper.selectWord(1);
+      model.addAttribute("word", word);
       return "multiNumeron.html";
     }
+    ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList();
+    model.addAttribute("wordlogs", wordlogs);
+    String word = matchMapper.selectWord(1);
+    model.addAttribute("word", word);
     return "multiWait.html";
   }
 
@@ -105,16 +120,16 @@ public class MultiNumeronController {
     playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
 
     // 単語リストを取得
-    ArrayList<WordLog> logwords = playMatch.syncShowWordLogList();
-    model.addAttribute("logwords", logwords);
+    ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList();
+    model.addAttribute("wordlogs", wordlogs);
 
     if (eatcnt == 4) {
       return "result.html";
     }
-    return "multiWait.html";
+    return "multi.html";
   }
 
-  @PostMapping("step2")
+  @GetMapping("step2")
   @Transactional
   public String waitNumeron() {
     boolean dbUpdated = true;
@@ -133,6 +148,11 @@ public class MultiNumeronController {
       logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
     }
     return "index.html";
+  }
+
+  @GetMapping("step3")
+  public String waitNumeron2() {
+    return "multiNumeron.html";
   }
 
   @PostMapping("multiRoom")
@@ -164,8 +184,71 @@ public class MultiNumeronController {
     return "match.html";
   }
 
+  @PostMapping("/nextScreen")
+    public void nextScreen() {
+        if (screenNumber % 2 == 0) {
+          // クライアントに新しい画面情報を通知
+          playMatch.sendData("Switch to screen " + 1);
+        } else {
+          // クライアントに新しい画面情報を通知
+          playMatch.sendData("Switch to screen " + 2);
+        }
+   }
+
+  // 先行が選択したあとに呼び出される
+  @PostMapping("/first")
+  @Transactional
+  public String numeronfirst(@RequestParam String ans, ModelMap model) {
+    boolean atari = false;
+    int eatcnt = 0, bitecnt = 0;
+    String randomWord = matchMapper.selectWord(1);
+    Numeron numeron = new Numeron();
+    model.addAttribute("ans", ans);
+    atari = numeron.Atari(randomWord, ans);
+    model.addAttribute("atari", atari);
+    eatcnt = numeron.eatjudge(randomWord, ans);
+    model.addAttribute("eatcnt", eatcnt);
+    bitecnt = numeron.bitejudge(randomWord, ans);
+    model.addAttribute("bitecnt", bitecnt);
+
+    // 単語を追加
+    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+
+    // 単語リストを取得
+    ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
+    model.addAttribute("wordlogs", wordlogs);
+    
+
+    screenNumber++;
+    if (eatcnt == 4) {
+      return "result.html";
+    }
+    try {
+      TimeUnit.MILLISECONDS.sleep(200);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return "multiWait.html";
+  }
+  
+  // 相手が選択を行ったあとに呼び出される
+  @GetMapping("/second")
+  public String numeronSecond(ModelMap model) {
+    ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
+    model.addAttribute("wordlogs", wordlogs);
+    String word = matchMapper.selectWord(1);
+    model.addAttribute("word", word);
+    return "multiNumeron.html";
+  }
+
   @GetMapping("sse")
   public SseEmitter sse() {
+    final SseEmitter sseEmitter = new SseEmitter();
+    return sseEmitter;
+  }
+
+  @GetMapping("sseWait")
+  public SseEmitter sseWait() {
     final SseEmitter sseEmitter = new SseEmitter();
     this.playMatch.asyncShowWordLogsList(sseEmitter);
     return sseEmitter;
