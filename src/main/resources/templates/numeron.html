@@ -76,6 +76,9 @@
 </head>
 
 <body>
+  <tbody sec:authorize="hasRole('ADMIN')">
+    <h2><a href="/admin">adminでログイン</a></h2>
+  </tbody>
   <h1>セレクト画面</h1>
   <h2>ぼっちぬめろん</h2>
   <a href="/soloNumeron" class="btn btn-primary">START</a>
