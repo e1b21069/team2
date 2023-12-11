@@ -28,7 +28,7 @@ public class AuthConfiguration {
             .logoutUrl("/logout")
             .logoutSuccessUrl("/")) // ログアウト後に / にリダイレクト
         .authorizeHttpRequests(authz -> authz
-            .requestMatchers(AntPathRequestMatcher.antMatcher("/admin/**"))
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/numeron/**"))
             .authenticated() // /admin以下は認証済みであること
             .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
             .permitAll())// 上記以外は全員アクセス可能
@@ -54,11 +54,19 @@ public class AuthConfiguration {
     // ハッシュ化されたパスワードを得るには，この授業のbashターミナルで下記のように末尾にユーザ名とパスワードを指定すると良い(要VPN)
     // $ sshrun htpasswd -nbBC 10 user1 isdev
 
+    UserDetails user1 = User.withUsername("B21098")
+        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
+    UserDetails user2 = User.withUsername("B21064")
+        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
+    UserDetails user3 = User.withUsername("B21069")
+        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
+    UserDetails user4 = User.withUsername("B21020")
+        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
         .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("ADMIN").build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(admin);
+    return new InMemoryUserDetailsManager(user1, user2, user3, user4, admin);
   }
 
 }
