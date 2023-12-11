@@ -125,7 +125,7 @@
               }
               console.log(wordLogs_table);
               var tbody = document.getElementById("wordLogs_list");
-              tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
+              tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替えru
           }
       }
   </script>
@@ -190,11 +190,11 @@
   <h2>お題</h2>
   <p th:if="${dictionary}">
   <div>
-    <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
+    <p>ランダムな単語: <span th:text="${word}"></span></p>
   </div>
   </p>
 
-  <form th:action="@{/multiNumeron/step1}" method="post">
+  <form th:action="@{/multiNumeron/first}" method="post">
     <input type="text" name="ans" maxlength="4" />
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
@@ -204,24 +204,26 @@
   [[${eatcnt}]]
   [[${bitecnt}]]
 
-  <div th:if="${wordLogs}">
-    <table boarder="1">
-      <thead>
-        <th>Index</th>
-        <th>ans</th>
-        <th>eat</th>
-        <th>bite</th>
-      </thead>
-      <tbody id = "wordLogs_list">
-        <tr th:each="wordLog,stat:${wordLogs}">
-          <td>[[${stat.index}]]</td>
-          <td>[[${wordLog.ans}]]</td>
-          <td>[[${wordLog.eatcnt}]]</td>
-          <td>[[${wordLog.bitecnt}]]</td>
+  <table th:if="${wordlogs}">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ans</th>
+            <th>Eat</th>
+            <th>Bite</th>
         </tr>
-      </tbody>
-    </table>
-  </div>
+    </thead>
+    <tbody>
+        <tr th:each="wordLog : ${wordlogs}">
+            <td th:text="${wordLog.id}"></td>
+            <td th:text="${wordLog.ans}"></td>
+            <td th:text="${wordLog.eatcnt}"></td>
+            <td th:text="${wordLog.bitecnt}"></td>
+        </tr>
+    </tbody>
+  </table>
+
+
 </body>
 
 </html>
