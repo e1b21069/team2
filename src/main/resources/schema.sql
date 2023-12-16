@@ -16,6 +16,8 @@ CREATE TABLE dictionary (
 
 CREATE TABLE wordLog (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    roomId INT,
+    userId INT,
     ans VARCHAR(255) NOT NULL,
     eatcnt INT,
     bitecnt INT

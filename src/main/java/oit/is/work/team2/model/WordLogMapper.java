@@ -5,15 +5,25 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Delete;
 
 @Mapper
 public interface WordLogMapper {
   @Select("select * from wordLog")
   ArrayList<WordLog> selectAll();
 
+  @Select("select * from wordLog where userId = #{userId}")
+  ArrayList<WordLog> selectAllByUserId(int userId);
+
   @Select("select count(*) from wordLog")
   int dataCount();
 
   @Insert("insert into wordLog (ans, eatcnt, bitecnt) values (#{ans}, #{eatcnt}, #{bitecnt})")
   boolean insert(String ans, int eatcnt, int bitecnt);
+
+  @Insert("insert into wordLog (ans, userId, eatcnt, bitecnt) values (#{ans}, #{userId}, #{eatcnt}, #{bitecnt})")
+  boolean insertWithUserId(String ans, int userId, int eatcnt, int bitecnt);
+
+  @Delete("delete from wordLog where userId = #{userId}")
+  boolean deleteByUserId(int userId);
 }

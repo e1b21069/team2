@@ -5,6 +5,9 @@ public class User {
     private String name;
     private int roomId;
 
+    public User() {
+    }
+
     public void setId(int id) {
         this.id = id;
     }
