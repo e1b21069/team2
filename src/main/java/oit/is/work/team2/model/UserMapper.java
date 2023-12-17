@@ -29,7 +29,7 @@ public interface UserMapper {
 
     @Insert("INSERT INTO users (roomId, name) VALUES (#{roomId}, #{name})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void insertWithRoomId(@Param("roomId") int roomId, @Param("name") String name);
+    void insertWithRoomId(User user);
 
     // @Select("SELECT * FROM users")
     // List<User> selectAll();
