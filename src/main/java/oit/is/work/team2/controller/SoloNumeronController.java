@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.WordLogMapper;
 import oit.is.work.team2.model.WordLog;
+import oit.is.work.team2.model.UserMapper;
+import oit.is.work.team2.model.User;
 
 @Controller
 @RequestMapping("/soloNumeron")
@@ -27,10 +31,16 @@ public class SoloNumeronController {
   @Autowired
   private WordLogMapper wordLogMapper;
 
+  @Autowired
+  private UserMapper userMapper;
+
   private String randomWord = "";
 
   @GetMapping("")
-  public String theme(ModelMap model) {
+  public String theme(ModelMap model, Principal prin) {
+    User user = new User();
+    user.setName(prin.getName());
+    userMapper.insertUser(user);
     ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
     if (allWords.isEmpty())
       return "No words found in the database";
@@ -44,7 +54,9 @@ public class SoloNumeronController {
 
   @PostMapping("step1")
   @Transactional
-  public String solo(@RequestParam String ans, ModelMap model) {
+  public String solo(@RequestParam String ans, ModelMap model, Principal prin) {
+    String name = prin.getName();
+    int userId = userMapper.selectIdByName(name);
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
     Numeron numeron = new Numeron();
@@ -58,9 +70,9 @@ public class SoloNumeronController {
     model.addAttribute("bitecnt", bitecnt);
 
     // 単語を追加
-    wordLogMapper.insert(ans, eatcnt, bitecnt);
+    wordLogMapper.insertWithUserId(ans, userId, eatcnt, bitecnt);
     // 単語リストを取得
-    ArrayList<WordLog> logwords = wordLogMapper.selectAll();
+    ArrayList<WordLog> logwords = wordLogMapper.selectAllByUserId(userId);
     model.addAttribute("logwords", logwords);
 
     if (eatcnt == 4) {
@@ -68,7 +80,15 @@ public class SoloNumeronController {
       model.addAttribute("gamecnt", gamecnt);
       return "result.html";
     }
-
     return "soloNumeron.html";
+  }
+
+  // numeron.htmlに戻る
+  @GetMapping("back")
+  public String back(Principal prin) {
+    String name = prin.getName();
+    int userId = userMapper.selectIdByName(name);
+    wordLogMapper.deleteByUserId(userId);
+    return "redirect:/numeron"; // "/numeron"へのリダイレクトを指定
   }
 }

@@ -2,6 +2,8 @@ package oit.is.work.team2.model;
 
 public class WordLog {
   int id;
+  int roomId;
+  int userId;
   String ans;
   int eatcnt;
   int bitecnt;
@@ -12,6 +14,22 @@ public class WordLog {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public int roomId() {
+    return roomId;
+  }
+
+  public void setRoomId(int roomId) {
+    this.roomId = roomId;
+  }
+
+  public int userId() {
+    return userId;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 
   public String getAns() {

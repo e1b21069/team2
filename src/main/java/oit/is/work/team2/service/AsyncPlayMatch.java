@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
-import oit.is.work.team2.model.Match;
 import oit.is.work.team2.model.MatchMapper;
 
 import oit.is.work.team2.model.WordLog;
