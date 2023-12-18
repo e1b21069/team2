@@ -1,12 +1,10 @@
 package oit.is.work.team2.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
@@ -20,6 +18,10 @@ public interface UserMapper {
     @Select("SELECT id, name FROM users WHERE roomId = #{roomId}")
     User selectByRoomId(int roomId);
 
+    // idからroomIdを取得
+    @Select("SELECT roomId FROM users WHERE id = #{id}")
+    int selectRoomIdById(int id);
+
     @Select("SELECT COUNT(*) FROM users WHERE roomId = #{roomId}")
     int selectCountByRoomId(int roomId);
 
@@ -30,9 +32,6 @@ public interface UserMapper {
     @Insert("INSERT INTO users (roomId, name) VALUES (#{roomId}, #{name})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertWithRoomId(User user);
-
-    // @Select("SELECT * FROM users")
-    // List<User> selectAll();
 
     @Select("SELECT id FROM users WHERE name = #{name}")
     int selectIdByName(String name);

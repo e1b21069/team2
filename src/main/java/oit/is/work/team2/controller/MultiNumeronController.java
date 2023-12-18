@@ -95,7 +95,7 @@ public class MultiNumeronController {
 
   @PostMapping("step1")
   @Transactional
-  public String numeron(@RequestParam String ans, ModelMap model) {
+  public String numeron(@RequestParam String ans, ModelMap model, Principal prin) {
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
     String randomWord = matchMapper.selectWord(1);
@@ -109,7 +109,9 @@ public class MultiNumeronController {
     model.addAttribute("bitecnt", bitecnt);
 
     // 単語を追加
-    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+    int userId = usermapper.selectIdByName(prin.getName());
+    int roomId = usermapper.selectRoomIdById(userId);
+    playMatch.syncAddWordLogs(roomId, userId, ans, eatcnt, bitecnt);
 
     // 単語リストを取得
     ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList();
@@ -191,7 +193,7 @@ public class MultiNumeronController {
   // 先行が選択したあとに呼び出される
   @PostMapping("/first")
   @Transactional
-  public String numeronfirst(@RequestParam String ans, ModelMap model) {
+  public String numeronfirst(@RequestParam String ans, ModelMap model, Principal prin) {
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
     String randomWord = matchMapper.selectWord(1);
@@ -205,7 +207,9 @@ public class MultiNumeronController {
     model.addAttribute("bitecnt", bitecnt);
 
     // 単語を追加
-    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+    int userId = usermapper.selectIdByName(prin.getName());
+    int roomId = usermapper.selectRoomIdById(userId);
+    playMatch.syncAddWordLogs(roomId, userId, ans, eatcnt, bitecnt);
 
     // 単語リストを取得
     ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
@@ -258,12 +262,14 @@ public class MultiNumeronController {
   @PostMapping("addWordLog")
   @Transactional
   public String addWordLog(ModelMap model, @RequestParam String ans, @RequestParam int eatcnt,
-      @RequestParam int bitecnt) {
+      @RequestParam int bitecnt, Principal prin) {
     model.addAttribute("addAns", ans);
     model.addAttribute("addEatcnt", eatcnt);
     model.addAttribute("addBitecnt", bitecnt);
     // 単語を追加
-    this.playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+    int userId = usermapper.selectIdByName(prin.getName());
+    int roomId = usermapper.selectRoomIdById(userId);
+    playMatch.syncAddWordLogs(roomId, userId, ans, eatcnt, bitecnt);
     // 単語リストを取得
     final ArrayList<WordLog> wordLogs = playMatch.syncShowWordLogList();
     model.addAttribute("wordLogs", wordLogs);
