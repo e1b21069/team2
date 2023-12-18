@@ -111,7 +111,7 @@
       sse.onmessage = function (event) {
         console.log("sse.onmessage")
         console.log(event.data);
-        
+        var data = JSON.parse(event.data);
         // var wordLogs_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
         // var wordLogs_table = "";
         // var matches = JSON.parse(event.data);
@@ -145,9 +145,37 @@
         var div = document.getElementById("test");
         div.innerHTML = wordLogs_table;
         */
+        /*
         if (event.data) {
           window.location.href = '/multiNumeron/second';
         }
+        */
+        
+        switch (data.message) {
+          case "nextScreen":
+            window.location.href = '/multiNumeron/second';
+            break;
+          case "loserScreen":
+            window.location.href = '/multiNumeron/lose';
+            break;
+          default:
+            break;
+        }
+        
+       /*
+        emitter.on('myEvent', function(message) {
+          if (message === 'nextScreen') {
+            console.log('Received the greeting message: Hello');
+            window.location.href = '/multiNumeron/second'
+          } else if (message === 'Goodbye') {
+            console.log('Received the farewell message: Goodbye');
+            // ここでGoodbyeに対する処理を行う
+          } else {
+            console.log('Received an unknown message:', message);
+            // 未知のメッセージに対する処理を行う
+          }
+        });
+      */
       }
     }
   </script>
@@ -156,8 +184,8 @@
         var overlay = document.getElementById("overlay");  
         var popup = document.getElementById("popup");
         // ポップアップの表示・非表示を切り替える
-        overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
-        popup.style.display = (popup.style.display === "none") ? "block" : "none";
+        overlay.style.display = "block";
+        popup.style.display = "block";
     }
     function closePopup() {
             var overlay = document.getElementById("overlay");
@@ -205,7 +233,7 @@
           </div> 
         </h5>
       </div> 
-      <button onclick="togglePopup()">閉じる</button>
+      <button onclick="closePopup()">閉じる</button>
     </div>
   </h3>
   <p th:if="${dictionary}">

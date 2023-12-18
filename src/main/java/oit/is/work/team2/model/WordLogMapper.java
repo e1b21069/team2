@@ -18,6 +18,9 @@ public interface WordLogMapper {
   @Select("select count(*) from wordLog")
   int dataCount();
 
+  @Select("select ans from wordLog order by id desc limit 1")
+  String selectAns();
+
   @Insert("insert into wordLog (ans, eatcnt, bitecnt) values (#{ans}, #{eatcnt}, #{bitecnt})")
   boolean insert(String ans, int eatcnt, int bitecnt);
 
