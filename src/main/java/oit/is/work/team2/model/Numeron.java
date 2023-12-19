@@ -32,11 +32,17 @@ public class Numeron {
         }
       }
     }
+
     // お題「rose」答え「rooo」=> 2eat 4bite -> 2eat 0bite表示
-    bitecnt = bitecnt - eatcnt;
-    if (bitecnt < 0) {
-      bitecnt = 0;
+    // お題「book」答え「bobb」=> 2eat 0bite -> 2eat 2bite表示
+
+    if (bitecnt == 4 && eatcnt > 0) {
+      bitecnt = bitecnt - eatcnt;
+      if (bitecnt < 0) {
+        bitecnt = 0;
+      }
     }
+
     return bitecnt;
   }
 
