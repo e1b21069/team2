@@ -93,6 +93,7 @@ public class MultiNumeronController {
     return "multiWait.html";
   }
 
+  // ソロプレイ用
   @PostMapping("step1")
   @Transactional
   public String numeron(@RequestParam String ans, ModelMap model, Principal prin) {
@@ -121,32 +122,6 @@ public class MultiNumeronController {
       return "result.html";
     }
     return "multi.html";
-  }
-
-  @GetMapping("step2")
-  @Transactional
-  public String waitNumeron() {
-    boolean dbUpdated = true;
-    try {
-      while (true) {// 無限ループ
-        dbUpdated = playMatch.selectUpdate();
-        // logが更新されていなければ0.5s休み
-        if (false == dbUpdated) {
-          TimeUnit.MILLISECONDS.sleep(500);
-          continue;
-        }
-        playMatch.switchUpdate();
-        return "multiNumeron.html";
-      }
-    } catch (Exception e) {
-      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
-    }
-    return "index.html";
-  }
-
-  @GetMapping("step3")
-  public String waitNumeron2() {
-    return "multiNumeron.html";
   }
 
   @GetMapping("multiRoom")
@@ -179,6 +154,7 @@ public class MultiNumeronController {
     return "match.html";
   }
 
+  // どっかで使うかも
   @PostMapping("/nextScreen")
     public void nextScreen() {
         if (screenNumber % 2 == 0) {
@@ -214,7 +190,6 @@ public class MultiNumeronController {
     // 単語リストを取得
     ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
     model.addAttribute("wordlogs", wordlogs);
-    
 
     screenNumber++;
     if (eatcnt == 4) {
@@ -236,6 +211,11 @@ public class MultiNumeronController {
     String word = matchMapper.selectWord(1);
     model.addAttribute("word", word);
     return "multiNumeron.html";
+  }
+
+  @GetMapping("/lose")
+  public String lose() {
+    return "testLose.html";
   }
 
   @GetMapping("sse")

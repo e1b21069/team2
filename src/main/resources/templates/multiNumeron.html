@@ -134,8 +134,8 @@
         var overlay = document.getElementById("overlay");  
         var popup = document.getElementById("popup");
         // ポップアップの表示・非表示を切り替える
-        overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
-        popup.style.display = (popup.style.display === "none") ? "block" : "none";
+        overlay.style.display = "block";
+        popup.style.display = "block";
     }
     function closePopup() {
             var overlay = document.getElementById("overlay");
@@ -183,7 +183,7 @@
           </div> 
         </h5>
       </div> 
-      <button onclick="togglePopup()">閉じる</button>
+      <button onclick="closePopup()">閉じる</button>
     </div>
   </h3>
   <h2>あなたのターン</h2>

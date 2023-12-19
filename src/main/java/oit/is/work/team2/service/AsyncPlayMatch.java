@@ -4,7 +4,10 @@ package oit.is.work.team2.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +74,26 @@ public class AsyncPlayMatch {
           continue;
         }
         // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
-        emitter.send(true);
+        // emitter.send(true);
+        String ans = wordLogMapper.selectAns();
+        String word = matchMapper.selectWord(1);
+
+        if(ans.equals(word)) {
+          Map<String, String> data = new HashMap<>();
+          data.put("type", "msg");
+          data.put("message", "loserScreen");
+          ObjectMapper objectMapper = new ObjectMapper();
+          String jsonData = objectMapper.writeValueAsString(data);
+          emitter.send(jsonData);
+        } else {
+          Map<String, String> data = new HashMap<>();
+          data.put("type", "msg");
+          data.put("message", "nextScreen");
+          // Jackson ObjectMapperを使用してJSON形式の文字列に変換
+          ObjectMapper objectMapper = new ObjectMapper();
+          String jsonData = objectMapper.writeValueAsString(data);
+          emitter.send(jsonData);
+        }
         dbUpdated = false;
       }
     } catch (Exception e) {
