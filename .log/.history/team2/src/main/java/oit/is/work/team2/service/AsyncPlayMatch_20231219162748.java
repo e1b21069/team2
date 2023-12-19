@@ -58,7 +58,7 @@ public class AsyncPlayMatch {
     wordLogMapper.insert(ans, eatcnt, bitecnt);
     // 非同期でDB更新したことを共有する際に利用する
     this.dbUpdated = true;
-    this.wdbUpdated = true;
+    this.d
   }
 
   public ArrayList<WordLog> syncShowWordLogList() {
