@@ -6,9 +6,17 @@
   <title>NUMERON</title>
   <style>
     body {
-      text-align: center;
-      font-family: 'Arial', sans-serif;
       background-color: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #cccccc;
+      padding: 10px;
+      text-align: center;
     }
 
     #screen1 {
@@ -67,12 +75,13 @@
 </head>
 
 <body>
-  <div id="screen1">
+  <header>
     <h1>ぬめろん対戦</h1>
     <h2>[[${room.name}]]</h2>
     <!--/*<h2>[[${name}]] v.s [[${name}]]</h2>*/-->
-  </div>
+  </header>
 
+  <br />
   <h2>先攻か後攻を選んでください</h2>
   <a href="/multiNumeron/1" id="senkou-button">先攻</a>
   <a href="/multiNumeron/2" id="koukou-button">後攻</a>

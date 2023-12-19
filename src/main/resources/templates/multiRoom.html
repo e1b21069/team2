@@ -6,9 +6,17 @@
   <title>ROOM</title>
   <style>
     body {
-      text-align: center;
-      font-family: 'Arial', sans-serif;
       background-color: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #cccccc;
+      padding: 10px;
+      text-align: left;
     }
 
     #screen1 {
@@ -29,14 +37,17 @@
       text-decoration: none;
     }
 
-    h1 {
-      color: #333;
+    h1,
+    h2,
+    p {
+      margin: 0;
+      text-align: center;
     }
 
-    p {
-      font-size: 36px;
-      color: #333;
+    h1 {
+      color: #00ccff;
     }
+
 
     #back-button {
       display: inline-block;
@@ -65,17 +76,22 @@
       background-color: #fff;
       border-radius: 5px;
     }
+
+    #welcome-message {
+      display: block;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
-
-  <a id="back-button" th:href="@{/numeron/back}">🔙もどる</a>
-  <div id="screen1">
+  <header>
+    <a th:href="@{/numeron/back}">🔙もどる</a>
     <h1>ルーム選択</h1>
-    <b>ようこそ、[[${name}]] さん</b><br>
-  </div>
+    <b><span id="welcome-message">ようこそ、[[${name}]] さん</span></b><br>
+  </header>
 
+  <br />
   <h2>部屋一覧</h2>
   <div th:each="room:${rooms}">
     <ul>
@@ -83,6 +99,7 @@
     </ul>
   </div>
 
+  <br />
   <h2>入室状況</h2>
   <b>空いている部屋に入室してください</b><br>
   <table th:each="active:${activematches}">
