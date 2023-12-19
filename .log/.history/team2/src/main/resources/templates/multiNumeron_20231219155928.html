@@ -161,9 +161,9 @@
           var bgn_tr = "<tr>";
           var end_tr = "</tr>";
           var idx = "<td>" + i + "</td>";
-          var w_ans = "<td>" + wordLogs_list[i].ans + "</td>";
-          var w_eatcount = "<td>" + wordLogs_list[i].eatcnt + "</td>";
-          var w_bitecount = "<td>" + wordLogs_list[i].bitecnt + "</td>";
+          var w_ans = "<td>" + wordLogs_list[i].word + "</td>";
+          var w_eatcount = "<td>" + wordLogs_list[i].eatcount + "</td>";
+          var w_bitecount = "<td>" + wordLogs_list[i].bitecount + "</td>";
           wordLogs_table = wordLogs_table + bgn_tr + idx + w_ans + w_eatcount + w_bitecount + end_tr;
         }
         console.log(wordLogs_table);
@@ -255,7 +255,7 @@
       <th>Bite</th>
     </thead>
     <tbody id="wordLogs_list">
-      <span th:if="${wordLogs}">
+      <span id="${wordLogs}">
       <tr th:each="wordLog,stat:${wordLogs}">
         <td>[[${stat.index}]]</td>
         <td>[[${wordLog.ans}]]</td>

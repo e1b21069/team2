@@ -255,7 +255,7 @@
       <th>Bite</th>
     </thead>
     <tbody id="wordLogs_list">
-      <span th:if="${wordLogs}">
+      <span th="${wordLogs}">
       <tr th:each="wordLog,stat:${wordLogs}">
         <td>[[${stat.index}]]</td>
         <td>[[${wordLog.ans}]]</td>

@@ -67,6 +67,7 @@ public class AsyncPlayMatch {
 
   @Async
   public void asyncShowWordLogsList(SseEmitter emitter) {
+    wdb
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.5s休み

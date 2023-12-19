@@ -162,8 +162,8 @@
           var end_tr = "</tr>";
           var idx = "<td>" + i + "</td>";
           var w_ans = "<td>" + wordLogs_list[i].ans + "</td>";
-          var w_eatcount = "<td>" + wordLogs_list[i].eatcnt + "</td>";
-          var w_bitecount = "<td>" + wordLogs_list[i].bitecnt + "</td>";
+          var w_eatcount = "<td>" + wordLogs_list[i].eatcount + "</td>";
+          var w_bitecount = "<td>" + wordLogs_list[i].bitecount + "</td>";
           wordLogs_table = wordLogs_table + bgn_tr + idx + w_ans + w_eatcount + w_bitecount + end_tr;
         }
         console.log(wordLogs_table);
@@ -171,6 +171,22 @@
         tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替えru
       }
     }
+                var dictionaries_list = JSON.parse(event.data);
+                var dictionaries_table = "";
+                for (var i = 0; i < dictionaries_list.length; i++) {
+                    var bgn_tr = "<tr>";
+                    var end_tr = "</tr>";
+                    var idx = "<td>" + i + "</td>";
+                    var d_word = "<td>" + dictionaries_list[i].word + "</td>";
+                    var d_proc1 = "<td>" + "<a class='delete-link' href='/dictionary/deleteWord?id=" + dictionaries_list[i].id + "'>削除</a>" + "</td>";
+                    var d_proc2 = "<td>" + "<a class='edit-link' href='/dictionary/editWord?id=" + dictionaries_list[i].id + "'>編集</a>" + "</td>";
+                    dictionaries_table = dictionaries_table + bgn_tr + idx + d_word + d_proc1 + d_proc2 + end_tr;
+                }
+                console.log(dictionaries_table);
+                var tbody = document.getElementById("dictionaries_list");
+                tbody.innerHTML = dictionaries_table;
+            }
+        }
   </script>
   <script>
     function togglePopup() {
@@ -255,7 +271,7 @@
       <th>Bite</th>
     </thead>
     <tbody id="wordLogs_list">
-      <span th:if="${wordLogs}">
+      <span id="${wordLogs}">
       <tr th:each="wordLog,stat:${wordLogs}">
         <td>[[${stat.index}]]</td>
         <td>[[${wordLog.ans}]]</td>
