@@ -247,25 +247,24 @@
   [[${eatcnt}]]
   [[${bitecnt}]]
 
-  <table th:if="${wordlogs}">
+  <table>
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Ans</th>
-        <th>Eat</th>
-        <th>Bite</th>
-      </tr>
+      <th>ID</th>
+      <th>Ans</th>
+      <th>Eat</th>
+      <th>Bite</th>
     </thead>
-    <tbody>
-      <tr th:each="wordLog : ${wordlogs}">
-        <td th:text="${wordLog.id}"></td>
-        <td th:text="${wordLog.ans}"></td>
-        <td th:text="${wordLog.eatcnt}"></td>
-        <td th:text="${wordLog.bitecnt}"></td>
+    <tbody id="wordLogs_list">
+      <span id="${wordLogs}">
+      <tr th:each="wordLog,stat:${wordLogs}">
+        <td>[[${stat.index}]]</td>
+        <td>[[${wordLog.ans}]]</td>
+        <td>[[${wordLog.eatcnt}]]</td>
+        <td>[[${wordLog.bitecnt}]]</td>
       </tr>
+      </span>
     </tbody>
   </table>
-
 
 </body>
 

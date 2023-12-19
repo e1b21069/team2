@@ -205,7 +205,7 @@ public class MultiNumeronController {
     }
     return "multiWait.html";
   }
-  
+
   // 相手が選択を行ったあとに呼び出される
   @GetMapping("/second")
   public String numeronSecond(ModelMap model) {
@@ -224,6 +224,7 @@ public class MultiNumeronController {
   @GetMapping("sse")
   public SseEmitter sse() {
     final SseEmitter sseEmitter = new SseEmitter();
+    this.playMatch.asyncUpdate(sseEmitter);
     return sseEmitter;
   }
 

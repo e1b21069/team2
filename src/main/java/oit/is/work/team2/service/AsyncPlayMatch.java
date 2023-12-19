@@ -106,20 +106,18 @@ public class AsyncPlayMatch {
   }
 
   @Async
-  public void asyncOrderWait(SseEmitter emitter) {
+  public void asyncUpdate(SseEmitter emitter) {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.5s休み
-        if (false == dbUpdated) {
-          TimeUnit.MILLISECONDS.sleep(500);
+        if (false == wdbUpdated) {
+          TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
         // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
         ArrayList<WordLog> wordLogs = this.syncShowWordLogList();
         emitter.send(wordLogs);
-        emitter.send(dbUpdated);
-        dbUpdated = false;
-        wdbUpdated = true;
+        wdbUpdated = false;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -128,7 +126,7 @@ public class AsyncPlayMatch {
       emitter.complete();
     }
     System.out.println("asyncShowDictionariesList complete");
-  } 
+  }
 
   public String setupMatch() {
     ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
@@ -141,16 +139,5 @@ public class AsyncPlayMatch {
     matchMapper.insert(randomWord, 1, 2);
 
     return randomWord;
-  }
-
-  public void updateMatch() {
-  }
-
-  public boolean selectUpdate() {
-    return wdbUpdated;
-  }
-
-  public void switchUpdate() {
-    wdbUpdated = false;
   }
 }
