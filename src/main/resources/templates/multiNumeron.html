@@ -32,22 +32,6 @@
       padding: 1em;
     }
 
-    < !--
-    /*
-    input.square-input {
-            font-size: 24px;
-            text-align: center;
-            border: 2px solid #3498db;
-            width: 30px;
-            height: 30px;
-            margin: 5px;
-            padding: 5px;
-            box-sizing: border-box;
-            border-radius: 5px;
-    }
-   */
-    -->
-
     /* ヘルプマーク */
     /* 画面全体を覆う半透明の背景 */
     .overlay {
@@ -190,11 +174,11 @@
   </script>
   <script>
     function togglePopup() {
-        var overlay = document.getElementById("overlay");  
-        var popup = document.getElementById("popup");
-        // ポップアップの表示・非表示を切り替える
-        overlay.style.display = "block";
-        popup.style.display = "block";
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+      // ポップアップの表示・非表示を切り替える
+      overlay.style.display = "block";
+      popup.style.display = "block";
     }
     function closePopup() {
       var overlay = document.getElementById("overlay");
@@ -241,7 +225,7 @@
             <p> お題の英単語を見事的中することができれば、正解です。</p><br>
           </div>
         </h5>
-      </div> 
+      </div>
       <button onclick="closePopup()">閉じる</button>
     </div>
   </h3>

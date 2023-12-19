@@ -30,22 +30,6 @@
       padding: 1em;
     }
 
-    < !--
-    /*
-    input.square-input {
-            font-size: 24px;
-            text-align: center;
-            border: 2px solid #3498db;
-            width: 30px;
-            height: 30px;
-            margin: 5px;
-            padding: 5px;
-            box-sizing: border-box;
-            border-radius: 5px;
-    }
-   */
-    -->
-
     /* ヘルプマーク */
     /* 画面全体を覆う半透明の背景 */
     .overlay {
@@ -111,7 +95,7 @@
     h1 {
       color: #00ccff;
     }
-    
+
     h2 {
       color: #000000;
     }
@@ -195,20 +179,20 @@
           matches_table = matches_table + bgn_tr + idx + m_word + m_player1 + m_firstWin + m_player2 + m_secondWin + end_tr;
         }
         */
-       /*
-        console.log(wordLogs_table);
-        var tbody = document.getElementById("wordLogs_list");
-        tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
-        var tbody2 = document.getElementById("matches");
-        var div = document.getElementById("test");
-        div.innerHTML = wordLogs_table;
-        */
+        /*
+         console.log(wordLogs_table);
+         var tbody = document.getElementById("wordLogs_list");
+         tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
+         var tbody2 = document.getElementById("matches");
+         var div = document.getElementById("test");
+         div.innerHTML = wordLogs_table;
+         */
         /*
         if (event.data) {
           window.location.href = '/multiNumeron/second';
         }
         */
-        
+
         switch (data.message) {
           case "nextScreen":
             window.location.href = '/multiNumeron/second';
@@ -219,31 +203,31 @@
           default:
             break;
         }
-        
-       /*
-        emitter.on('myEvent', function(message) {
-          if (message === 'nextScreen') {
-            console.log('Received the greeting message: Hello');
-            window.location.href = '/multiNumeron/second'
-          } else if (message === 'Goodbye') {
-            console.log('Received the farewell message: Goodbye');
-            // ここでGoodbyeに対する処理を行う
-          } else {
-            console.log('Received an unknown message:', message);
-            // 未知のメッセージに対する処理を行う
-          }
-        });
-      */
+
+        /*
+         emitter.on('myEvent', function(message) {
+           if (message === 'nextScreen') {
+             console.log('Received the greeting message: Hello');
+             window.location.href = '/multiNumeron/second'
+           } else if (message === 'Goodbye') {
+             console.log('Received the farewell message: Goodbye');
+             // ここでGoodbyeに対する処理を行う
+           } else {
+             console.log('Received an unknown message:', message);
+             // 未知のメッセージに対する処理を行う
+           }
+         });
+       */
       }
     }
   </script>
   <script>
     function togglePopup() {
-        var overlay = document.getElementById("overlay");  
-        var popup = document.getElementById("popup");
-        // ポップアップの表示・非表示を切り替える
-        overlay.style.display = "block";
-        popup.style.display = "block";
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+      // ポップアップの表示・非表示を切り替える
+      overlay.style.display = "block";
+      popup.style.display = "block";
     }
     function closePopup() {
       var overlay = document.getElementById("overlay");
@@ -290,7 +274,7 @@
             <p> お題の英単語を見事的中することができれば、正解です。</p><br>
           </div>
         </h5>
-      </div> 
+      </div>
       <button onclick="closePopup()">閉じる</button>
     </div>
   </h3>
