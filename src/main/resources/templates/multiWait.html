@@ -6,28 +6,32 @@
   <title>NUMERON</title>
   <style>
     body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-        color: #000000;
-        text-align: center;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      color: #000000;
+      text-align: center;
     }
 
     header {
-            background-color: #cccccc; /* 上部の色を指定 */
-            color: #fff;
-            text-align: center;
-            padding: 1em;
+      background-color: #cccccc;
+      /* 上部の色を指定 */
+      color: #fff;
+      text-align: center;
+      padding: 1em;
     }
 
-   footer {
-            background-color: #fff; /* 下部の色を指定 */
-            color: #fff;
-            text-align: center;
-            padding: 1em;
+    footer {
+      background-color: #fff;
+      /* 下部の色を指定 */
+      color: #fff;
+      text-align: center;
+      padding: 1em;
     }
-    <!--/*
+
+    < !--
+    /*
     input.square-input {
             font-size: 24px;
             text-align: center;
@@ -39,68 +43,122 @@
             box-sizing: border-box;
             border-radius: 5px;
     }
-   */-->
+   */
+    -->
 
-   /* ヘルプマーク */
-   /* 画面全体を覆う半透明の背景 */
-   .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
-   }
-   .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 10px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            max-height: 500px; /* ポップアップの最大の高さを指定 */
-            overflow-y: auto; /* 縦方向にスクロール可能にする */
+    /* ヘルプマーク */
+    /* 画面全体を覆う半透明の背景 */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      /* 半透明の黒 */
     }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      max-height: 500px;
+      /* ポップアップの最大の高さを指定 */
+      overflow-y: auto;
+      /* 縦方向にスクロール可能にする */
+    }
+
     .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
     }
+
     /* 線引き */
     .section {
-            border-bottom: 1px solid #ccc; /* 下部に1ピクセルの罫線を引く */
-            padding: 10px; /* 適切な余白を追加 */
-            margin-bottom: 20px; /* セクションごとに適切なマージンを追加 */
-    }
-    .boxed-text {
-        border: 2px solid #000;
-        padding: 10px;
-        display: inline-block; /* インライン要素をブロック要素として扱う */
-    }
-    .large-text {
-        font-size: 24px;
-    }
-    .small-text {
-        font-size: 15px;
+      border-bottom: 1px solid #ccc;
+      /* 下部に1ピクセルの罫線を引く */
+      padding: 10px;
+      /* 適切な余白を追加 */
+      margin-bottom: 20px;
+      /* セクションごとに適切なマージンを追加 */
     }
 
-    h1, h2 {
-        color: #000000;
+    .boxed-text {
+      border: 2px solid #000;
+      padding: 10px;
+      display: inline-block;
+      /* インライン要素をブロック要素として扱う */
     }
+
+    .large-text {
+      font-size: 24px;
+    }
+
+    .small-text {
+      font-size: 15px;
+    }
+
+    h1 {
+      color: #00ccff;
+    }
+    
+    h2 {
+      color: #000000;
+    }
+
     h3 {
       text-align: right;
     }
+
     h4 {
       text-align: center;
     }
+
     h5 {
       text-align: left;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 80%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #dddddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    th:nth-child(1) {
+      color: blue;
+    }
+
+    th:nth-child(2) {
+      color: red;
+    }
+
+    th:nth-child(3) {
+      color: green;
+    }
+
+    th:nth-child(4) {
+      color: green;
     }
   </style>
 
@@ -111,7 +169,7 @@
       sse.onmessage = function (event) {
         console.log("sse.onmessage")
         console.log(event.data);
-        
+
         // var wordLogs_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
         // var wordLogs_table = "";
         // var matches = JSON.parse(event.data);
@@ -137,14 +195,14 @@
           matches_table = matches_table + bgn_tr + idx + m_word + m_player1 + m_firstWin + m_player2 + m_secondWin + end_tr;
         }
         */
-       /*
-        console.log(wordLogs_table);
-        var tbody = document.getElementById("wordLogs_list");
-        tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
-        var tbody2 = document.getElementById("matches");
-        var div = document.getElementById("test");
-        div.innerHTML = wordLogs_table;
-        */
+        /*
+         console.log(wordLogs_table);
+         var tbody = document.getElementById("wordLogs_list");
+         tbody.innerHTML = wordLogs_table;//idがwordLogs_listのtbodyのHTMLを差し替える
+         var tbody2 = document.getElementById("matches");
+         var div = document.getElementById("test");
+         div.innerHTML = wordLogs_table;
+         */
         if (event.data) {
           window.location.href = '/multiNumeron/second';
         }
@@ -153,19 +211,19 @@
   </script>
   <script>
     function togglePopup() {
-        var overlay = document.getElementById("overlay");  
-        var popup = document.getElementById("popup");
-        // ポップアップの表示・非表示を切り替える
-        overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
-        popup.style.display = (popup.style.display === "none") ? "block" : "none";
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+      // ポップアップの表示・非表示を切り替える
+      overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
+      popup.style.display = (popup.style.display === "none") ? "block" : "none";
     }
     function closePopup() {
-            var overlay = document.getElementById("overlay");
-            var popup = document.getElementById("popup");
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
 
-            // 画面全体を覆う半透明の背景とポップアップを非表示にする
-            overlay.style.display = "none";
-            popup.style.display = "none";
+      // 画面全体を覆う半透明の背景とポップアップを非表示にする
+      overlay.style.display = "none";
+      popup.style.display = "none";
     }
   </script>
 </head>
@@ -189,22 +247,22 @@
         <h4>
           <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
             相手より先に正解を目指しましょう。
-         </p>
+          </p>
         </h4>
       </div>
       <div class="section">
         <h5>
           <div class="small-text">
             ex) お題：bird<br><br>
-            <p class="boxed-text">  baaa</p>  １EAT ０BITE<br>
-            <p>  「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
-            <p class="boxed-text">  daaa</p>  ０EAT １BITE<br>
-            <p>  「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
-            <p class="boxed-text">  bird</p>  ４EAT ０BITE<br>
-            <p>  お題の英単語を見事的中することができれば、正解です。</p><br>
-          </div> 
+            <p class="boxed-text"> baaa</p> １EAT ０BITE<br>
+            <p> 「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
+            <p class="boxed-text"> daaa</p> ０EAT １BITE<br>
+            <p> 「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
+            <p class="boxed-text"> bird</p> ４EAT ０BITE<br>
+            <p> お題の英単語を見事的中することができれば、正解です。</p><br>
+          </div>
         </h5>
-      </div> 
+      </div>
       <button onclick="togglePopup()">閉じる</button>
     </div>
   </h3>
@@ -213,7 +271,7 @@
     <p>相手の手を待っています</p>
     <p>お題</p>
   </h2>
-    <p>ランダムな単語: <span th:text="${word}"></span></p>
+  <p>ランダムな単語: <span th:text="${word}"></span></p>
   <div id="test"></div>
   </p>
   [[${ans}]]
@@ -222,20 +280,20 @@
   [[${bitecnt}]]
   <table th:if="${wordlogs}">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Ans</th>
-            <th>Eat</th>
-            <th>Bite</th>
-        </tr>
+      <tr>
+        <th>ID</th>
+        <th>Ans</th>
+        <th>Eat</th>
+        <th>Bite</th>
+      </tr>
     </thead>
     <tbody>
-        <tr th:each="wordLog : ${wordlogs}">
-            <td th:text="${wordLog.id}"></td>
-            <td th:text="${wordLog.ans}"></td>
-            <td th:text="${wordLog.eatcnt}"></td>
-            <td th:text="${wordLog.bitecnt}"></td>
-        </tr>
+      <tr th:each="wordLog : ${wordlogs}">
+        <td th:text="${wordLog.id}"></td>
+        <td th:text="${wordLog.ans}"></td>
+        <td th:text="${wordLog.eatcnt}"></td>
+        <td th:text="${wordLog.bitecnt}"></td>
+      </tr>
     </tbody>
   </table>
 
