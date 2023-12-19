@@ -6,59 +6,94 @@
   <title>numeron</title>
   <style>
     body {
-      text-align: center;
-      font-family: 'Arial', sans-serif;
       background-color: #f0f0f0;
+      text-align: center;
+      margin: 0;
+      padding: 0;
     }
 
-    table {
-      margin-left: auto;
-      margin-right: auto;
+    header {
+      background-color: #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+      text-align: center;
     }
 
     h1 {
       color: #00ccff;
     }
 
-    p {
-      font-size: 36px;
-      color: #333;
+    a {
+      text-align: left;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 80%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #dddddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    th:nth-child(1) {
+      color: blue;
+    }
+
+    th:nth-child(2) {
+      color: red;
+    }
+
+    th:nth-child(3) {
+      color: green;
+    }
+
+    th:nth-child(4) {
+      color: green;
     }
   </style>
 </head>
 
 <body>
-
-  <a th:href="@{/soloNumeron/back}">もどる</a>
-
-  <h1>ぬめろん</h1>
-  <p>４文字の英単語を当てるゲーム</p>
-  <h2>お題</h2>
-  <p th:if="${dictionary}">
-  <div>
-    <p>ランダムな単語: <span th:text="${randomWord}"></span></p>
-  </div>
-  </p>
+  <header>
+    <a th:href="@{/numeron/back}">🔙もどる</a>
+    <h1>ぬめろん</h1>
+  </header>
+  <br />
+  <h2>４文字の英単語を当てるゲーム</h2>
+  <br /><br />
 
   <form th:action="@{/soloNumeron/step1}" method="post">
     <input type="text" name="ans" />
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
-
-  [[${ans}]]
-  [[${atari}]]
-  [[${eatcnt}]]
-  [[${bitecnt}]]
+  <br />
 
   <div th:if="${logwords}">
-    <table boarder="1">
+    <table>
       <thead>
-        <th>Index</th>
+        <th color="#0000ff">Index</th>
         <th>ans</th>
         <th>eat</th>
         <th>bite</th>
       </thead>
-      <tr th:each="logword,stat:${logwords}">
+      <tr th:each="logword, stat:${logwords}">
         <td>[[${stat.index}]]</td>
         <td>[[${logword.ans}]]</td>
         <td>[[${logword.eatcnt}]]</td>
