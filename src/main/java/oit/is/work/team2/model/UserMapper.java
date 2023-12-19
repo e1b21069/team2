@@ -1,13 +1,13 @@
 package oit.is.work.team2.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Delete;
 
 @Mapper
 public interface UserMapper {
@@ -23,6 +23,12 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) FROM users WHERE roomId = #{roomId}")
     int selectCountByRoomId(int roomId);
 
+    @Select("SELECT id FROM users WHERE name = #{name}")
+    int selectIdByName(String name);
+
+    @Select("SELECT * from users")
+    ArrayList<User> selectAll();
+
     @Insert("INSERT INTO users (name) VALUES (#{name})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertUser(User user);
@@ -31,15 +37,10 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertWithRoomId(@Param("roomId") int roomId, @Param("name") String name);
 
-    // @Select("SELECT * FROM users")
-    // List<User> selectAll();
-
-    @Select("SELECT id FROM users WHERE name = #{name}")
-    int selectIdByName(String name);
-
     @Insert("INSERT INTO users (roomId, name) VALUES (#{roomId}, #{name})")
     void insert(int roomId, String name);
 
-    @Select("SELECT id, name from users")
-    ArrayList<User> selectAll();
+    // idを指定して削除
+    @Delete("DELETE FROM users WHERE id = #{id}")
+    void deleteById(int id);
 }

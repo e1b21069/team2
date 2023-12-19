@@ -86,9 +86,9 @@ public class SoloNumeronController {
   // numeron.htmlに戻る
   @GetMapping("back")
   public String back(Principal prin) {
-    String name = prin.getName();
-    int userId = userMapper.selectIdByName(name);
+    int userId = userMapper.selectIdByName(prin.getName());
     wordLogMapper.deleteByUserId(userId);
-    return "redirect:/numeron"; // "/numeron"へのリダイレクトを指定
+    userMapper.deleteById(userId);
+    return "redirect:/numeron";
   }
 }
