@@ -52,7 +52,7 @@ public class SoloNumeronController {
     return "soloNumeron.html";
   }
 
-  @PostMapping("step1")
+  @PostMapping("solo")
   @Transactional
   public String solo(@RequestParam String ans, ModelMap model, Principal prin) {
     String name = prin.getName();

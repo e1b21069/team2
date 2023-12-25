@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.MatchMapper;
-
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
 
@@ -53,9 +52,9 @@ public class AsyncPlayMatch {
   }
 
   @Transactional
-  public void syncAddWordLogs(String ans, int eatcnt, int bitecnt) {
+  public void syncAddWordLogs(int roomId, String ans, int eatcnt, int bitecnt) {
     // 追加
-    wordLogMapper.insert(ans, eatcnt, bitecnt);
+    wordLogMapper.insertMulti(roomId, ans, eatcnt, bitecnt);
     // 非同期でDB更新したことを共有する際に利用する
     this.dbUpdated = true;
     this.wdbUpdated = true;

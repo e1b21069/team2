@@ -26,6 +26,9 @@ public interface UserMapper {
     @Select("SELECT id FROM users WHERE name = #{name}")
     int selectIdByName(String name);
 
+    @Select("SELECT roomId FROM users WHERE name = #{name}")
+    int selectRoomIdByName(String name);
+
     @Select("SELECT * from users")
     ArrayList<User> selectAll();
 

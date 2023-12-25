@@ -1,12 +1,8 @@
-//MultiNumeronController.java
-
 package oit.is.work.team2.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import org.slf4j.Logger;
@@ -30,15 +25,13 @@ import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.Room;
 import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
-import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
+import oit.is.work.team2.model.MatchMapper;
 
 import oit.is.work.team2.service.AsyncPlayMatch;
 
 import java.util.concurrent.TimeUnit;
-
-import oit.is.work.team2.model.Match;
-import oit.is.work.team2.model.MatchMapper;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/multiNumeron")
@@ -70,8 +63,6 @@ public class MultiNumeronController {
 
   String randomWord = "";
 
-  String name = "";
-
   @GetMapping("")
   public String theme(ModelMap model) {
     ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
@@ -101,39 +92,8 @@ public class MultiNumeronController {
     return "multiWait.html";
   }
 
-  // ソロプレイ用
-  @PostMapping("step1")
-  @Transactional
-  public String numeron(@RequestParam String ans, ModelMap model) {
-    boolean atari = false;
-    int eatcnt = 0, bitecnt = 0;
-    String randomWord = matchMapper.selectWord(1);
-    Numeron numeron = new Numeron();
-    model.addAttribute("ans", ans);
-    atari = numeron.Atari(randomWord, ans);
-    model.addAttribute("atari", atari);
-    eatcnt = numeron.eatjudge(randomWord, ans);
-    model.addAttribute("eatcnt", eatcnt);
-    bitecnt = numeron.bitejudge(randomWord, ans);
-    model.addAttribute("bitecnt", bitecnt);
-
-    // 単語を追加
-    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
-
-    // 単語リストを取得
-    ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList();
-    model.addAttribute("wordlogs", wordlogs);
-
-    if (eatcnt == 4) {
-      return "result.html";
-    }
-    return "multi.html";
-  }
-
-  @PostMapping("multiRoom")
-  public String multiRoom(ModelMap model, @RequestParam String name) {
-    this.name = name;
-    model.addAttribute("name", name);
+  @GetMapping("multiRoom")
+  public String multiRoom(ModelMap model, Principal prin) {
     ArrayList<Room> rooms = roommapper.selectAll();
     model.addAttribute("rooms", rooms);
     ArrayList<MatchInfo> activeMatches = matchinfomapper.selectActiveMatches();
@@ -142,8 +102,8 @@ public class MultiNumeronController {
   }
 
   @GetMapping("match")
-  public String match(@RequestParam String roomId, ModelMap model) {
-    usermapper.insert(Integer.parseInt(roomId), this.name); // ユーザーをDBに追加
+  public String match(@RequestParam String roomId, ModelMap model, Principal prin) {
+    usermapper.insert(Integer.parseInt(roomId), prin.getName()); // ユーザーをDBに追加
     Room room = roommapper.selectById(Integer.parseInt(roomId));
     model.addAttribute("room", room);
 
@@ -174,7 +134,7 @@ public class MultiNumeronController {
   // 先行が選択したあとに呼び出される
   @PostMapping("/first")
   @Transactional
-  public String numeronfirst(@RequestParam String ans, ModelMap model) {
+  public String numeronfirst(@RequestParam String ans, ModelMap model, Principal prin) {
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
     String randomWord = matchMapper.selectWord(1);
@@ -188,7 +148,8 @@ public class MultiNumeronController {
     model.addAttribute("bitecnt", bitecnt);
 
     // 単語を追加
-    playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
+    playMatch.syncAddWordLogs(roomId, ans, eatcnt, bitecnt);
 
     // 単語リストを取得
     ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
@@ -242,20 +203,4 @@ public class MultiNumeronController {
     model.addAttribute("wordLogs", wordLogs);
     return "multiNumeron.html";
   }
-
-  @PostMapping("addWordLog")
-  @Transactional
-  public String addWordLog(ModelMap model, @RequestParam String ans, @RequestParam int eatcnt,
-      @RequestParam int bitecnt) {
-    model.addAttribute("addAns", ans);
-    model.addAttribute("addEatcnt", eatcnt);
-    model.addAttribute("addBitecnt", bitecnt);
-    // 単語を追加
-    this.playMatch.syncAddWordLogs(ans, eatcnt, bitecnt);
-    // 単語リストを取得
-    final ArrayList<WordLog> wordLogs = playMatch.syncShowWordLogList();
-    model.addAttribute("wordLogs", wordLogs);
-    return "multiNumeron.html";
-  }
-
 }

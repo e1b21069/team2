@@ -24,6 +24,9 @@ public interface WordLogMapper {
   @Insert("insert into wordLog (ans, eatcnt, bitecnt) values (#{ans}, #{eatcnt}, #{bitecnt})")
   boolean insert(String ans, int eatcnt, int bitecnt);
 
+  @Insert("insert into wordLog (roomId, ans, eatcnt, bitecnt) values (#{roomId}, #{ans}, #{eatcnt}, #{bitecnt})")
+  boolean insertMulti(int roomId, String ans, int eatcnt, int bitecnt);
+
   @Insert("insert into wordLog (ans, userId, eatcnt, bitecnt) values (#{ans}, #{userId}, #{eatcnt}, #{bitecnt})")
   boolean insertWithUserId(String ans, int userId, int eatcnt, int bitecnt);
 
