@@ -256,8 +256,8 @@
     </thead>
     <tbody id="wordLogs_list">
       <span th:if="${wordLogs}">
-      <tr th:each="wordLog,stat:${wordLogs}">
-        <td>[[${stat.index}]]</td>
+      <tr th:each="wordLog,rowStat:${wordLogs}">
+        <td>[[${rowStat.index}]]</td>
         <td>[[${wordLog.ans}]]</td>
         <td>[[${wordLog.eatcnt}]]</td>
         <td>[[${wordLog.bitecnt}]]</td>

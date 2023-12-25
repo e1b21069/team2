@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
@@ -66,9 +67,10 @@ public class AsyncPlayMatch {
 
   @Async
   public void asyncShowWordLogsList(SseEmitter emitter) {
+    // dbUpdated = true; これをオンにするとリアルタイム対戦のようになる
     try {
       while (true) {// 無限ループ
-        // DBが更新されていなければ0.5s休み
+        // DBが更新されていなければ0.1s休み
         if (false == dbUpdated) {
           TimeUnit.MILLISECONDS.sleep(100);
           continue;
@@ -110,15 +112,10 @@ public class AsyncPlayMatch {
     wdbUpdated = true;
     try {
       while (true) {// 無限ループ
-        // DBが更新されていなければ0.5s休み
-        if (false == wdbUpdated) {
-          TimeUnit.MILLISECONDS.sleep(100);
-          continue;
-        }
-        // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
         ArrayList<WordLog> wordLogs = wordLogMapper.selectAll();
         emitter.send(wordLogs);
         wdbUpdated = false;
+        TimeUnit.MILLISECONDS.sleep(300);
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
