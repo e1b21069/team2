@@ -27,11 +27,9 @@ import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
-import oit.is.work.team2.model.MatchMapper;
 
 import oit.is.work.team2.service.AsyncPlayMatch;
 
-import java.util.concurrent.TimeUnit;
 import java.security.Principal;
 
 @Controller
@@ -79,14 +77,15 @@ public class MultiNumeronController {
 
   @GetMapping("/{param}")
   @Transactional
-  public String numeronSet(@PathVariable String param, ModelMap model) {
+  public String numeronSet(@PathVariable String param, ModelMap model, Principal prin) {
     if (Integer.parseInt(param) == 1) {
       randomWord = playMatch.setupMatch();
       String word = matchMapper.selectWord(1);
       model.addAttribute("word", word);
       return "multiNumeron.html";
     }
-    ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList();
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
+    ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList(roomId);
     model.addAttribute("wordlogs", wordlogs);
     String word = matchMapper.selectWord(1);
     model.addAttribute("word", word);
@@ -153,7 +152,7 @@ public class MultiNumeronController {
     playMatch.syncAddWordLogs(roomId, ans, eatcnt, bitecnt);
 
     // 単語リストを取得
-    ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
+    ArrayList<WordLog> wordlogs = wordLogMapper.selectAllByRoomId(roomId);
     model.addAttribute("wordlogs", wordlogs);
 
     screenNumber++;
@@ -174,8 +173,9 @@ public class MultiNumeronController {
 
   // 相手が選択を行ったあとに呼び出される
   @GetMapping("/second")
-  public String numeronSecond(ModelMap model) {
-    ArrayList<WordLog> wordlogs = wordLogMapper.selectAll();
+  public String numeronSecond(ModelMap model, Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
+    ArrayList<WordLog> wordlogs = wordLogMapper.selectAllByRoomId(roomId);
     model.addAttribute("wordlogs", wordlogs);
     String word = matchMapper.selectWord(1);
     model.addAttribute("word", word);
@@ -188,9 +188,10 @@ public class MultiNumeronController {
   }
 
   @GetMapping("sse")
-  public SseEmitter sse() {
+  public SseEmitter sse(Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
     final SseEmitter sseEmitter = new SseEmitter();
-    this.playMatch.asyncUpdate(sseEmitter);
+    this.playMatch.asyncUpdate(sseEmitter, roomId);
     return sseEmitter;
   }
 
@@ -209,9 +210,10 @@ public class MultiNumeronController {
   }
 
   @GetMapping("getLog")
-  public String getWordLog(ModelMap model) {
+  public String getWordLog(ModelMap model, Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
     // ワードログを取得
-    final ArrayList<WordLog> wordLogs = playMatch.syncShowWordLogList();
+    final ArrayList<WordLog> wordLogs = playMatch.syncShowWordLogList(roomId);
     model.addAttribute("wordLogs", wordLogs);
     return "multiNumeron.html";
   }
