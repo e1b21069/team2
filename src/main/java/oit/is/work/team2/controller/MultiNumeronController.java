@@ -25,7 +25,6 @@ import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.Room;
 import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
-import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
 import oit.is.work.team2.model.MatchMapper;
 
