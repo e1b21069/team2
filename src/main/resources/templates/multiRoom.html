@@ -88,7 +88,7 @@
   <header>
     <a th:href="@{/numeron/back}">🔙もどる</a>
     <h1>ルーム選択</h1>
-    <b><span id="welcome-message">ようこそ、[[${name}]] さん</span></b><br>
+    <b><span id="welcome-message">ようこそ、<span sec:authentication="name"></span> さん</span></b><br>
   </header>
 
   <br />

@@ -54,9 +54,9 @@ public class AsyncPlayMatch {
   }
 
   @Transactional
-  public void syncAddWordLogs(String ans, int eatcnt, int bitecnt) {
+  public void syncAddWordLogs(int roomId, String ans, int eatcnt, int bitecnt) {
     // 追加
-    wordLogMapper.insert(ans, eatcnt, bitecnt);
+    wordLogMapper.insertMulti(roomId, ans, eatcnt, bitecnt);
     // 非同期でDB更新したことを共有する際に利用する
     this.dbUpdated = true;
     this.wdbUpdated = true;
@@ -71,7 +71,7 @@ public class AsyncPlayMatch {
     int count = 0;
     try {
       while (true) {// 無限ループ
-        // DBが更新されていなければ0.5s休み
+        // DBが更新されていなければ0.1s休み
         if (false == dbUpdated) {
           if(count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
@@ -123,15 +123,10 @@ public class AsyncPlayMatch {
     wdbUpdated = true;
     try {
       while (true) {// 無限ループ
-        // DBが更新されていなければ0.5s休み
-        if (false == wdbUpdated) {
-          TimeUnit.MILLISECONDS.sleep(100);
-          continue;
-        }
-        // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
         ArrayList<WordLog> wordLogs = wordLogMapper.selectAll();
         emitter.send(wordLogs);
         wdbUpdated = false;
+        TimeUnit.MILLISECONDS.sleep(300);
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
