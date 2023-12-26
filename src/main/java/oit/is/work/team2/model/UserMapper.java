@@ -26,6 +26,9 @@ public interface UserMapper {
     @Select("SELECT id FROM users WHERE name = #{name}")
     int selectIdByName(String name);
 
+    @Select("SELECT roomId FROM users WHERE name = #{name}")
+    int selectRoomIdByName(String name);
+
     @Select("SELECT * from users")
     ArrayList<User> selectAll();
 
@@ -43,4 +46,8 @@ public interface UserMapper {
     // idを指定して削除
     @Delete("DELETE FROM users WHERE id = #{id}")
     void deleteById(int id);
+
+    // roomIdを指定して削除
+    @Delete("DELETE FROM users WHERE roomId = #{roomId}")
+    void deleteByRoomId(int roomId);
 }
