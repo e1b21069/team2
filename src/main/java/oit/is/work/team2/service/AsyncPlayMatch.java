@@ -62,8 +62,8 @@ public class AsyncPlayMatch {
     this.wdbUpdated = true;
   }
 
-  public ArrayList<WordLog> syncShowWordLogList() {
-    return wordLogMapper.selectAll();
+  public ArrayList<WordLog> syncShowWordLogList(int roomId) {
+    return wordLogMapper.selectAllByRoomId(roomId);
   }
 
   @Async
@@ -119,11 +119,11 @@ public class AsyncPlayMatch {
   }
 
   @Async
-  public void asyncUpdate(SseEmitter emitter) {
+  public void asyncUpdate(SseEmitter emitter, int roomId) {
     wdbUpdated = true;
     try {
       while (true) {// 無限ループ
-        ArrayList<WordLog> wordLogs = wordLogMapper.selectAll();
+        ArrayList<WordLog> wordLogs = wordLogMapper.selectAllByRoomId(roomId);
         emitter.send(wordLogs);
         wdbUpdated = false;
         TimeUnit.MILLISECONDS.sleep(300);

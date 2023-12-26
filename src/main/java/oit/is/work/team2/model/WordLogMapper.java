@@ -12,6 +12,10 @@ public interface WordLogMapper {
   @Select("select * from wordLog")
   ArrayList<WordLog> selectAll();
 
+  // roomIdを指定して検索
+  @Select("select * from wordLog where roomId = #{roomId}")
+  ArrayList<WordLog> selectAllByRoomId(int roomId);
+
   @Select("select * from wordLog where userId = #{userId}")
   ArrayList<WordLog> selectAllByUserId(int userId);
 
