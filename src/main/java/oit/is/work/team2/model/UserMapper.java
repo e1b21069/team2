@@ -46,4 +46,8 @@ public interface UserMapper {
     // idを指定して削除
     @Delete("DELETE FROM users WHERE id = #{id}")
     void deleteById(int id);
+
+    // roomIdを指定して削除
+    @Delete("DELETE FROM users WHERE roomId = #{roomId}")
+    void deleteByRoomId(int roomId);
 }

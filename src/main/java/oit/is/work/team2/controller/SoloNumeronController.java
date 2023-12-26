@@ -78,7 +78,7 @@ public class SoloNumeronController {
     if (eatcnt == 4) {
       int gamecnt = wordLogMapper.dataCount();
       model.addAttribute("gamecnt", gamecnt);
-      return "result.html";
+      return "soloResult.html";
     }
     return "soloNumeron.html";
   }

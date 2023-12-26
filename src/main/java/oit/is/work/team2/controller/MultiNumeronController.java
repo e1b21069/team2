@@ -203,4 +203,13 @@ public class MultiNumeronController {
     model.addAttribute("wordLogs", wordLogs);
     return "multiNumeron.html";
   }
+
+  // numeron.htmlに戻る
+  @GetMapping("back")
+  public String back(Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
+    wordLogMapper.deleteByRoomId(roomId);
+    usermapper.deleteByRoomId(roomId);
+    return "redirect:/numeron";
+  }
 }

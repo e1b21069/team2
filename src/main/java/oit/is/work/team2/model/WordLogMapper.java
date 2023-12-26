@@ -30,6 +30,11 @@ public interface WordLogMapper {
   @Insert("insert into wordLog (ans, userId, eatcnt, bitecnt) values (#{ans}, #{userId}, #{eatcnt}, #{bitecnt})")
   boolean insertWithUserId(String ans, int userId, int eatcnt, int bitecnt);
 
+  // userIdを指定して削除
   @Delete("delete from wordLog where userId = #{userId}")
   boolean deleteByUserId(int userId);
+
+  // roomIdを指定して削除
+  @Delete("delete from wordLog where roomId = #{roomId}")
+  boolean deleteByRoomId(int roomId);
 }
