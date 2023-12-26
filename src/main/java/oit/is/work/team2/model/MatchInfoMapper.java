@@ -37,4 +37,8 @@ public interface MatchInfoMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     boolean insertMatchInfo(MatchInfo matchinfo);
 
+    // idを指定してpplNumを0に,isActiveをfalseする
+    @Update("UPDATE MATCHINFO SET PPLNUM = 0, ISACTIVE = FALSE WHERE ID = #{id}")
+    boolean resetMatchInfo(int id);
+
 }

@@ -210,6 +210,7 @@ public class MultiNumeronController {
     int roomId = usermapper.selectRoomIdByName(prin.getName());
     wordLogMapper.deleteByRoomId(roomId);
     usermapper.deleteByRoomId(roomId);
+    matchinfomapper.resetMatchInfo(roomId);
     return "redirect:/numeron";
   }
 }
