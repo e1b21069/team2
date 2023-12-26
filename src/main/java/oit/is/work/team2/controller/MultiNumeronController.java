@@ -1,7 +1,10 @@
 package oit.is.work.team2.controller;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.MatchInfo;
 import oit.is.work.team2.model.MatchInfoMapper;
+import oit.is.work.team2.model.MatchMapper;
 import oit.is.work.team2.model.Numeron;
 import oit.is.work.team2.model.Room;
 import oit.is.work.team2.model.RoomMapper;
@@ -157,12 +157,16 @@ public class MultiNumeronController {
 
     screenNumber++;
     if (eatcnt == 4) {
+      screenNumber = 0;
       return "result.html";
     }
     try {
       TimeUnit.MILLISECONDS.sleep(200);
     } catch (InterruptedException e) {
       e.printStackTrace();
+    }
+    if(screenNumber == 1) {
+      return "firstWait.html";
     }
     return "multiWait.html";
   }
@@ -193,6 +197,13 @@ public class MultiNumeronController {
   public SseEmitter sseWait() {
     final SseEmitter sseEmitter = new SseEmitter();
     this.playMatch.asyncShowWordLogsList(sseEmitter);
+    return sseEmitter;
+  }
+
+  @GetMapping("sseWaitFirst")
+  public SseEmitter sseWaitFirst() {
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.playMatch.asyncShowSecond(sseEmitter);
     return sseEmitter;
   }
 
