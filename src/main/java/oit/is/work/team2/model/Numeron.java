@@ -25,9 +25,9 @@ public class Numeron {
   // wordの文字列の中にansの文字列が何個含まれているかどうか
   public int bitejudge(String word, String ans) {
     int bitecnt = 0;
-    for (int i = 0; i < word.length(); i++) {
-      for (int j = 0; j < ans.length(); j++) {
-        if (word.charAt(i) == ans.charAt(j) && i != j) {
+    for (int i = 0; i < ans.length(); i++) {
+      for (int j = 0; j < word.length(); j++) {
+        if (ans.charAt(i) == word.charAt(j) && i != j) {
           bitecnt++;
         }
       }
