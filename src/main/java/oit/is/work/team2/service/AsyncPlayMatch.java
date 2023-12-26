@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.MatchMapper;
-
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
 
@@ -30,6 +30,7 @@ public class AsyncPlayMatch {
 
   private volatile boolean dbUpdated = false;
   private volatile boolean wdbUpdated = false;
+  private volatile boolean secondUpdated = false;
   private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
   @Autowired
@@ -67,10 +68,20 @@ public class AsyncPlayMatch {
 
   @Async
   public void asyncShowWordLogsList(SseEmitter emitter) {
+    int count = 0;
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.5s休み
         if (false == dbUpdated) {
+          if(count % 100 == 0) {
+            Map<String, String> data = new HashMap<>();
+            data.put("type", "msg");
+            data.put("message", "dontMove");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonData = objectMapper.writeValueAsString(data);
+            emitter.send(jsonData);
+          }
+          count++;
           TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
@@ -96,6 +107,7 @@ public class AsyncPlayMatch {
           emitter.send(jsonData);
         }
         dbUpdated = false;
+        secondUpdated = true;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -120,6 +132,70 @@ public class AsyncPlayMatch {
         ArrayList<WordLog> wordLogs = wordLogMapper.selectAll();
         emitter.send(wordLogs);
         wdbUpdated = false;
+      }
+    } catch (Exception e) {
+      // 例外の名前とメッセージだけ表示する
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
+    System.out.println("asyncShowDictionariesList complete");
+  }
+
+  @Async
+  public void asyncShowSecond(SseEmitter emitter) {
+    int count = 0;
+    try {
+      while (true) {// 無限ループ
+        // DBが更新されていなければ0.5s休み
+        if (false == secondUpdated) {
+          if(count % 100 == 0) {
+            Map<String, String> data = new HashMap<>();
+            data.put("type", "msg");
+            data.put("message", "dontMove");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonData = objectMapper.writeValueAsString(data);
+            emitter.send(jsonData);
+          }
+          count++;
+          TimeUnit.MILLISECONDS.sleep(100);
+          continue;
+        }
+        if (false == dbUpdated) {
+          if(count % 100 == 0) {
+            Map<String, String> data = new HashMap<>();
+            data.put("type", "msg");
+            data.put("message", "dontMove");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonData = objectMapper.writeValueAsString(data);
+            emitter.send(jsonData);
+          }
+          count++;
+          TimeUnit.MILLISECONDS.sleep(100);
+          continue;
+        }
+        // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
+        // emitter.send(true);
+        String ans = wordLogMapper.selectAns();
+        String word = matchMapper.selectWord(1);
+
+        if(ans.equals(word)) {
+          Map<String, String> data = new HashMap<>();
+          data.put("type", "msg");
+          data.put("message", "loserScreen");
+          ObjectMapper objectMapper = new ObjectMapper();
+          String jsonData = objectMapper.writeValueAsString(data);
+          emitter.send(jsonData);
+        } else {
+          Map<String, String> data = new HashMap<>();
+          data.put("type", "msg");
+          data.put("message", "nextScreen");
+          // Jackson ObjectMapperを使用してJSON形式の文字列に変換
+          ObjectMapper objectMapper = new ObjectMapper();
+          String jsonData = objectMapper.writeValueAsString(data);
+          emitter.send(jsonData);
+        }
+        dbUpdated = false;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
