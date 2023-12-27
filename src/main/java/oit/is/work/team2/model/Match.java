@@ -2,8 +2,8 @@ package oit.is.work.team2.model;
 
 public class Match {
     int id;
-    int firstWin;
-    int secondWin;
+    int roomId;
+    String word;
 
     public int getId() {
         return id;
@@ -11,16 +11,20 @@ public class Match {
     public void setId(int id) {
         this.id = id;
     }
-    public int getFirstWin() {
-        return firstWin;
+
+    public int getRoomId() {
+        return roomId;
     }
-    public void setFirstWin(int firstWin) {
-        this.firstWin = firstWin;
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
-    public int getSecondWin() {
-        return secondWin;
+
+    public String getWord() {
+        return word;
     }
-    public void setSecondWin(int secondWin) {
-        this.secondWin = secondWin;
+
+    public void setWord(String word) {
+        this.word = word;
     }
 }
