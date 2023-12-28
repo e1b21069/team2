@@ -67,7 +67,7 @@ public class AsyncPlayMatch {
   }
 
   @Async
-  public void asyncShowWordLogsList(SseEmitter emitter) {
+  public void asyncShowWordLogsList(SseEmitter emitter, int roomId) {
     int count = 0;
     try {
       while (true) {// 無限ループ
@@ -88,7 +88,7 @@ public class AsyncPlayMatch {
         // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
         // emitter.send(true);
         String ans = wordLogMapper.selectAns();
-        String word = matchMapper.selectWord(1);
+        String word = matchMapper.selectWord(roomId);
 
         if(ans.equals(word)) {
           Map<String, String> data = new HashMap<>();
@@ -138,7 +138,7 @@ public class AsyncPlayMatch {
   }
 
   @Async
-  public void asyncShowSecond(SseEmitter emitter) {
+  public void asyncShowSecond(SseEmitter emitter, int roomId) {
     int count = 0;
     try {
       while (true) {// 無限ループ
@@ -172,7 +172,7 @@ public class AsyncPlayMatch {
         // DBが更新されていれば更新後の単語リストを取得してsendし，1s休み，dbUpdatedをfalseにする
         // emitter.send(true);
         String ans = wordLogMapper.selectAns();
-        String word = matchMapper.selectWord(1);
+        String word = matchMapper.selectWord(roomId);
 
         if(ans.equals(word)) {
           Map<String, String> data = new HashMap<>();
@@ -201,7 +201,7 @@ public class AsyncPlayMatch {
     System.out.println("asyncShowDictionariesList complete");
   }
 
-  public String setupMatch() {
+  public String setupMatch(int roomId) {
     ArrayList<Dictionary> allWords = dictionaryMapper.selectAll();
     if (allWords.isEmpty())
       return "No words found in the database";
@@ -209,7 +209,7 @@ public class AsyncPlayMatch {
     int randomIndex = (int) (Math.random() * allWords.size());
     String randomWord = allWords.get(randomIndex).getWord();
 
-    matchMapper.insert(randomWord, 1, 2);
+    matchMapper.insert(roomId, randomWord);
 
     return randomWord;
   }

@@ -78,16 +78,16 @@ public class MultiNumeronController {
   @GetMapping("/{param}")
   @Transactional
   public String numeronSet(@PathVariable String param, ModelMap model, Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
     if (Integer.parseInt(param) == 1) {
-      randomWord = playMatch.setupMatch();
-      String word = matchMapper.selectWord(1);
+      this.randomWord = playMatch.setupMatch(roomId);
+      String word = matchMapper.selectWord(roomId);
       model.addAttribute("word", word);
       return "multiNumeron.html";
     }
-    int roomId = usermapper.selectRoomIdByName(prin.getName());
     ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList(roomId);
     model.addAttribute("wordlogs", wordlogs);
-    String word = matchMapper.selectWord(1);
+    String word = matchMapper.selectWord(roomId);
     model.addAttribute("word", word);
     return "multiWait.html";
   }
@@ -135,9 +135,10 @@ public class MultiNumeronController {
   @PostMapping("/first")
   @Transactional
   public String numeronfirst(@RequestParam String ans, ModelMap model, Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
-    String randomWord = matchMapper.selectWord(1);
+    String randomWord = matchMapper.selectWord(roomId);
     Numeron numeron = new Numeron();
     model.addAttribute("ans", ans);
     atari = numeron.Atari(randomWord, ans);
@@ -148,7 +149,6 @@ public class MultiNumeronController {
     model.addAttribute("bitecnt", bitecnt);
 
     // 単語を追加
-    int roomId = usermapper.selectRoomIdByName(prin.getName());
     playMatch.syncAddWordLogs(roomId, ans, eatcnt, bitecnt);
 
     // 単語リストを取得
@@ -177,7 +177,7 @@ public class MultiNumeronController {
     int roomId = usermapper.selectRoomIdByName(prin.getName());
     ArrayList<WordLog> wordlogs = wordLogMapper.selectAllByRoomId(roomId);
     model.addAttribute("wordlogs", wordlogs);
-    String word = matchMapper.selectWord(1);
+    String word = matchMapper.selectWord(roomId);
     model.addAttribute("word", word);
     return "multiNumeron.html";
   }
@@ -196,16 +196,18 @@ public class MultiNumeronController {
   }
 
   @GetMapping("sseWait")
-  public SseEmitter sseWait() {
+  public SseEmitter sseWait(Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
     final SseEmitter sseEmitter = new SseEmitter();
-    this.playMatch.asyncShowWordLogsList(sseEmitter);
+    this.playMatch.asyncShowWordLogsList(sseEmitter, roomId);
     return sseEmitter;
   }
 
   @GetMapping("sseWaitFirst")
-  public SseEmitter sseWaitFirst() {
+  public SseEmitter sseWaitFirst(Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
     final SseEmitter sseEmitter = new SseEmitter();
-    this.playMatch.asyncShowSecond(sseEmitter);
+    this.playMatch.asyncShowSecond(sseEmitter, roomId);
     return sseEmitter;
   }
 
@@ -225,6 +227,7 @@ public class MultiNumeronController {
     wordLogMapper.deleteByRoomId(roomId);
     usermapper.deleteByRoomId(roomId);
     matchinfomapper.resetMatchInfo(roomId);
+    matchMapper.deleteByRoomId(roomId);
     return "redirect:/numeron";
   }
 }

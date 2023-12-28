@@ -2,10 +2,7 @@ package oit.is.work.team2.model;
 
 import java.util.ArrayList;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface MatchMapper {
@@ -14,14 +11,15 @@ public interface MatchMapper {
     ArrayList<Match> selectAll();
 
     @Select("select * from match where id = #{id}")
-    Match selectById(Integer id);
+    Match selectById(int id);
 
-    @Select("select word from match where id = #{id}")
-    String selectWord(Integer id);
+    @Select("select word from match where roomId = #{roomId}")
+    String selectWord(int roomId);
 
-    @Update("update match set firstWin = #{firstWin} where id = #{id}")
-    boolean updateById(Match match);
+    @Insert("insert into match (roomId, word) values (#{roomId}, #{word})")
+    boolean insert(int roomId, String word);
 
-    @Insert("insert into match (word, player1, player2) values (#{word}, #{player1}, #{player2})")
-    boolean insert(String word, Integer player1, Integer player2);
+    // roomIdを指定して、その部屋のマッチング情報を削除する
+    @Delete("delete from match where roomId = #{roomId}")
+    boolean deleteByRoomId(int roomId);
 }

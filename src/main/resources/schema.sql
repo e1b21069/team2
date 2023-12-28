@@ -30,9 +30,6 @@ CREATE TABLE matchinfo (
 );
 CREATE TABLE match (
     id IDENTITY PRIMARY KEY,
-    word VARCHAR,
-    player1 INT,
-    firstWin INT,
-    player2 INT,
-    secondWin INT
+    roomId INT,
+    word VARCHAR
 );
