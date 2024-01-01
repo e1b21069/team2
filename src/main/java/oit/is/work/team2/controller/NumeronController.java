@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/numeron")
 public class NumeronController {
-    @GetMapping("")
-    public String numeron() {
-        return "numeron.html";
-    }
+  @GetMapping("")
+  public String numeron() {
+    return "numeron.html";
+  }
 
-    // numeron.htmlに戻る
-    @GetMapping("back")
-    public String back() {
-        return "redirect:/numeron"; // "/numeron"へのリダイレクトを指定
-    }
+  // numeron.htmlに戻る
+  @GetMapping("back")
+  public String back() {
+    return "redirect:/numeron"; // "/numeron"へのリダイレクトを指定
+  }
 }

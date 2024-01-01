@@ -153,6 +153,10 @@ public class MultiNumeronController {
     matchinfomapper.updateMatchInfoIsActive(matchinfo);
     // roomIdのuserの数を取得
     int pplNum = usermapper.selectCountByRoomId(Integer.parseInt(roomId));
+    // 部屋の人数が3人以上になる時、multi.htmlへ戻る
+    if (pplNum >= 3) {
+      return "multiReturn.html";
+    }
     matchinfo.setPplNum(pplNum);
     matchinfomapper.updateMatchInfoPplNum(matchinfo);
 
@@ -161,15 +165,15 @@ public class MultiNumeronController {
 
   // どっかで使うかも
   @PostMapping("/nextScreen")
-    public void nextScreen() {
-        if (screenNumber % 2 == 0) {
-          // クライアントに新しい画面情報を通知
-          playMatch.sendData("Switch to screen " + 1);
-        } else {
-          // クライアントに新しい画面情報を通知
-          playMatch.sendData("Switch to screen " + 2);
-        }
-   }
+  public void nextScreen() {
+    if (screenNumber % 2 == 0) {
+      // クライアントに新しい画面情報を通知
+      playMatch.sendData("Switch to screen " + 1);
+    } else {
+      // クライアントに新しい画面情報を通知
+      playMatch.sendData("Switch to screen " + 2);
+    }
+  }
 
   // 先行が選択したあとに呼び出される
   @PostMapping("/first")
@@ -205,7 +209,7 @@ public class MultiNumeronController {
     }
     return "multiWait.html";
   }
-  
+
   // 相手が選択を行ったあとに呼び出される
   @GetMapping("/second")
   public String numeronSecond(ModelMap model) {
