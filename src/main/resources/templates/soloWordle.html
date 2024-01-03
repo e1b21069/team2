@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>wordle</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+      text-align: center;
+    }
+    p2 {
+      margin: 0;
+      text-align: left;
+    }
+
+    h1 {
+      color: #00ccff;
+    }
+
+    a {
+      text-align: left;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 80%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #dddddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    th:nth-child(1) {
+      color: blue;
+    }
+
+    th:nth-child(2) {
+      color: red;
+    }
+
+    th:nth-child(3) {
+      color: green;
+    }
+
+    th:nth-child(4) {
+      color: green;
+    }
+
+    .box {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 20px;
+      border: 1px solid black;
+      margin: 2px; /* 要素間の間隔を狭める */
+      color: white;
+    }
+
+    /* 背景色のクラス */
+    .gray { background-color: #797d7f; }
+    .dark-yellow { background-color: #cbb35c; }
+    .dark-green { background-color: #4eb350; }
+
+    /* ヘルプマーク */
+    /* 画面全体を覆う半透明の背景 */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      /* 半透明の黒 */
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      max-height: 500px;
+      /* ポップアップの最大の高さを指定 */
+      overflow-y: auto;
+      /* 縦方向にスクロール可能にする */
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* 線引き */
+    .section {
+      border-bottom: 1px solid #ccc;
+      /* 下部に1ピクセルの罫線を引く */
+      padding: 10px;
+      /* 適切な余白を追加 */
+      margin-bottom: 20px;
+      /* セクションごとに適切なマージンを追加 */
+    }
+
+    /* ポップアップの文字 */
+    .boxed-text {
+      border: 2px solid #000;
+      padding: 10px;
+      display: inline-block;
+      background-color: #fff;
+      border: 1px solid black;
+      margin: 2px;
+      color: black;
+      /* インライン要素をブロック要素として扱う */
+    }
+
+    .yellow-boxed-text {
+      border: 1px solid black;
+      padding: 10px;
+      display: inline-block;
+      background-color: #cbb35c;
+      margin: 2px;
+      color: white;
+    }
+
+    .green-boxed-text {
+      border: 1px solid black;
+      padding: 10px;
+      display: inline-block;
+      background-color: #4eb350;
+      margin: 2px;
+      color: white;
+    }
+
+    .gray-boxed-text {
+      border: 1px solid black;
+      padding: 10px;
+      display: inline-block;
+      background-color: #797d7f;
+      margin: 2px;
+      color: white;
+    }
+
+    .large-text {
+      font-size: 24px;
+    }
+
+    .small-text {
+      font-size: 15px;
+    }
+
+    h3 {
+      text-align: right;
+    }
+
+    h4 {
+      text-align: center;
+    }
+
+    h5 {
+      text-align: left;
+    }
+  </style>
+
+
+    <script>
+      function togglePopup() {
+        var overlay = document.getElementById("overlay");
+        var popup = document.getElementById("popup");
+        // ポップアップの表示・非表示を切り替える
+        overlay.style.display = "block";
+        popup.style.display = "block";
+      }
+      function closePopup() {
+        var overlay = document.getElementById("overlay");
+        var popup = document.getElementById("popup");
+  
+        // 画面全体を覆う半透明の背景とポップアップを非表示にする
+        overlay.style.display = "none";
+        popup.style.display = "none";
+      }
+    </script>
+</head>
+
+<body>
+  <header>
+    <a th:href="@{/soloWordle/back}">🔙もどる</a>
+    <h1>わーどる</h1>
+  </header>
+  <h3>
+    <button onclick="togglePopup()">？</button>
+    <!-- 画面全体を覆う半透明の背景 -->
+    <div id="overlay" class="overlay" onclick="closePopup()"></div>
+    <!-- ポップアップ全体 -->
+    <div id="popup" class="popup">
+      <div class="section">
+        <h4>
+          <p class="large-text">How To Play</p>
+        </h4>
+      </div>
+      <div class="section">
+        <h4>
+          <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
+            相手より先に正解を目指しましょう。
+          </p>
+        </h4>
+      </div>
+      <div class="section">
+        <h5>
+          <div class="small-text">
+            ex) お題：bird<br><br>
+            <p class="green-boxed-text"> b</p><p class="boxed-text">i</p><p class="boxed-text">r</p><p class="boxed-text">d</p><br><br>
+            <p2> この場合、「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br><br>
+            <p class="boxed-text"> a</p><p class="yellow-boxed-text">d</p><p class="boxed-text">a</p><p class="boxed-text">a</p><br><br>
+            <p2> この場合、「d」はお題の英単語に含まれていますが、位置が異なります。</p><br><br>
+            <p class="boxed-text"> a</p><p class="boxed-text">a</p><p class="gray-boxed-text">c</p><p class="boxed-text">a</p><br><br>
+            <p2> この場合、「c」はお題の英単語に含まれません。</p><br><br>
+            <p class="green-boxed-text"> b</p><p class="green-boxed-text">i</p><p class="green-boxed-text">r</p><p class="green-boxed-text">d</p><br><br>
+            <p2> お題の英単語を見事的中することができれば、正解です。</p><br>
+          </div>
+        </h5>
+      </div>
+      <div class="section">
+        <h5>
+          <div class="small-text">
+            特殊な例<br><br>
+            <p2>同じ文字を入力した場合、特殊な塗り方となります。<br>
+            <p2>お題が「feed」、入力が「eaae」の場合、お題にも入力にも「e」が２つあるので、<br>
+            <p class="yellow-boxed-text"> e</p><p class="gray-boxed-text">a</p><p class="gray-boxed-text">a</p><p class="yellow-boxed-text">e</p><br><br>
+            <p2> このように両方の「e」が黄色となります。</p><br><br>
+            <p2>お題が「epic」、入力が「tree」</p><br>
+            <p class="gray-boxed-text"> t</p><p class="gray-boxed-text">r</p><p class="yellow-boxed-text">e</p><p class="gray-boxed-text">e</p><br><br>
+            <p2> このように１つ目の「e」だけ黄色になります。</p><br>
+            <p2> つまり、同じ文字はお題に含まれる数までしか黄色(緑)になりません。</p>
+          </div>
+        </h5>
+      </div>
+      <button onclick="closePopup()">閉じる</button>
+    </div>
+  </h3>
+  <br />
+  <h2>４文字の英単語を当てるゲーム</h2>
+  <br /><br />
+
+  <form th:action="@{/soloWordle/solo}" method="post">
+    <input type="text" name="ans" maxlength="4" />
+    <input type="submit" value="決定"><input type="reset" value="取消">
+  </form>
+  <br />
+
+  <div id="app"></div>
+
+  <script th:inline="javascript">
+      var logwords = /*[[${logwords}]]*/ [];
+      console.log('logwords', logwords);
+      let pValues = [];
+
+      for (let i = 0; i < logwords.length; i++) {
+        let judge = logwords[i].result;
+        let p2 = logwords[i].result;
+        for (let j = 0; j < 4; j++) {
+          let p = parseInt((judge / (Math.pow(10, j))), 10) % 10;
+          pValues.push(p2);
+          let box = document.createElement("div");
+          box.className = "box";
+          box.textContent = logwords[i].ans[j];
+    
+          switch (p) {
+            case 0:
+              box.classList.add('gray');
+              break;
+            case 1:
+              box.classList.add('dark-yellow');
+              break;
+            case 2:
+              box.classList.add('dark-green');
+              break;
+            default:
+              box.classList.add('gray');
+              break;
+          }
+    
+          document.getElementById('app').appendChild(box);
+        }
+        // 1つ目のfor文が回る度に改行を出力
+        let lineBreak = document.createElement("br");
+        document.getElementById('app').appendChild(lineBreak);
+      }
+      console.log('p:', pValues);
+  </script>
+</body>
+</html>
