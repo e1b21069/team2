@@ -1,5 +1,6 @@
 package oit.is.work.team2.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,25 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
-
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
-import oit.is.work.team2.model.Numeron;
-import oit.is.work.team2.model.WordLogMapper;
-import oit.is.work.team2.model.WordLog;
-import oit.is.work.team2.model.UserMapper;
 import oit.is.work.team2.model.User;
+import oit.is.work.team2.model.UserMapper;
+import oit.is.work.team2.model.Wordle;
+import oit.is.work.team2.model.WordleLog;
+import oit.is.work.team2.model.WordleLogMapper;
 
 @Controller
-@RequestMapping("/soloNumeron")
-public class SoloNumeronController {
+@RequestMapping("/soloWordle")
+public class SoloWordleController {
 
   @Autowired
   private DictionaryMapper dictionaryMapper;
 
   @Autowired
-  private WordLogMapper wordLogMapper;
+  private WordleLogMapper wordleLogMapper;
 
   @Autowired
   private UserMapper userMapper;
@@ -49,45 +48,42 @@ public class SoloNumeronController {
     // ランダムに選択した単語を代入
     this.randomWord = allWords.get(randomIndex).getWord();
     model.addAttribute("randomWord", randomWord);
-    return "soloNumeron.html";
+    return "soloWordle.html";
   }
 
-  @PostMapping("solo")
+  @PostMapping("/solo")
   @Transactional
   public String solo(@RequestParam String ans, ModelMap model, Principal prin) {
     String name = prin.getName();
     int userId = userMapper.selectIdByName(name);
     boolean atari = false;
-    int eatcnt = 0, bitecnt = 0;
-    Numeron numeron = new Numeron();
+    Wordle wordle = new Wordle();
     model.addAttribute("randomWord", this.randomWord);
     model.addAttribute("ans", ans);
-    atari = numeron.Atari(this.randomWord, ans);
+    atari = wordle.Atari(this.randomWord, ans);
     model.addAttribute("atari", atari);
-    eatcnt = numeron.eatjudge(this.randomWord, ans);
-    model.addAttribute("eatcnt", eatcnt);
-    bitecnt = numeron.bitejudge(this.randomWord, ans);
-    model.addAttribute("bitecnt", bitecnt);
+    int result = wordle.wordEat(this.randomWord, ans);
+    model.addAttribute("result", result);
 
     // 単語を追加
-    wordLogMapper.insertWithUserId(ans, userId, eatcnt, bitecnt);
+    wordleLogMapper.insertWithUserId(ans, userId, result);
     // 単語リストを取得
-    ArrayList<WordLog> logwords = wordLogMapper.selectAllByUserId(userId);
+    ArrayList<WordleLog> logwords = wordleLogMapper.selectAllByUserId(userId);
     model.addAttribute("logwords", logwords);
 
-    if (eatcnt == 4) {
-      int gamecnt = wordLogMapper.dataCount();
+    if (atari == true) {
+      int gamecnt = wordleLogMapper.dataCount();
       model.addAttribute("gamecnt", gamecnt);
-      return "soloResultWordle.html";
+      return "soloResult.html";
     }
-    return "soloNumeron.html";
+    return "soloWordle.html";
   }
 
   // numeron.htmlに戻る
   @GetMapping("back")
   public String back(Principal prin) {
     int userId = userMapper.selectIdByName(prin.getName());
-    wordLogMapper.deleteByUserId(userId);
+    wordleLogMapper.deleteByUserId(userId);
     userMapper.deleteById(userId);
     return "redirect:/numeron";
   }
