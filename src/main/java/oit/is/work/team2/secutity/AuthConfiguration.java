@@ -52,18 +52,22 @@ public class AuthConfiguration {
     // このときパスワードはBCryptでハッシュ化されているため，{bcrypt}とつける
     // ハッシュ化せずに平文でパスワードを指定する場合は{noop}をつける
     // ハッシュ化されたパスワードを得るには，この授業のbashターミナルで下記のように末尾にユーザ名とパスワードを指定すると良い(要VPN)
-    // $ sshrun htpasswd -nbBC 10 user1 isdev
+    // $ sshrun htpasswd -nbBC 10 player1 nmnm
+    // $ sshrun htpasswd -nbBC 10 player2 nmnm
+    // $ sshrun htpasswd -nbBC 10 player3 nmnm
+    // $ sshrun htpasswd -nbBC 10 player4 nmnm
+    // $ sshrun htpasswd -nbBC 10 admin numenume
 
-    UserDetails user1 = User.withUsername("B21098")
-        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
-    UserDetails user2 = User.withUsername("B21064")
-        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
-    UserDetails user3 = User.withUsername("B21069")
-        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
-    UserDetails user4 = User.withUsername("B21020")
-        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("USER").build();
+    UserDetails user1 = User.withUsername("player1")
+        .password("{bcrypt}$2y$10$POP.G1k/x1yJ2hcgS028ee6JcteYspfDhpCrZCC9OSSi8NshB1TLO").roles("USER").build();
+    UserDetails user2 = User.withUsername("player2")
+        .password("{bcrypt}$2y$10$POP.G1k/x1yJ2hcgS028ee6JcteYspfDhpCrZCC9OSSi8NshB1TLO").roles("USER").build();
+    UserDetails user3 = User.withUsername("player3")
+        .password("{bcrypt}$2y$10$POP.G1k/x1yJ2hcgS028ee6JcteYspfDhpCrZCC9OSSi8NshB1TLO").roles("USER").build();
+    UserDetails user4 = User.withUsername("player4")
+        .password("{bcrypt}$2y$10$POP.G1k/x1yJ2hcgS028ee6JcteYspfDhpCrZCC9OSSi8NshB1TLO").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
-        .password("{bcrypt}$2y$10$5TrFhvD2rrJYlym3WEbuOOwLwppEOkPBqs6JPC2C.v5kV85cQalN2").roles("ADMIN").build();
+        .password("{bcrypt}$2y$10$qd8CFFNBiMBHLtElL.94/enxdfWGJ60XlgiYcQ7OMJEsDjFZQyl5C").roles("ADMIN").build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
     return new InMemoryUserDetailsManager(user1, user2, user3, user4, admin);
