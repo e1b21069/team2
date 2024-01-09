@@ -113,6 +113,10 @@ public class MultiNumeronController {
     matchinfomapper.updateMatchInfoIsActive(matchinfo);
     // roomIdのuserの数を取得
     int pplNum = usermapper.selectCountByRoomId(Integer.parseInt(roomId));
+    // 部屋の人数が3人以上になる時、multi.htmlへ戻る
+    if (pplNum >= 3) {
+      return "multiReturn.html";
+    }
     matchinfo.setPplNum(pplNum);
     matchinfomapper.updateMatchInfoPplNum(matchinfo);
 
