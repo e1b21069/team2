@@ -76,7 +76,7 @@ public class SoloNumeronController {
     model.addAttribute("logwords", logwords);
 
     if (eatcnt == 4) {
-      int gamecnt = wordLogMapper.dataCount();
+      int gamecnt = wordLogMapper.dataCount(userId);
       model.addAttribute("gamecnt", gamecnt);
       return "soloResultWordle.html";
     }

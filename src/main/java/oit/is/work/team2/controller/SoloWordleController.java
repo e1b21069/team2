@@ -72,7 +72,7 @@ public class SoloWordleController {
     model.addAttribute("logwords", logwords);
 
     if (atari == true) {
-      int gamecnt = wordleLogMapper.dataCount();
+      int gamecnt = wordleLogMapper.dataCount(userId);
       model.addAttribute("gamecnt", gamecnt);
       return "soloResult.html";
     }

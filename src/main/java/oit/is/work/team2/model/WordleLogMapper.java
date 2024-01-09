@@ -19,8 +19,8 @@ public interface WordleLogMapper {
   @Select("select * from wordleLog where userId = #{userId}")
   ArrayList<WordleLog> selectAllByUserId(int userId);
 
-  @Select("select count(*) from wordleLog")
-  int dataCount();
+  @Select("select count(*) from wordleLog where userId = #{userId}")
+  int dataCount(int userId);
 
   @Select("select ans from wordleLog order by id desc limit 1")
   String selectAns();
