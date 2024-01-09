@@ -160,11 +160,10 @@
         for (var i = 0; i < wordLogs_list.length; i++) {
           var bgn_tr = "<tr>";
           var end_tr = "</tr>";
-          var idx = "<td>" + i + "</td>";
           var w_ans = "<td>" + wordLogs_list[i].ans + "</td>";
           var w_eatcount = "<td>" + wordLogs_list[i].eatcnt + "</td>";
           var w_bitecount = "<td>" + wordLogs_list[i].bitecnt + "</td>";
-          wordLogs_table = wordLogs_table + bgn_tr + idx + w_ans + w_eatcount + w_bitecount + end_tr;
+          wordLogs_table = wordLogs_table + bgn_tr + w_ans + w_eatcount + w_bitecount + end_tr;
         }
         console.log(wordLogs_table);
         var tbody = document.getElementById("wordLogs_list");
@@ -249,20 +248,16 @@
 
   <table>
     <thead>
-      <th>ID</th>
       <th>Ans</th>
       <th>Eat</th>
       <th>Bite</th>
     </thead>
     <tbody id="wordLogs_list">
-      <span th:if="${wordLogs}">
-      <tr th:each="wordLog,rowStat:${wordLogs}">
-        <td>[[${rowStat.index}]]</td>
-        <td>[[${wordLog.ans}]]</td>
-        <td>[[${wordLog.eatcnt}]]</td>
-        <td>[[${wordLog.bitecnt}]]</td>
+      <tr th:each="wordLog : ${wordlogs}">
+        <td th:text="${wordLog.ans}"></td>
+        <td th:text="${wordLog.eatcnt}"></td>
+        <td th:text="${wordLog.bitecnt}"></td>
       </tr>
-      </span>
     </tbody>
   </table>
 

@@ -278,7 +278,6 @@
   <table th:if="${wordlogs}">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Ans</th>
         <th>Eat</th>
         <th>Bite</th>
@@ -286,7 +285,6 @@
     </thead>
     <tbody>
       <tr th:each="wordLog : ${wordlogs}">
-        <td th:text="${wordLog.id}"></td>
         <td th:text="${wordLog.ans}"></td>
         <td th:text="${wordLog.eatcnt}"></td>
         <td th:text="${wordLog.bitecnt}"></td>
