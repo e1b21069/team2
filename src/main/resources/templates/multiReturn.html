@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>ROOM</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    #screen1 {
+      max-width: 600px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    li {
+      text-decoration: none;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00ccff;
+    }
+
+
+    #back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #333;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+
+    #room-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #333;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+
+    #welcome-message {
+      display: block;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a th:href="@{/numeron/back}">🔙もどる</a>
+    <h1>ルーム選択</h1>
+    <b><span id="welcome-message">この部屋は既に満員です</span></b><br>
+  </header>
+
+  <br />
+  <br />
+
+  <h2>入室状況</h2>
+  <b>左上のリンクから戻って</b>
+  <b>空いている部屋に入室してください</b><br>
+
+</body>
+
+</html>
