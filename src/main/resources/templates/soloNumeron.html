@@ -142,6 +142,24 @@
       text-align: left;
     }
   </style>
+
+  <script>
+    function togglePopup() {
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+      // ポップアップの表示・非表示を切り替える
+      overlay.style.display = "block";
+      popup.style.display = "block";
+    }
+    function closePopup() {
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+
+      // 画面全体を覆う半透明の背景とポップアップを非表示にする
+      overlay.style.display = "none";
+      popup.style.display = "none";
+    }
+  </script>
 </head>
 
 <body>
@@ -188,7 +206,7 @@
   <br /><br />
 
   <form th:action="@{/soloNumeron/solo}" method="post">
-    <input type="text" name="ans" maxlength="4"/>
+    <input type="text" name="ans" maxlength="4" />
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
   <br />
@@ -196,13 +214,11 @@
   <div th:if="${logwords}">
     <table>
       <thead>
-        <th color="#0000ff">Index</th>
         <th>ans</th>
         <th>eat</th>
         <th>bite</th>
       </thead>
       <tr th:each="logword, stat:${logwords}">
-        <td>[[${stat.index}]]</td>
         <td>[[${logword.ans}]]</td>
         <td>[[${logword.eatcnt}]]</td>
         <td>[[${logword.bitecnt}]]</td>
