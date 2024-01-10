@@ -1,5 +1,21 @@
 # ぬめろん セットアップマニュアル
 
+## 目次
+
+1. [サーバへのアクセス](#サーバへのアクセス)
+    - 1.1 [サーバIPとパスワード](#1-サーバipとパスワード)
+    - 1.2 [サーバへのアクセス手順](#2-サーバへのアクセス手順)
+    - 1.3 [パスワードの入力](#3-パスワードの入力)
+
+2. [Webアプリケーションの公開](#webアプリケーションの公開)
+    - 2.1 [Gradleを利用してアプリケーションを公開](#1-gradleを利用してアプリケーションを公開)
+    - 2.2 [ホームディレクトリへの移動](#2-ホームディレクトリへの移動)
+    - 2.3 [GitHubからリポジトリを取得](#3-githubからリポジトリを取得)
+    - 2.4 [Gradleを利用したWebアプリケーションの実行](#4-gradleを利用したwebアプリケーションの実行)
+    - 2.5 [Webアプリケーションのアクセス](#5-webアプリケーションのアクセス)
+
+---
+
 ## サーバへのアクセス
 
 ### 1. サーバIPとパスワード
@@ -30,14 +46,35 @@
    - アクセス成功時、以下のようなメッセージが表示されます。
 
      ```bash
-     user_name@host_name MINGW64 ~
-     $ ssh isdev23@150.89.233.202
-     Warning: Permanently added '150.89.233.202' (ED25519) to the list of known hosts.
-     Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-35-generic x86_64)
+      user_name@host_name MINGW64 ~
+      $ ssh isdev23@150.89.233.202
+      Warning: Permanently added '150.89.233.202' (ED25519) to the list of known hosts.
+      Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-35-generic x86_64)
 
-     ...
+      * Documentation:  https://help.ubuntu.com
+      * Management:     https://landscape.canonical.com
+      * Support:        https://ubuntu.com/advantage
 
-     Last login: Fri Oct 27 00:52:53 2023 from XXX.XXX.XXX.XXX
+        System information as of Fri Oct 27 02:19:11 UTC 2023
+
+        System load:    0.70556640625   Temperature:           53.0 C
+        Usage of /home: unknown         Processes:             27
+        Memory usage:   0%              Users logged in:       0
+        Swap usage:     0%              IPv4 address for eth0: 150.89.233.XXX
+
+      * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+        just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+        https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+      Expanded Security Maintenance for Applications is not enabled.
+
+      0 updates can be applied immediately.
+
+      Enable ESM Apps to receive additional future security updates.
+      See https://ubuntu.com/esm or run: sudo pro status
+
+      Last login: Fri Oct 27 00:52:53 2023 from XXX.XXX.XXX.XXX
      ```
 
 ## Webアプリケーションの公開
@@ -117,5 +154,7 @@
    - アプリケーションが公開されるため、以下のURLにアクセスできます。
 
      - URL: [http://150.89.233.202](http://150.89.233.202)
+
+---
 
 以上、セットアップマニュアルをご確認いただきありがとうございます。
