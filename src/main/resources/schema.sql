@@ -34,7 +34,7 @@ CREATE TABLE match (
     word VARCHAR
 );
 
-CREATE TABLE wordlelog(
+CREATE TABLE wordleLog(
     id INT AUTO_INCREMENT PRIMARY KEY,
     roomId INT,
     userId INT,
