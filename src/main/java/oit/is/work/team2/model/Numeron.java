@@ -52,12 +52,16 @@ public class Numeron {
         switch (i) {
           case 0:
             flag0 = 1;
+            break;
           case 1:
             flag1 = 1;
+            break;
           case 2:
             flag2 = 1;
+            break;
           case 3:
             flag3 = 1;
+            break;
         }
       }
     }

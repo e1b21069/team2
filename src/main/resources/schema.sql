@@ -35,7 +35,7 @@ CREATE TABLE match (
     playerNum INT DEFAULT 0
 );
 
-CREATE TABLE wordlelog(
+CREATE TABLE wordleLog(
     id INT AUTO_INCREMENT PRIMARY KEY,
     roomId INT,
     userId INT,

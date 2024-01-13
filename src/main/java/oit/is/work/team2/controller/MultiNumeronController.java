@@ -4,8 +4,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -190,7 +188,7 @@ public class MultiNumeronController {
 
   @GetMapping("/lose")
   public String lose() {
-    return "testLose.html";
+    return "result2.html";
   }
 
   @GetMapping("sse")
