@@ -47,7 +47,6 @@ public class AsyncPlayMatch {
 
   @Autowired
   private UserMapper usermapper;
-　
   
   WordleLogMapper wordleLogMapper;
 
