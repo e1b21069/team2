@@ -1,5 +1,6 @@
 package oit.is.work.team2.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,16 +25,15 @@ import oit.is.work.team2.model.RoomMapper;
 import oit.is.work.team2.model.UserMapper;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
-
 import oit.is.work.team2.service.AsyncPlayMatch;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/multiNumeron")
 public class MultiNumeronController {
 
   private int screenNumber = 0;
+  private int[] roomPlayer = {0, 0, 0, 0, 0, 0};
+  private final Logger logger = LoggerFactory.getLogger(MultiNumeronController.class);
 
   @Autowired
   private AsyncPlayMatch playMatch;
@@ -72,20 +71,24 @@ public class MultiNumeronController {
     return "multiNumeron.html";
   }
 
-  @GetMapping("/{param}")
+  @GetMapping("/numeronSet")
   @Transactional
-  public String numeronSet(@PathVariable String param, ModelMap model, Principal prin) {
+  public String numeronSet(ModelMap model, Principal prin) {
     int roomId = usermapper.selectRoomIdByName(prin.getName());
-    if (Integer.parseInt(param) == 1) {
+    if(roomPlayer[roomId-1] == 0) {
+      roomPlayer[roomId-1] = 1;
       this.randomWord = playMatch.setupMatch(roomId);
       String word = matchMapper.selectWord(roomId);
       model.addAttribute("word", word);
       return "multiNumeron.html";
+    } else if(roomPlayer[roomId-1] == 1) {
+      roomPlayer[roomId-1] = 0;
+      ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList(roomId);
+      model.addAttribute("wordlogs", wordlogs);
+      String word = matchMapper.selectWord(roomId);
+      model.addAttribute("word", word);
+      return "multiWait.html";
     }
-    ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList(roomId);
-    model.addAttribute("wordlogs", wordlogs);
-    String word = matchMapper.selectWord(roomId);
-    model.addAttribute("word", word);
     return "multiWait.html";
   }
 
@@ -209,6 +212,14 @@ public class MultiNumeronController {
     int roomId = usermapper.selectRoomIdByName(prin.getName());
     final SseEmitter sseEmitter = new SseEmitter();
     this.playMatch.asyncShowSecond(sseEmitter, roomId);
+    return sseEmitter;
+  }
+
+  @GetMapping("sseRoomWait")
+  public SseEmitter sseRoomWait(Principal prin) {
+    int roomId = usermapper.selectRoomIdByName(prin.getName());
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.playMatch.asyncShowRoom(sseEmitter, roomId);
     return sseEmitter;
   }
 

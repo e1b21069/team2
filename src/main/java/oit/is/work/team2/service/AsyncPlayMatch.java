@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import oit.is.work.team2.model.Dictionary;
 import oit.is.work.team2.model.DictionaryMapper;
 import oit.is.work.team2.model.MatchMapper;
+import oit.is.work.team2.model.UserMapper;
 import oit.is.work.team2.model.WordLog;
 import oit.is.work.team2.model.WordLogMapper;
 import oit.is.work.team2.model.WordleLog;
@@ -37,6 +38,7 @@ public class AsyncPlayMatch {
 
   @Autowired
   WordLogMapper wordLogMapper;
+  
   @Autowired
   private DictionaryMapper dictionaryMapper;
 
@@ -44,7 +46,11 @@ public class AsyncPlayMatch {
   MatchMapper matchMapper;
 
   @Autowired
+  private UserMapper usermapper;
+　
+  
   WordleLogMapper wordleLogMapper;
+
 
   public SseEmitter getEmitter() {
     return emitter;
@@ -204,6 +210,45 @@ public class AsyncPlayMatch {
       emitter.complete();
     }
     System.out.println("asyncShowDictionariesList complete");
+  }
+
+  @Async
+  public void asyncShowRoom(SseEmitter emitter, int roomId) {
+    int count = 0;
+    int pplNum = usermapper.selectCountByRoomId(roomId);
+    try {
+      while (true) {// 無限ループ
+        // DBが更新されていなければ0.5s休み
+        pplNum = usermapper.selectCountByRoomId(roomId);
+        if (pplNum < 2) {
+          if(count % 100 == 0) {
+            Map<String, String> data = new HashMap<>();
+            data.put("type", "msg");
+            data.put("message", "dontMove");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonData = objectMapper.writeValueAsString(data);
+            emitter.send(jsonData);
+          }
+          count++;
+          TimeUnit.MILLISECONDS.sleep(100);
+          continue;
+        }
+          Map<String, String> data = new HashMap<>();
+          data.put("type", "msg");
+          data.put("message", "startMatch");
+          // Jackson ObjectMapperを使用してJSON形式の文字列に変換
+          ObjectMapper objectMapper = new ObjectMapper();
+          String jsonData = objectMapper.writeValueAsString(data);
+          emitter.send(jsonData);
+          TimeUnit.MILLISECONDS.sleep(1000);
+      }
+    } catch (Exception e) {
+      // 例外の名前とメッセージだけ表示する
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
+    System.out.println("asyncShowRoom complete");
   }
 
   public String setupMatch(int roomId) {

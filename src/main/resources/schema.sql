@@ -31,7 +31,8 @@ CREATE TABLE matchinfo (
 CREATE TABLE match (
     id IDENTITY PRIMARY KEY,
     roomId INT,
-    word VARCHAR
+    word VARCHAR,
+    playerNum INT DEFAULT 0
 );
 
 CREATE TABLE wordleLog(
