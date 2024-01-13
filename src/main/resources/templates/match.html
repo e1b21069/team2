@@ -72,6 +72,24 @@
       border-radius: 5px;
     }
   </style>
+    <script>
+      let flag = false;
+      window.onload = function () {
+        var sse = new EventSource('/multiNumeron/sseRoomWait');
+        sse.onmessage = function (event) {
+          console.log("sse.onmessage")
+          console.log(event.data);
+          var data = JSON.parse(event.data);
+          switch (data.message) {
+            case "startMatch":
+              window.location.href = '/multiNumeron/numeronSet';
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    </script>
 </head>
 
 <body>
@@ -82,9 +100,8 @@
   </header>
 
   <br />
-  <h2>先攻か後攻を選んでください</h2>
-  <a href="/multiNumeron/1" id="senkou-button">先攻</a>
-  <a href="/multiNumeron/2" id="koukou-button">後攻</a>
+  <h2>対戦相手の入室を待っています</h2><br>
+  <h2>この画面から動かずお待ちください</h2>
 
 </body>
 
