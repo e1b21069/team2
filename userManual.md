@@ -32,6 +32,8 @@
      ```bash
      $ ssh isdev23@150.89.233.202
      ```
+     
+![943B06B9-0D3E-4D90-A55D-09BF1349EEAB](https://github.com/e1b21069/team2/assets/119833702/db937f53-e362-493c-9d51-c396e7d81545)
 
 ### 3. パスワードの入力
 
