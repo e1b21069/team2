@@ -6,7 +6,11 @@
     - 1.1 [はじめに](#1-はじめに)
     - 1.2 [トップ画面](#2-トップ画面)
     - 1.3 [ログイン画面](#3-ログイン画面)
-    - 1.4 [パスワードの入力](#4-パスワードの入力)
+    - 1.4 [モード選択画面](#4-モード選択画面)
+    - 1.5 [セレクト画面](#5-セレクト画面)
+    - 1.6 [はじめに](#1-はじめに)
+    - 1.1 [はじめに](#1-はじめに)
+    - 1.1 [はじめに](#1-はじめに)
 
 2. [管理者マニュアル](#管理者マニュアル)
     - 2.1 [Gradleを利用してアプリケーションを公開](#1-gradleを利用してアプリケーションを公開)
@@ -21,29 +25,31 @@
 
 ### 1.1 はじめに
 
-   - このアプリケーションを利用する際はブラウザに備わっているbackボタンは使用しないでください。予期せぬ動作をする可能性があります。
+このアプリケーションを利用する際はブラウザに備わっているbackボタンは使用しないでください。予期せぬ動作をする可能性があります。
+
 
 ### 1.2 トップ画面
 ![スクリーンショット (314)](https://github.com/e1b21069/team2/assets/119833702/a927e034-0adc-4695-a70e-3cf286db900a)
 
-   - ユーザ名、パスワードは以下の通りです。
-   - |ユーザ名|パスワード|
+ユーザ名、パスワードは以下の通りです。
+     |ユーザ名|パスワード|
      |:---|:---|
      |player1|nmnm
      |player2|nmnm
      |player3|nmnm
      |player4|nmnm
 
-   - このページでは以下の機能があります。
+このページでは以下の機能があります。
      
      |ボタン名|機能|
      |:---|:---|
      |login|ログイン画面に遷移します。
 
-### 1.3 ログイン画面
 
-   - パスワードを求められるので、以下のように入力します。
-   - このページでは以下の機能があります。
+### 1.3 ログイン画面
+![image](https://github.com/e1b21069/team2/assets/119833702/eb090fd9-02a8-4ba4-b92e-fc9fc30ae752)
+
+このページでは以下の機能があります。
 
      |form|入力|
      |:---|:---|
@@ -51,47 +57,35 @@
      |Password|ユーザ名に対応するパスワードを入力してください。
      |ボタン名|機能|
      |:---|:---|
-     |login|ログイン画面に遷移します。
+     |Sign in|入力したユーザでログインしモード選択画面へ遷移します。
 
-     ```bash
-     isdev23@150.89.233.202's password: isDev23?202
-     ```
 
-     > 注意: パスワードは画面に表示されません。
+### 1.4 モードセレクト画面
+![image](https://github.com/e1b21069/team2/assets/119833702/524e0a90-1278-437b-86e0-a3f1919f8f2a)
+![image](https://github.com/e1b21069/team2/assets/119833702/12f3608c-1edf-463c-813a-cf1d4a7cede8)
 
-   - アクセス成功時、以下のようなメッセージが表示されます。
 
-     ```bash
-      user_name@host_name MINGW64 ~
-      $ ssh isdev23@150.89.233.202
-      Warning: Permanently added '150.89.233.202' (ED25519) to the list of known hosts.
-      Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-35-generic x86_64)
+このページでは以下の機能があります。
 
-      * Documentation:  https://help.ubuntu.com
-      * Management:     https://landscape.canonical.com
-      * Support:        https://ubuntu.com/advantage
+     |ボタン名|機能|
+     |:---|:---|
+     |START（ぼっちでぬめろん下）|ソロヌメロン画面へ遷移します。
+     |START（みんなでぬめろん下）|部屋選択画面へ遷移します。
+     |START（ぼっちでわーどる下）|ソロワードル画面へ遷移します。
+     |ログアウト|利用中のアカウントの利用を終了し、トップ画面へ遷移します。
 
-        System information as of Fri Oct 27 02:19:11 UTC 2023
+### 1.5 ソロヌメロン画面
 
-        System load:    0.70556640625   Temperature:           53.0 C
-        Usage of /home: unknown         Processes:             27
-        Memory usage:   0%              Users logged in:       0
-        Swap usage:     0%              IPv4 address for eth0: 150.89.233.XXX
 
-      * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
-        just raised the bar for easy, resilient and secure K8s cluster deployment.
 
-        https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+このページでは以下の機能があります。
 
-      Expanded Security Maintenance for Applications is not enabled.
-
-      0 updates can be applied immediately.
-
-      Enable ESM Apps to receive additional future security updates.
-      See https://ubuntu.com/esm or run: sudo pro status
-
-      Last login: Fri Oct 27 00:52:53 2023 from XXX.XXX.XXX.XXX
-     ```
+     |ボタン名|機能|
+     |:---|:---|
+     |START（ぼっちでぬめろん下）|ソロヌメロン画面へ遷移します。
+     |START（みんなでぬめろん下）|部屋選択画面へ遷移します。
+     |START（ぼっちでわーどる下）|ソロワードル画面へ遷移します。
+     |ログアウト|利用中のアカウントの利用を終了し、トップ画面へ遷移します。
 
 ## Webアプリケーションの公開
 
