@@ -63,6 +63,8 @@ public class AsyncPlayMatch {
     }
   }
 
+  // Numeron用
+
   @Transactional
   public void syncAddWordLogs(int roomId, String ans, int eatcnt, int bitecnt) {
     // 追加
@@ -200,6 +202,7 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
+        secondUpdated = false;
         dbUpdated = false;
       }
     } catch (Exception e) {
@@ -229,7 +232,7 @@ public class AsyncPlayMatch {
             emitter.send(jsonData);
           }
           count++;
-          TimeUnit.MILLISECONDS.sleep(100);
+          TimeUnit.MILLISECONDS.sleep(300);
           continue;
         }
           Map<String, String> data = new HashMap<>();
@@ -264,6 +267,7 @@ public class AsyncPlayMatch {
   }
 
 
+// Wordle用
   
   @Transactional
   public void syncAddWordleLogs(int roomId, String ans, int result) {

@@ -8,10 +8,18 @@
 
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
 
   <style>
     body {
-      background-color: #f0f0f0;
+      background-image: url('images/backmenu.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      height: 100%;
+      font-family: 'Kiwi Maru',sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -26,12 +34,16 @@
     h1,
     h2,
     p {
+      color: #000;
       margin: 0;
       text-align: center;
     }
 
     h1 {
-      color: #00ccff;
+      font-family: 'Kaisei HarunoUmi',sans-serif;
+      color: #000;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
 
     a {
@@ -89,21 +101,21 @@
       <h2><a href="/admin">adminでログイン</a></h2>
       <br>
     </tbody>
+  <h1>SELECT GAME MODE</h1>
   </header>
-  <h1>GAME MODE SELECT</h1>
   <br>
   <h2>はろー <span sec:authentication="name"></span></h2>
   <br>
   <br>
-  <h2>ぼっちぬめろん</h2>
+  <h2>ぼっちでぬめろん</h2><br>
   <a href="/soloNumeron" class="btn btn-primary">START</a>
   <br>
   <br>
-  <h2>ふたりでぬめろん</h2>
+  <h2>ふたりでぬめろん</h2><br>
   <a href="/multiNumeron/multiRoom" class="btn btn-primary">START</a>
   <br>
   <br>
-  <h2>わーどる</h2>
+  <h2>ぼっちでわーどる</h2><br>
   <a href="/soloWordle" class="btn btn-primary">START</a>
   <br>
   <br>
@@ -113,6 +125,7 @@
     <p>文字の場所も一致していればeat</p>
     <p>より少ない手番で単語を当てよう！</p>
   </div>
+  <br>
   <a href="/logout">ログアウト</a>
 
   <!-- Bootstrap JS and dependencies -->
