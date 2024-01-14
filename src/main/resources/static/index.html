@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<html>
-
-<!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
@@ -10,12 +7,16 @@
   <title>welcime NUMERON</title>
 
   <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-
+  <!-- "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" -->
+  <link href="https://fonts.googleapis.com/earlyaccess/kokoro.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
+  <!-- Body font Helvetica Neue, sans-serif; DotGothic16 Dela Gothic One -->
   <style>
     body {
       background-color: #f0f0f0;
-      font-family: 'Helvetica Neue', sans-serif;
+      font-family: 'Kaisei HarunoUmi',sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -35,7 +36,7 @@
     }
 
     h1 {
-      color: #00ccff;
+      color: #000;
       margin-bottom: 10px;
       font-weight: bold;
     }
@@ -47,7 +48,8 @@
     }
 
     h3 {
-      color: #ffffff;
+      color: #fff;
+      font-family: 'Kiwi Maru',sans-serif;
       margin-bottom: 10px;
       font-size: small;
       text-align: center;
@@ -60,7 +62,7 @@
 
     form {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -114,34 +116,35 @@
 
     .button {
       display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 20px 40px;
+      font-size: 24px;
       text-align: center;
       text-decoration: none;
-      background-color: #007bff;
-      color: #fff;
-      border: 1px solid #007bff;
+      background-color: #fff;
+      color: #000;
+      border: 5px solid #000;
       border-radius: 5px;
       cursor: pointer;
     }
 
     .button:hover {
-      background-color: #0056b3;
-      color: #dbdbdb;
-      border-color: #0056b3;
+      background-color: #f0f0f0;
+      color: #000;
+      border-color: #000;
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>ようこそ ぬめろんへ！</h1>
+    <h1>WELCOME   NUMERON</h1>
   </header>
+  <br /><br /><br /><br /><br /><br /><br />
+  <h2><a href="/numeron" class="button">login</a><br></h2>
   <br />
-  <h2><a href="/numeron" class="button">ぬめろん</a><br></h2>
-  <br />
-  <h3 style="font-size: 16px;">
-    ヌメロンを遊ぶにはぬめろんのボタンをクリックしてください
+  <br /><br /><br /><br /><br /><br />
+  <h3 style="font-size: 24px;">
+    ゲームを遊ぶにはログインをクリックし<br />ユーザ名とパスワードを入力してください
   </h3>
 </body>
 

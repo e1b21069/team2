@@ -33,7 +33,7 @@ import oit.is.work.team2.service.AsyncPlayMatch;
 @RequestMapping("/multiNumeron")
 public class MultiNumeronController {
 
-  private int screenNumber = 0;
+  private int[] screenNumber = {0, 0, 0, 0, 0, 0};
   private int[] roomPlayer = {0, 0, 0, 0, 0, 0};
   private final Logger logger = LoggerFactory.getLogger(MultiNumeronController.class);
 
@@ -125,18 +125,6 @@ public class MultiNumeronController {
     return "match.html";
   }
 
-  // どっかで使うかも
-  @PostMapping("/nextScreen")
-    public void nextScreen() {
-        if (screenNumber % 2 == 0) {
-          // クライアントに新しい画面情報を通知
-          playMatch.sendData("Switch to screen " + 1);
-        } else {
-          // クライアントに新しい画面情報を通知
-          playMatch.sendData("Switch to screen " + 2);
-        }
-   }
-
   // 先行が選択したあとに呼び出される
   @PostMapping("/first")
   @Transactional
@@ -161,9 +149,9 @@ public class MultiNumeronController {
     ArrayList<WordLog> wordlogs = wordLogMapper.selectAllByRoomId(roomId);
     model.addAttribute("wordlogs", wordlogs);
 
-    screenNumber++;
+    screenNumber[roomId-1]++;
     if (eatcnt == 4) {
-      screenNumber = 0;
+      screenNumber[roomId-1] = 0;
       return "result.html";
     }
     try {
@@ -171,7 +159,8 @@ public class MultiNumeronController {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    if(screenNumber == 1) {
+    logger.info("screenNumber:{}", screenNumber[roomId-1]);
+    if(screenNumber[roomId-1] == 1) {
       return "firstWait.html";
     }
     return "multiWait.html";
