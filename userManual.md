@@ -61,8 +61,9 @@
 
 
 ### 1.4 モードセレクト画面
-![image](https://github.com/e1b21069/team2/assets/119833702/524e0a90-1278-437b-86e0-a3f1919f8f2a)
-![image](https://github.com/e1b21069/team2/assets/119833702/12f3608c-1edf-463c-813a-cf1d4a7cede8)
+![image](https://github.com/e1b21069/team2/assets/119833702/2db142b9-4c80-45b0-8627-bce35fff07de)
+![image](https://github.com/e1b21069/team2/assets/119833702/7f88f99e-2613-4058-b979-bbd18efcdd96)
+
 
 
 このページでは以下の機能があります。
