@@ -13,16 +13,18 @@
 
   <style>
     body {
+      background-image: url('../images/playmat.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
       font-family: 'Kiwi Maru', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
       color: #000000;
       text-align: center;
     }
 
     header {
-      background-color: #cccccc;
       /* 上部の色を指定 */
       color: #fff;
       text-align: center;
@@ -100,11 +102,11 @@
     }
 
     h1 {
-      color: #000;
+      color: #fff;
     }
 
     h2 {
-      color: #000000;
+      color: #fff;
     }
 
     h3 {
@@ -112,10 +114,12 @@
     }
 
     h4 {
+      color: #000;
       text-align: center;
     }
 
     h5 {
+      color: #000;
       text-align: left;
     }
 
@@ -128,12 +132,13 @@
 
     th,
     td {
+      background-color: #fff;
       padding: 12px;
-      border: 1px solid #dddddd;
+      border: 1px solid #000;
     }
 
     th {
-      background-color: #f2f2f2;
+      background-color: #f0f0f0;
     }
 
     th:nth-child(1) {
@@ -199,8 +204,7 @@
   <header>
     <h1>ぬめろん対戦中</h1>
   </header>
-  <h3>
-    <button onclick="togglePopup()">？</button>
+  <h2>あなたのターン <button onclick="togglePopup()">？</button>
     <!-- 画面全体を覆う半透明の背景 -->
     <div id="overlay" class="overlay" onclick="closePopup()"></div>
     <!-- ポップアップ全体 -->
@@ -232,8 +236,7 @@
       </div>
       <button onclick="closePopup()">閉じる</button>
     </div>
-  </h3>
-  <h2>あなたのターン</h2>
+  </h2>
   <h2>お題</h2>
   <p th:if="${dictionary}">
   <div>

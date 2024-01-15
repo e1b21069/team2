@@ -11,16 +11,18 @@
 
   <style>
     body {
+      background-image: url('../images/playmat.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
       font-family: 'Kiwi Maru', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
       color: #000000;
       text-align: center;
     }
 
     header {
-      background-color: #cccccc;
       /* 上部の色を指定 */
       color: #fff;
       text-align: center;
@@ -98,11 +100,11 @@
     }
 
     h1 {
-      color: #00ccff;
+      color: #fff;
     }
 
     h2 {
-      color: #000000;
+      color: #fff;
     }
 
     h3 {
@@ -110,10 +112,12 @@
     }
 
     h4 {
+      color: #000;
       text-align: center;
     }
 
     h5 {
+      color: #000;
       text-align: left;
     }
 
@@ -127,11 +131,12 @@
     th,
     td {
       padding: 12px;
-      border: 1px solid #dddddd;
+      background-color: #fff;
+      border: 1px solid #000;
     }
 
     th {
-      background-color: #f2f2f2;
+      background-color: #f0f0f0;
     }
 
     th:nth-child(1) {
@@ -234,43 +239,41 @@
   <header>
     <h1>ぬめろん対戦中</h1>
   </header>
-  <h3>
-    <button onclick="togglePopup()">？</button>
-    <!-- 画面全体を覆う半透明の背景 -->
-    <div id="overlay" class="overlay" onclick="closePopup()"></div>
-    <!-- ポップアップ全体 -->
-    <div id="popup" class="popup">
-      <div class="section">
-        <h4>
-          <p class="large-text">How To Play</p>
-        </h4>
-      </div>
-      <div class="section">
-        <h4>
-          <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
-            相手より先に正解を目指しましょう。
-          </p>
-        </h4>
-      </div>
-      <div class="section">
-        <h5>
-          <div class="small-text">
-            ex) お題：bird<br><br>
-            <p class="boxed-text"> baaa</p> １EAT ０BITE<br>
-            <p> 「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
-            <p class="boxed-text"> daaa</p> ０EAT １BITE<br>
-            <p> 「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
-            <p class="boxed-text"> bird</p> ４EAT ０BITE<br>
-            <p> お題の英単語を見事的中することができれば、正解です。</p><br>
-          </div>
-        </h5>
-      </div>
-      <button onclick="closePopup()">閉じる</button>
-    </div>
-  </h3>
   <p th:if="${dictionary}">
   <h2>
-    <p>相手の手を待っています</p>
+    <p>相手の手を待っています <button onclick="togglePopup()">？</button>
+      <!-- 画面全体を覆う半透明の背景 -->
+      <div id="overlay" class="overlay" onclick="closePopup()"></div>
+      <!-- ポップアップ全体 -->
+      <div id="popup" class="popup">
+        <div class="section">
+          <h4>
+            <p class="large-text">How To Play</p>
+          </h4>
+        </div>
+        <div class="section">
+          <h4>
+            <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
+              相手より先に正解を目指しましょう。
+            </p>
+          </h4>
+        </div>
+        <div class="section">
+          <h5>
+            <div class="small-text">
+              ex) お題：bird<br><br>
+              <p class="boxed-text"> baaa</p> １EAT ０BITE<br>
+              <p> 「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
+              <p class="boxed-text"> daaa</p> ０EAT １BITE<br>
+              <p> 「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
+              <p class="boxed-text"> bird</p> ４EAT ０BITE<br>
+              <p> お題の英単語を見事的中することができれば、正解です。</p><br>
+            </div>
+          </h5>
+        </div>
+        <button onclick="closePopup()">閉じる</button>
+      </div>
+    </p>
     <p>お題</p>
   </h2>
   <p>ランダムな単語: <span th:text="${word}"></span></p>
