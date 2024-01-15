@@ -277,8 +277,8 @@ public class AsyncPlayMatch {
     // 追加
     wordleLogMapper.insertMulti(roomId, ans, result);
     // 非同期でDB更新したことを共有する際に利用する
-    this.dbUpdated2 = true;
-    this.wdbUpdated2 = true;
+    this.dbUpdated[roomId] = true;
+    this.wdbUpdated[roomId] = true;
   }
 
   public ArrayList<WordleLog> syncShowWordleLogList(int roomId) {
@@ -291,7 +291,7 @@ public class AsyncPlayMatch {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.1s休み
-        if (false == dbUpdated2) {
+        if (false == dbUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -325,8 +325,8 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
-        dbUpdated2 = false;
-        secondUpdated2 = true;
+        dbUpdated[roomId] = false;
+        secondUpdated[roomId]= true;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -339,12 +339,12 @@ public class AsyncPlayMatch {
 
   @Async
   public void asyncWordleUpdate(SseEmitter emitter, int roomId) {
-    wdbUpdated2 = true;
+    wdbUpdated[roomId] = true;
     try {
       while (true) {// 無限ループ
         ArrayList<WordleLog> wordleLogs = wordleLogMapper.selectAllByRoomId(roomId);
         emitter.send(wordleLogs);
-        wdbUpdated2 = false;
+        wdbUpdated[roomId] = false;
         TimeUnit.MILLISECONDS.sleep(300);
       }
     } catch (Exception e) {
@@ -362,7 +362,7 @@ public class AsyncPlayMatch {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.5s休み
-        if (false == secondUpdated2) {
+        if (false == secondUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -375,7 +375,7 @@ public class AsyncPlayMatch {
           TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
-        if (false == dbUpdated2) {
+        if (false == dbUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -409,7 +409,7 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
-        dbUpdated2 = false;
+        dbUpdated[roomId] = false;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
