@@ -242,7 +242,7 @@
   </p>
 
   <form th:action="@{/multiNumeron/first}" method="post">
-    <input type="text" name="ans" maxlength="4" />
+    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください"/>
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
 

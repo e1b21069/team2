@@ -22,7 +22,6 @@
     }
 
     header {
-      background-color: #cccccc;
       padding: 10px;
       text-align: left;
     }
@@ -33,12 +32,16 @@
       margin: 0;
       text-align: center;
     }
+    h2 {
+      color: #fff;
+    }
 
     h1 {
-      color: #000;
+      color: #fff;
     }
 
     a {
+      color: #fff;
       text-align: left;
       display: inline-block;
       margin-bottom: 10px;
@@ -53,12 +56,13 @@
 
     th,
     td {
+      background-color: #fff;
       padding: 12px;
-      border: 1px solid #dddddd;
+      border: 1px solid #000;
     }
 
     th {
-      background-color: #f2f2f2;
+      background-color: #f0f0f0;
     }
 
     th:nth-child(1) {
@@ -144,10 +148,12 @@
     }
 
     h4 {
+      color: #000;
       text-align: center;
     }
 
     h5 {
+      color: #000;
       text-align: left;
     }
   </style>
@@ -176,8 +182,8 @@
     <a th:href="@{/soloNumeron/back}">🔙もどる</a>
     <h1>ぬめろん</h1>
   </header>
-  <h3>
-    <button onclick="togglePopup()">？</button>
+  <br />
+  <h2>４文字の英単語を当てるゲーム <button onclick="togglePopup()">？</button>
     <!-- 画面全体を覆う半透明の背景 -->
     <div id="overlay" class="overlay" onclick="closePopup()"></div>
     <!-- ポップアップ全体 -->
@@ -209,13 +215,11 @@
       </div>
       <button onclick="closePopup()">閉じる</button>
     </div>
-  </h3>
+  </h2>
   <br />
-  <h2>４文字の英単語を当てるゲーム</h2>
-  <br /><br />
 
   <form th:action="@{/soloNumeron/solo}" method="post">
-    <input type="text" name="ans" maxlength="4" />
+    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください"/>
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
   <br />
