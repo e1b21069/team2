@@ -237,13 +237,8 @@
       <button onclick="closePopup()">閉じる</button>
     </div>
   </h2>
-  <h2>お題</h2>
   <p th:if="${dictionary}">
-  <div>
-    <p>ランダムな単語: <span th:text="${word}"></span></p>
-  </div>
   </p>
-
   <form th:action="@{/multiNumeron/first}" method="post">
     <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください"/>
     <input type="submit" value="決定"><input type="reset" value="取消">
