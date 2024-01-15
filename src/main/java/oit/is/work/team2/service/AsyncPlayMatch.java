@@ -34,9 +34,6 @@ public class AsyncPlayMatch {
   private volatile boolean[] dbUpdated = {false, false, false, false, false, false};
   private volatile boolean[] wdbUpdated = {false, false, false, false, false, false};
   private volatile boolean[] secondUpdated = {false, false, false, false, false, false};
-  private volatile boolean dbUpdated2 = false;
-  private volatile boolean wdbUpdated2 = false;
-  private volatile boolean secondUpdated2 = false;
   private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
   @Autowired
