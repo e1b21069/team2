@@ -35,6 +35,10 @@
      |player2|nmnm
      |player3|nmnm
      |player4|nmnm
+     |player5|nmnm
+     |player6|nmnm
+     |player7|nmnm
+     |player8|nmnm
 
 このページでは以下の機能があります。
      
