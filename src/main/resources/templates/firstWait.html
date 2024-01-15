@@ -239,43 +239,41 @@
   <header>
     <h1>ぬめろん対戦中</h1>
   </header>
-  <h3>
-    <button onclick="togglePopup()">？</button>
-    <!-- 画面全体を覆う半透明の背景 -->
-    <div id="overlay" class="overlay" onclick="closePopup()"></div>
-    <!-- ポップアップ全体 -->
-    <div id="popup" class="popup">
-      <div class="section">
-        <h4>
-          <p class="large-text">How To Play</p>
-        </h4>
-      </div>
-      <div class="section">
-        <h4>
-          <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
-            相手より先に正解を目指しましょう。
-          </p>
-        </h4>
-      </div>
-      <div class="section">
-        <h5>
-          <div class="small-text">
-            ex) お題：bird<br><br>
-            <p class="boxed-text"> baaa</p> １EAT ０BITE<br>
-            <p> 「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
-            <p class="boxed-text"> daaa</p> ０EAT １BITE<br>
-            <p> 「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
-            <p class="boxed-text"> bird</p> ４EAT ０BITE<br>
-            <p> お題の英単語を見事的中することができれば、正解です。</p><br>
-          </div>
-        </h5>
-      </div>
-      <button onclick="closePopup()">閉じる</button>
-    </div>
-  </h3>
   <p th:if="${dictionary}">
   <h2>
-    <p>相手の手を待っています</p>
+    <p>相手の手を待っています <button onclick="togglePopup()">？</button>
+      <!-- 画面全体を覆う半透明の背景 -->
+      <div id="overlay" class="overlay" onclick="closePopup()"></div>
+      <!-- ポップアップ全体 -->
+      <div id="popup" class="popup">
+        <div class="section">
+          <h4>
+            <p class="large-text">How To Play</p>
+          </h4>
+        </div>
+        <div class="section">
+          <h4>
+            <p class="small-text">４文字の英単語を当てるクイズゲームです。<br>
+              相手より先に正解を目指しましょう。
+            </p>
+          </h4>
+        </div>
+        <div class="section">
+          <h5>
+            <div class="small-text">
+              ex) お題：bird<br><br>
+              <p class="boxed-text"> baaa</p> １EAT ０BITE<br>
+              <p> 「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br>
+              <p class="boxed-text"> daaa</p> ０EAT １BITE<br>
+              <p> 「d」はお題の英単語に含まれていますが、位置が異なります。</p><br>
+              <p class="boxed-text"> bird</p> ４EAT ０BITE<br>
+              <p> お題の英単語を見事的中することができれば、正解です。</p><br>
+            </div>
+          </h5>
+        </div>
+        <button onclick="closePopup()">閉じる</button>
+      </div>
+  </p>
   </h2>
   <div id="test"></div>
   </p>
