@@ -31,9 +31,9 @@ import oit.is.work.team2.model.WordleLogMapper;
 public class AsyncPlayMatch {
   private final SseEmitter emitter = new SseEmitter();
 
-  private volatile boolean dbUpdated = false;
-  private volatile boolean wdbUpdated = false;
-  private volatile boolean secondUpdated = false;
+  private volatile boolean[] dbUpdated = {false, false, false, false, false, false};
+  private volatile boolean[] wdbUpdated = {false, false, false, false, false, false};
+  private volatile boolean[] secondUpdated = {false, false, false, false, false, false};
   private final Logger logger = LoggerFactory.getLogger(AsyncPlayMatch.class);
 
   @Autowired
@@ -70,8 +70,8 @@ public class AsyncPlayMatch {
     // 追加
     wordLogMapper.insertMulti(roomId, ans, eatcnt, bitecnt);
     // 非同期でDB更新したことを共有する際に利用する
-    this.dbUpdated = true;
-    this.wdbUpdated = true;
+    this.dbUpdated[roomId] = true;
+    this.wdbUpdated[roomId] = true;
   }
 
   public ArrayList<WordLog> syncShowWordLogList(int roomId) {
@@ -84,7 +84,7 @@ public class AsyncPlayMatch {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.1s休み
-        if (false == dbUpdated) {
+        if (false == dbUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -118,8 +118,8 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
-        dbUpdated = false;
-        secondUpdated = true;
+        dbUpdated[roomId] = false;
+        secondUpdated[roomId] = true;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -132,12 +132,12 @@ public class AsyncPlayMatch {
 
   @Async
   public void asyncUpdate(SseEmitter emitter, int roomId) {
-    wdbUpdated = true;
+    wdbUpdated[roomId] = true;
     try {
       while (true) {// 無限ループ
         ArrayList<WordLog> wordLogs = wordLogMapper.selectAllByRoomId(roomId);
         emitter.send(wordLogs);
-        wdbUpdated = false;
+        wdbUpdated[roomId] = false;
         TimeUnit.MILLISECONDS.sleep(300);
       }
     } catch (Exception e) {
@@ -155,7 +155,7 @@ public class AsyncPlayMatch {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.5s休み
-        if (false == secondUpdated) {
+        if (false == secondUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -168,7 +168,7 @@ public class AsyncPlayMatch {
           TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
-        if (false == dbUpdated) {
+        if (false == dbUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -202,8 +202,8 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
-        secondUpdated = false;
-        dbUpdated = false;
+        secondUpdated[roomId] = false;
+        dbUpdated[roomId] = false;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -274,8 +274,8 @@ public class AsyncPlayMatch {
     // 追加
     wordleLogMapper.insertMulti(roomId, ans, result);
     // 非同期でDB更新したことを共有する際に利用する
-    this.dbUpdated = true;
-    this.wdbUpdated = true;
+    this.dbUpdated[roomId] = true;
+    this.wdbUpdated[roomId] = true;
   }
 
   public ArrayList<WordleLog> syncShowWordleLogList(int roomId) {
@@ -288,7 +288,7 @@ public class AsyncPlayMatch {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.1s休み
-        if (false == dbUpdated) {
+        if (false == dbUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -322,8 +322,8 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
-        dbUpdated = false;
-        secondUpdated = true;
+        dbUpdated[roomId] = false;
+        secondUpdated[roomId]= true;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する
@@ -336,12 +336,12 @@ public class AsyncPlayMatch {
 
   @Async
   public void asyncWordleUpdate(SseEmitter emitter, int roomId) {
-    wdbUpdated = true;
+    wdbUpdated[roomId] = true;
     try {
       while (true) {// 無限ループ
         ArrayList<WordleLog> wordleLogs = wordleLogMapper.selectAllByRoomId(roomId);
         emitter.send(wordleLogs);
-        wdbUpdated = false;
+        wdbUpdated[roomId] = false;
         TimeUnit.MILLISECONDS.sleep(300);
       }
     } catch (Exception e) {
@@ -359,7 +359,7 @@ public class AsyncPlayMatch {
     try {
       while (true) {// 無限ループ
         // DBが更新されていなければ0.5s休み
-        if (false == secondUpdated) {
+        if (false == secondUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -372,7 +372,7 @@ public class AsyncPlayMatch {
           TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
-        if (false == dbUpdated) {
+        if (false == dbUpdated[roomId]) {
           if (count % 100 == 0) {
             Map<String, String> data = new HashMap<>();
             data.put("type", "msg");
@@ -406,7 +406,7 @@ public class AsyncPlayMatch {
           String jsonData = objectMapper.writeValueAsString(data);
           emitter.send(jsonData);
         }
-        dbUpdated = false;
+        dbUpdated[roomId] = false;
       }
     } catch (Exception e) {
       // 例外の名前とメッセージだけ表示する

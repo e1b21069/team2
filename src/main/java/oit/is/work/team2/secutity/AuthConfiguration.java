@@ -66,11 +66,19 @@ public class AuthConfiguration {
         .password("{bcrypt}$2y$10$POP.G1k/x1yJ2hcgS028ee6JcteYspfDhpCrZCC9OSSi8NshB1TLO").roles("USER").build();
     UserDetails user4 = User.withUsername("player4")
         .password("{bcrypt}$2y$10$POP.G1k/x1yJ2hcgS028ee6JcteYspfDhpCrZCC9OSSi8NshB1TLO").roles("USER").build();
+    UserDetails user5 = User.withUsername("player5")
+        .password("{bcrypt}$2y$10$.bqmJ3ArSbdnowKakfENsOmh0wfNRdIa/J6IpOE03eBYvFTzkKMza").roles("USER").build();
+    UserDetails user6 = User.withUsername("player6")
+        .password("{bcrypt}$2y$10$FWrs/wg1vncRfycc.ORhq.lel0DEfg92Mv.MKACdrBdk8ERRtSQ.K").roles("USER").build();
+    UserDetails user7 = User.withUsername("player7")
+        .password("{bcrypt}$2y$10$7owep7mSwQtQOLRB9WZ3VudXUB/yzSKo/Ywmi0z7HLUNjiWe7O6fq").roles("USER").build();
+    UserDetails user8 = User.withUsername("player8")
+        .password("{bcrypt}$2y$10$RxG3C5tB6c.A9zmLS162gexKsrOhFmG09feh6LxWEvh8K9M4/.k7W").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
         .password("{bcrypt}$2y$10$qd8CFFNBiMBHLtElL.94/enxdfWGJ60XlgiYcQ7OMJEsDjFZQyl5C").roles("ADMIN").build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, user3, user4, admin);
+    return new InMemoryUserDetailsManager(user1, user2, user3, user4, user5, user6, user7, user8, admin);
   }
 
 }
