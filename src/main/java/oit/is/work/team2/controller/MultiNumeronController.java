@@ -33,8 +33,8 @@ import oit.is.work.team2.service.AsyncPlayMatch;
 @RequestMapping("/multiNumeron")
 public class MultiNumeronController {
 
-  private int[] screenNumber = {0, 0, 0, 0, 0, 0};
-  private int[] roomPlayer = {0, 0, 0, 0, 0, 0};
+  private int[] screenNumber = { 0, 0, 0, 0, 0, 0 };
+  private int[] roomPlayer = { 0, 0, 0, 0, 0, 0 };
   private final Logger logger = LoggerFactory.getLogger(MultiNumeronController.class);
 
   @Autowired
@@ -77,14 +77,14 @@ public class MultiNumeronController {
   @Transactional
   public String numeronSet(ModelMap model, Principal prin) {
     int roomId = usermapper.selectRoomIdByName(prin.getName());
-    if(roomPlayer[roomId-1] == 0) {
-      roomPlayer[roomId-1] = 1;
+    if (roomPlayer[roomId - 1] == 0) {
+      roomPlayer[roomId - 1] = 1;
       this.randomWord = playMatch.setupMatch(roomId);
       String word = matchMapper.selectWord(roomId);
       model.addAttribute("word", word);
       return "multiNumeron.html";
-    } else if(roomPlayer[roomId-1] == 1) {
-      roomPlayer[roomId-1] = 0;
+    } else if (roomPlayer[roomId - 1] == 1) {
+      roomPlayer[roomId - 1] = 0;
       ArrayList<WordLog> wordlogs = playMatch.syncShowWordLogList(roomId);
       model.addAttribute("wordlogs", wordlogs);
       String word = matchMapper.selectWord(roomId);
@@ -133,6 +133,7 @@ public class MultiNumeronController {
     boolean atari = false;
     int eatcnt = 0, bitecnt = 0;
     String randomWord = matchMapper.selectWord(roomId);
+    model.addAttribute("randomWord", randomWord);
     Numeron numeron = new Numeron();
     model.addAttribute("ans", ans);
     atari = numeron.Atari(randomWord, ans);
@@ -149,9 +150,9 @@ public class MultiNumeronController {
     ArrayList<WordLog> wordlogs = wordLogMapper.selectAllByRoomId(roomId);
     model.addAttribute("wordlogs", wordlogs);
 
-    screenNumber[roomId-1]++;
+    screenNumber[roomId - 1]++;
     if (eatcnt == 4) {
-      screenNumber[roomId-1] = 0;
+      screenNumber[roomId - 1] = 0;
       return "result.html";
     }
     try {
@@ -159,8 +160,8 @@ public class MultiNumeronController {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    logger.info("screenNumber:{}", screenNumber[roomId-1]);
-    if(screenNumber[roomId-1] == 1) {
+    logger.info("screenNumber:{}", screenNumber[roomId - 1]);
+    if (screenNumber[roomId - 1] == 1) {
       return "firstWait.html";
     }
     return "multiWait.html";

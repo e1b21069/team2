@@ -7,7 +7,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap"
+    rel="stylesheet">
 
   <style>
     body {
@@ -15,7 +16,7 @@
       background-size: cover;
       background-attachment: fixed;
       background-position: center;
-      font-family: 'Kiwi Maru',sans-serif;
+      font-family: 'Kiwi Maru', sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -31,11 +32,13 @@
       margin: 0;
       text-align: center;
     }
+
     h2 {
       margin: 0;
       text-align: center;
       color: #fff;
     }
+
     p2 {
       color: #000;
       margin: 0;
@@ -94,14 +97,23 @@
       line-height: 50px;
       font-size: 20px;
       border: 1px solid black;
-      margin: 2px; /* 要素間の間隔を狭める */
+      margin: 2px;
+      /* 要素間の間隔を狭める */
       color: white;
     }
 
     /* 背景色のクラス */
-    .gray { background-color: #797d7f; }
-    .dark-yellow { background-color: #cbb35c; }
-    .dark-green { background-color: #4eb350; }
+    .gray {
+      background-color: #797d7f;
+    }
+
+    .dark-yellow {
+      background-color: #cbb35c;
+    }
+
+    .dark-green {
+      background-color: #4eb350;
+    }
 
     /* ヘルプマーク */
     /* 画面全体を覆う半透明の背景 */
@@ -213,23 +225,23 @@
   </style>
 
 
-    <script>
-      function togglePopup() {
-        var overlay = document.getElementById("overlay");
-        var popup = document.getElementById("popup");
-        // ポップアップの表示・非表示を切り替える
-        overlay.style.display = "block";
-        popup.style.display = "block";
-      }
-      function closePopup() {
-        var overlay = document.getElementById("overlay");
-        var popup = document.getElementById("popup");
-  
-        // 画面全体を覆う半透明の背景とポップアップを非表示にする
-        overlay.style.display = "none";
-        popup.style.display = "none";
-      }
-    </script>
+  <script>
+    function togglePopup() {
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+      // ポップアップの表示・非表示を切り替える
+      overlay.style.display = "block";
+      popup.style.display = "block";
+    }
+    function closePopup() {
+      var overlay = document.getElementById("overlay");
+      var popup = document.getElementById("popup");
+
+      // 画面全体を覆う半透明の背景とポップアップを非表示にする
+      overlay.style.display = "none";
+      popup.style.display = "none";
+    }
+  </script>
 </head>
 
 <body>
@@ -259,14 +271,26 @@
         <h5>
           <div class="small-text">
             ex) お題：bird<br><br>
-            <p class="green-boxed-text"> b</p><p class="boxed-text">i</p><p class="boxed-text">r</p><p class="boxed-text">d</p><br><br>
+            <p class="green-boxed-text"> b</p>
+            <p class="boxed-text">i</p>
+            <p class="boxed-text">r</p>
+            <p class="boxed-text">d</p><br><br>
             <p2> この場合、「b」はお題の英単語に含まれていて、さらに位置も合っています。</p><br><br>
-            <p class="boxed-text"> a</p><p class="yellow-boxed-text">d</p><p class="boxed-text">a</p><p class="boxed-text">a</p><br><br>
-            <p2> この場合、「d」はお題の英単語に含まれていますが、位置が異なります。</p><br><br>
-            <p class="boxed-text"> a</p><p class="boxed-text">a</p><p class="gray-boxed-text">c</p><p class="boxed-text">a</p><br><br>
-            <p2> この場合、「c」はお題の英単語に含まれません。</p><br><br>
-            <p class="green-boxed-text"> b</p><p class="green-boxed-text">i</p><p class="green-boxed-text">r</p><p class="green-boxed-text">d</p><br><br>
-            <p2> お題の英単語を見事的中することができれば、正解です。</p><br>
+              <p class="boxed-text"> a</p>
+              <p class="yellow-boxed-text">d</p>
+              <p class="boxed-text">a</p>
+              <p class="boxed-text">a</p><br><br>
+              <p2> この場合、「d」はお題の英単語に含まれていますが、位置が異なります。</p><br><br>
+                <p class="boxed-text"> a</p>
+                <p class="boxed-text">a</p>
+                <p class="gray-boxed-text">c</p>
+                <p class="boxed-text">a</p><br><br>
+                <p2> この場合、「c」はお題の英単語に含まれません。</p><br><br>
+                  <p class="green-boxed-text"> b</p>
+                  <p class="green-boxed-text">i</p>
+                  <p class="green-boxed-text">r</p>
+                  <p class="green-boxed-text">d</p><br><br>
+                  <p2> お題の英単語を見事的中することができれば、正解です。</p><br>
           </div>
         </h5>
       </div>
@@ -275,13 +299,19 @@
           <div class="small-text">
             特殊な例<br><br>
             <p2>同じ文字を入力した場合、特殊な塗り方となります。<br>
-            <p2>お題が「feed」、入力が「eaae」の場合、お題にも入力にも「e」が２つあるので、<br>
-            <p class="yellow-boxed-text"> e</p><p class="gray-boxed-text">a</p><p class="gray-boxed-text">a</p><p class="yellow-boxed-text">e</p><br><br>
-            <p2> このように両方の「e」が黄色となります。</p><br><br>
-            <p2>お題が「epic」、入力が「tree」</p><br>
-            <p class="gray-boxed-text"> t</p><p class="gray-boxed-text">r</p><p class="yellow-boxed-text">e</p><p class="gray-boxed-text">e</p><br><br>
-            <p2> このように１つ目の「e」だけ黄色になります。</p><br>
-            <p2> つまり、同じ文字はお題に含まれる数までしか黄色(緑)になりません。</p>
+              <p2>お題が「feed」、入力が「eaae」の場合、お題にも入力にも「e」が２つあるので、<br>
+                <p class="yellow-boxed-text"> e</p>
+                <p class="gray-boxed-text">a</p>
+                <p class="gray-boxed-text">a</p>
+                <p class="yellow-boxed-text">e</p><br><br>
+                <p2> このように両方の「e」が黄色となります。</p><br><br>
+                  <p2>お題が「epic」、入力が「tree」</p><br>
+                    <p class="gray-boxed-text"> t</p>
+                    <p class="gray-boxed-text">r</p>
+                    <p class="yellow-boxed-text">e</p>
+                    <p class="gray-boxed-text">e</p><br><br>
+                    <p2> このように１つ目の「e」だけ黄色になります。</p><br>
+                      <p2> つまり、同じ文字はお題に含まれる数までしか黄色(緑)になりません。</p>
           </div>
         </h5>
       </div>
@@ -291,7 +321,7 @@
   <br />
 
   <form th:action="@{/soloWordle/solo}" method="post">
-    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください"/>
+    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください" />
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
   <br />
@@ -299,42 +329,46 @@
   <div id="app"></div>
 
   <script th:inline="javascript">
-      var logwords = /*[[${logwords}]]*/ [];
-      console.log('logwords', logwords);
-      let pValues = [];
+    var logwords = /*[[${logwords}]]*/[];
+    console.log('logwords', logwords);
+    let pValues = [];
 
-      for (let i = 0; i < logwords.length; i++) {
-        let judge = logwords[i].result;
-        let p2 = logwords[i].result;
-        for (let j = 0; j < 4; j++) {
-          let p = parseInt((judge / (Math.pow(10, j))), 10) % 10;
-          pValues.push(p2);
-          let box = document.createElement("div");
-          box.className = "box";
-          box.textContent = logwords[i].ans[j];
-    
-          switch (p) {
-            case 0:
-              box.classList.add('gray');
-              break;
-            case 1:
-              box.classList.add('dark-yellow');
-              break;
-            case 2:
-              box.classList.add('dark-green');
-              break;
-            default:
-              box.classList.add('gray');
-              break;
-          }
-    
-          document.getElementById('app').appendChild(box);
+    for (let i = 0; i < logwords.length; i++) {
+      let judge = logwords[i].result;
+      let p2 = logwords[i].result;
+      for (let j = 0; j < 4; j++) {
+        let p = parseInt((judge / (Math.pow(10, j))), 10) % 10;
+        pValues.push(p2);
+        let box = document.createElement("div");
+        box.className = "box";
+        box.textContent = logwords[i].ans[j];
+
+        switch (p) {
+          case 0:
+            box.classList.add('gray');
+            break;
+          case 1:
+            box.classList.add('dark-yellow');
+            break;
+          case 2:
+            box.classList.add('dark-green');
+            break;
+          default:
+            box.classList.add('gray');
+            break;
         }
-        // 1つ目のfor文が回る度に改行を出力
-        let lineBreak = document.createElement("br");
-        document.getElementById('app').appendChild(lineBreak);
+
+        document.getElementById('app').appendChild(box);
       }
-      console.log('p:', pValues);
+      // 1つ目のfor文が回る度に改行を出力
+      let lineBreak = document.createElement("br");
+      document.getElementById('app').appendChild(lineBreak);
+    }
+    console.log('p:', pValues);
   </script>
+  <tbody sec:authorize="hasRole('ADMIN')">
+    <h2>解答の単語：[[${randomWord}]]</h2>
+  </tbody>
 </body>
+
 </html>

@@ -9,7 +9,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap"
+    rel="stylesheet">
 
   <style>
     body {
@@ -240,7 +241,7 @@
   <p th:if="${dictionary}">
   </p>
   <form th:action="@{/multiNumeron/first}" method="post">
-    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください"/>
+    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください" />
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
 
@@ -263,7 +264,9 @@
       </tr>
     </tbody>
   </table>
-
+  <tbody sec:authorize="hasRole('ADMIN')">
+    <h2>解答の単語：[[${word}]]</h2>
+  </tbody>
 </body>
 
 </html>
