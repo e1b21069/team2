@@ -7,7 +7,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&family=Kiwi+Maru:wght@500&display=swap"
+    rel="stylesheet">
 
   <style>
     body {
@@ -15,7 +16,7 @@
       background-size: cover;
       background-attachment: fixed;
       background-position: center;
-      font-family: 'Kiwi Maru',sans-serif;
+      font-family: 'Kiwi Maru', sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
@@ -32,6 +33,7 @@
       margin: 0;
       text-align: center;
     }
+
     h2 {
       color: #fff;
     }
@@ -219,7 +221,7 @@
   <br />
 
   <form th:action="@{/soloNumeron/solo}" method="post">
-    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください"/>
+    <input type="text" name="ans" maxlength="4" minlength="4" placeholder="英単語を入力してください" />
     <input type="submit" value="決定"><input type="reset" value="取消">
   </form>
   <br />
@@ -238,7 +240,9 @@
       </tr>
     </table>
   </div>
-
+  <tbody sec:authorize="hasRole('ADMIN')">
+    <h2>解答の単語：[[${randomWord}]]</h2>
+  </tbody>
 </body>
 
 </html>
